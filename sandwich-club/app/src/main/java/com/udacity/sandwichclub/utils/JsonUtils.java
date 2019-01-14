@@ -13,11 +13,12 @@ public class JsonUtils {
     public static Sandwich parseSandwichJson(String json) throws JSONException{
         Sandwich sandwich = new Sandwich();
         JSONObject sandwichJSON = new JSONObject(json);
+        System.out.println(json);
 
         // parse out name: {mainName="", alsoKnownAs:[]} and set to Sandwich object
         JSONObject sandwichName = sandwichJSON.getJSONObject("name");
         String sandwichMainName = sandwichName.getString("mainName");
-        JSONArray sandwichNickNameArray = sandwichJSON.getJSONArray("alsoKnownAs");
+        JSONArray sandwichNickNameArray = sandwichName.getJSONArray("alsoKnownAs");
         List<String> sandwichNickNames = new ArrayList<>();
         for (int i=0; i<sandwichNickNameArray.length(); i++) {
             sandwichNickNames.add(sandwichNickNameArray.getString(i));
