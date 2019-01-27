@@ -15,7 +15,7 @@ public class JsonParse {
 
         JSONObject mainObj = new JSONObject(details);
         if (api.equals("top_rated") || api.equals("popular")) {
-            parsePopularityAndRatings(mainObj);
+            parsePopularityAndRatings(mainObj, api);
         } else {
             parseDetails(mainObj);
         }
@@ -23,7 +23,7 @@ public class JsonParse {
         return MOVIE_DETAILS;
     }
 
-    private static void parsePopularityAndRatings(JSONObject obj) throws JSONException {
+    private static void parsePopularityAndRatings(JSONObject obj, String api) throws JSONException {
         JSONObject[] arr = (JSONObject[]) obj.get("results");
 
         for (JSONObject movie : arr) {
@@ -33,6 +33,7 @@ public class JsonParse {
             MOVIE_DETAILS[3] = movie.getString("overview");
             MOVIE_DETAILS[4] = movie.getString("vote_average");
             MOVIE_DETAILS[5] = movie.getString("release_date");
+            MOVIE_DETAILS[6] = api;
         }
     }
 
@@ -43,5 +44,6 @@ public class JsonParse {
         MOVIE_DETAILS[3] = movie.getString("overview");
         MOVIE_DETAILS[4] = movie.getString("vote_average");
         MOVIE_DETAILS[5] = movie.getString("release_date");
+        MOVIE_DETAILS[6] = "details";
     }
 }

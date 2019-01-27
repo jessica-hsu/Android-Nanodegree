@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.GridView;
+import android.widget.TextView;
+
 import java.net.URL;
 
 import com.hsu.android.popularmovies.utils.JsonParse;
@@ -16,7 +18,11 @@ import com.hsu.android.popularmovies.utils.NetworkUtils;
  */
 public class MainActivity extends AppCompatActivity {
 
+    private static final String NA = "Not Available";
+
     private static GridView moviePostersGrid;
+    private static TextView
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
          * @param params
          * @return String[]
          */
+
         @Override
         protected String[] doInBackground(String... params) {
 
@@ -65,12 +72,19 @@ public class MainActivity extends AppCompatActivity {
 
         /**
          * Read from array and display movie info
-         * 0 - movie id, 1 - title, 2 - image link, 3 - plot, 4 - rating, 5 - release date
+         * 0 - movie id, 1 - title, 2 - image link, 3 - plot, 4 - rating, 5 - release date, 6 - top_rated/popular/details
          * @param strings
          */
         @Override
-        protected void onPostExecute(String[] strings) {
-            super.onPostExecute(strings);
+        protected void onPostExecute(String[] info) {
+
+            // last element of array determines which view to populate
+            if (info[info.length-1].equals("top_rated") || info[info.length-1].equals("popular")) {
+
+            } else {
+            }
+
+
         }
     }
 
