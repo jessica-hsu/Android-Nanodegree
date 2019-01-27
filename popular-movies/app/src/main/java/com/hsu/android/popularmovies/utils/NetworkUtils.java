@@ -1,6 +1,9 @@
 package com.hsu.android.popularmovies.utils;
 import android.net.Uri;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.net.URL;
 import android.net.Uri;
 import java.io.IOException;
@@ -59,6 +62,15 @@ public final class NetworkUtils {
      * Get Http Response from IMDB
      */
     public static String getHttpResponse(URL url) throws IOException {
-        
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        String current=null;
+        StringBuilder sb = new StringBuilder();
+        while ((current = br.readLine()) != null) {
+            sb.append(current+"\n");
+        }
+        br.close();
+        conn.disconnect();
+        return sb.toString();
     }
 }

@@ -5,6 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.GridView;
+import java.net.URL;
+
+import com.hsu.android.popularmovies.utils.JsonParse;
+import com.hsu.android.popularmovies.utils.NetworkUtils;
 
 /**
  * Main page with all the movie posters
@@ -27,6 +31,11 @@ public class MainActivity extends AppCompatActivity {
      */
     public class FetchMovies extends AsyncTask<String, Void, String[]> {
 
+        /**
+         * Build endpoint, send http request, parse json request to string array
+         * @param params
+         * @return String[]
+         */
         @Override
         protected String[] doInBackground(String... params) {
 
@@ -34,15 +43,31 @@ public class MainActivity extends AppCompatActivity {
             String api = null;
             if (params[0].equals("ratings")) {
                 api = "top_rated";
-            } else {
+            } else if (params[0].equals("popularity")) {
                 api = "popular";
+            } else {
+                api = "details";
             }
 
             // send request
-            return null;
+            URL endpoint = NetworkUtils.buildEndpoint(api);
+            try {
+                String jsonString = NetworkUtils.getHttpResponse(endpoint);
+                String[] detailsArray = JsonParse.parseThatJson(jsonString, api);
+                return detailsArray;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
 
         }
 
+        /**
+         * Read from array and display movie info
+         * 0 - movie id, 1 - title, 2 - image link, 3 - plot, 4 - rating, 5 - release date
+         * @param strings
+         */
         @Override
         protected void onPostExecute(String[] strings) {
             super.onPostExecute(strings);
