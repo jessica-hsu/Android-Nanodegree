@@ -1,4 +1,5 @@
 package com.hsu.android.popularmovies.utils;
+import android.content.Context;
 import android.net.Uri;
 
 import java.io.BufferedInputStream;
@@ -10,8 +11,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Scanner;
+import java.util.Properties;
+import android.content.res.Resources;
 
 /**
  * Helper class to send get request to IMDB API and return JSON response
@@ -30,7 +31,16 @@ public final class NetworkUtils {
      */
     public static URL buildEndpoint(String api) {
 
-        // read config rile for API KEY
+        // read config file for API KEY
+        Properties prop = new Properties();
+        try {
+            InputStream in = NetworkUtils.class.getClassLoader().getResourceAsStream("config.properties");
+            prop.load(in);
+            KEY = prop.getProperty("key");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
 
         // create uri
         Uri uri = null;
