@@ -1,10 +1,8 @@
 package com.hsu.android.popularmovies;
 
-import android.media.Image;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,8 +11,7 @@ import java.net.URL;
 
 import com.hsu.android.popularmovies.utils.JsonParse;
 import com.hsu.android.popularmovies.utils.NetworkUtils;
-
-import org.w3c.dom.Text;
+import com.hsu.android.popularmovies.ImageAdapter;
 
 /**
  * Main page with all the movie posters
@@ -89,16 +86,18 @@ public class MainActivity extends AppCompatActivity {
 
         /**
          * Read from array and display movie info
-         * 0 - movie id, 1 - title, 2 - image link, 3 - plot, 4 - rating, 5 - release date, 6 - top_rated/popular/details
+         * details: 0 - movie id, 1 - title, 2 - image link, 3 - plot, 4 - rating, 5 - release date, 6 - top_rated/popular/details
+         * top_rated/popular: 0-9: [movie_id]~[poster_path]
          * @param {string array}
          */
         @Override
         protected void onPostExecute(String[] info) {
 
             // last element of array determines which view to populate
-            if (info[info.length-1].equals("top_rated") || info[info.length-1].equals("popular")) {
-                
+            if (info[info.length-1].equals("details")) {
+
             } else {
+                moviePostersGrid.setAdapter(new ImageAdapter(getApplicationContext(), info));
             }
 
 

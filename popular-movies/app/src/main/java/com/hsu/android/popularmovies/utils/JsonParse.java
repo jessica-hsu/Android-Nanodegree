@@ -9,7 +9,7 @@ import org.json.JSONObject;
  */
 public class JsonParse {
 
-    private static String[] MOVIE_DETAILS = new String[6];
+    private static String[] MOVIE_DETAILS = null;
 
     public static String[] parseThatJson(String details, String api) throws JSONException {
 
@@ -25,19 +25,17 @@ public class JsonParse {
 
     private static void parsePopularityAndRatings(JSONObject obj, String api) throws JSONException {
         JSONObject[] arr = (JSONObject[]) obj.get("results");
+        MOVIE_DETAILS = new String[10];
 
-        for (JSONObject movie : arr) {
-            MOVIE_DETAILS[0] = movie.getString("id");
-            MOVIE_DETAILS[1] = movie.getString("original_title");
-            MOVIE_DETAILS[2] = movie.getString("poster_path");
-            MOVIE_DETAILS[3] = movie.getString("overview");
-            MOVIE_DETAILS[4] = movie.getString("vote_average");
-            MOVIE_DETAILS[5] = movie.getString("release_date");
-            MOVIE_DETAILS[6] = api;
+        for (int i = 0; i < arr.length; i++) {
+            MOVIE_DETAILS[i] = arr[i].getString("id") + "~" + arr[i].getString("poster_path");
         }
+
     }
 
     private static void parseDetails(JSONObject movie) throws JSONException {
+        MOVIE_DETAILS = new String[7];
+
         MOVIE_DETAILS[0] = movie.getString("id");
         MOVIE_DETAILS[1] = movie.getString("original_title");
         MOVIE_DETAILS[2] = movie.getString("poster_path");

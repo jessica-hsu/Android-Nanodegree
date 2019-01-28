@@ -8,4 +8,7 @@
     <string name="plot_label">Plot Synopsis: </string>
     <string name="ratings_label">User Ratings: </string>
     <string name="date_label">Release Date: </string>
+
+    <!-- for testing out grid view -->
+    <string name="action_settings">Settings</string>
 </resources>
