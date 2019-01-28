@@ -1,16 +1,20 @@
 package com.hsu.android.popularmovies;
 
+import android.media.Image;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.net.URL;
 
 import com.hsu.android.popularmovies.utils.JsonParse;
 import com.hsu.android.popularmovies.utils.NetworkUtils;
+
+import org.w3c.dom.Text;
 
 /**
  * Main page with all the movie posters
@@ -21,7 +25,11 @@ public class MainActivity extends AppCompatActivity {
     private static final String NA = "Not Available";
 
     private static GridView moviePostersGrid;
-    private static TextView
+    private static TextView title_tv;
+    private static TextView plot_tv;
+    private static TextView ratings_tv;
+    private static TextView date_tv;
+    private static ImageView poster_tv;
 
 
     @Override
@@ -29,7 +37,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // set all the textviews, gridview, and imageview
+        moviePostersGrid = (GridView) findViewById(R.id.movies_grid);
+        title_tv = (TextView) findViewById(R.id.title_tv);
+        plot_tv = (TextView) findViewById(R.id.plot_tv);
+        ratings_tv = (TextView) findViewById(R.id.ratings_tv);
+        date_tv = (TextView) findViewById(R.id.date_tv);
+        poster_tv = (ImageView) findViewById(R.id.image_iv);
+
         // on page load, show most popular movies
+        getMostPopularMovies();
     }
 
     /**
@@ -73,14 +90,14 @@ public class MainActivity extends AppCompatActivity {
         /**
          * Read from array and display movie info
          * 0 - movie id, 1 - title, 2 - image link, 3 - plot, 4 - rating, 5 - release date, 6 - top_rated/popular/details
-         * @param strings
+         * @param {string array}
          */
         @Override
         protected void onPostExecute(String[] info) {
 
             // last element of array determines which view to populate
             if (info[info.length-1].equals("top_rated") || info[info.length-1].equals("popular")) {
-
+                
             } else {
             }
 
@@ -91,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Calls Top 10 Rated Movies from IMDB when 'Highest Ratings' button clicked
      */
-    public void getHighestRatingMovies(View view) {
+    public void getHighestRatingMovies() {
         String searchParam = "ratings";
         new FetchMovies().execute(searchParam);
     }
@@ -99,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Calls Top 10 Most Popular Movies from IMDB when 'Most Popular' button clicked
      */
-    public void getMostPopularMovies(View view) {
+    public void getMostPopularMovies() {
         String searchParam = "popularity";
         new FetchMovies().execute(searchParam);
     }
