@@ -11,7 +11,6 @@ import java.net.URL;
 
 import com.hsu.android.popularmovies.utils.JsonParse;
 import com.hsu.android.popularmovies.utils.NetworkUtils;
-import com.hsu.android.popularmovies.ImageAdapter;
 
 /**
  * Main page with all the movie posters
