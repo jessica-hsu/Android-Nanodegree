@@ -1,18 +1,13 @@
 package com.hsu.android.popularmovies.utils;
-import android.content.Context;
 import android.net.Uri;
-
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
-import android.net.Uri;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.util.Properties;
-import android.content.res.Resources;
 
 /**
  * Helper class to send get request to IMDB API and return JSON response
