@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * Activity to populate view with movie details
+ */
 public class MovieDetailsActivity extends Activity {
 
     private static ImageView image;

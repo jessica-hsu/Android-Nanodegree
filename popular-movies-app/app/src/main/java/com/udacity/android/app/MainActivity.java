@@ -1,23 +1,32 @@
 package com.udacity.android.app;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
 
+/**
+ * Main activity. Set onclick listeners to call events
+ */
 public class MainActivity extends Activity {
 
     private static GridView movieGrid;
+    private static Button popularBtn, ratingsBtn;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         movieGrid = (GridView) findViewById(R.id.movie_grid);
+        popularBtn = (Button) findViewById(R.id.button_popular);
+        ratingsBtn = (Button) findViewById(R.id.button_rating);
+
         movieGrid.setAdapter(new ImageAdapter(this));
 
         movieGrid.setOnItemClickListener(new OnItemClickListener() {
@@ -38,6 +47,31 @@ public class MainActivity extends Activity {
                 startActivity(i);
             }
         });
+
+        /**
+         * Give buttons functionality when clicked
+         */
+        popularBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ratingsMovies(MainActivity.this);
+            }
+        });
+
+        ratingsBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                popularMovies(MainActivity.this);
+            }
+        });
+    }
+
+    private static void popularMovies(Context context) {
+        Toast.makeText(context, "Get Popular Movies",
+                Toast.LENGTH_SHORT).show();
+    }
+
+    private static void ratingsMovies(Context context) {
+        Toast.makeText(context, "Get Highest Ratings Movies",
+                Toast.LENGTH_SHORT).show();
     }
 
 

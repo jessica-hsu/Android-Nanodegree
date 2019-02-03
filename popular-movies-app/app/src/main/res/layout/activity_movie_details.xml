@@ -13,8 +13,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/title_tv"
-            android:text="test title"/>
+            android:id="@+id/title_tv" />
 
         <!-- MOVIE POSTER THUMBNAIL -->
         <ImageView android:id="@+id/selected_movie"
@@ -36,8 +35,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/ratings_tv"
-                android:text="9.7"/>
+                android:id="@+id/ratings_tv"/>
 
         </LinearLayout>
 
@@ -56,8 +54,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/date_tv"
-                android:text="12-09-2009"/>
+                android:id="@+id/date_tv"/>
         </LinearLayout>
 
 
@@ -75,8 +72,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/plot_tv"
-                android:text="fdasfasf"/>
+                android:id="@+id/plot_tv"/>
         </LinearLayout>
 
 
