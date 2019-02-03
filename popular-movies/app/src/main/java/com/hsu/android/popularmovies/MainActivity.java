@@ -1,16 +1,15 @@
 package com.hsu.android.popularmovies;
 
-import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.net.URL;
-
-import com.hsu.android.popularmovies.utils.JsonParse;
-import com.hsu.android.popularmovies.utils.NetworkUtils;
+import android.widget.Toast;
 
 /**
  * Main page with all the movie posters
@@ -26,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     private static TextView ratings_tv;
     private static TextView date_tv;
     private static ImageView poster_tv;
+    private static Button popular_btn;
+    private static Button ratings_btn;
 
 
     @Override
@@ -40,75 +41,44 @@ public class MainActivity extends AppCompatActivity {
         ratings_tv = (TextView) findViewById(R.id.ratings_tv);
         date_tv = (TextView) findViewById(R.id.date_tv);
         poster_tv = (ImageView) findViewById(R.id.image_iv);
+        ratings_btn = (Button) findViewById(R.id.button_rating);
+        popular_btn = (Button) findViewById(R.id.button_popular);
 
         // on page load, show most popular movies
-        getMostPopularMovies();
+        //getMostPopularMovies();
+
+        // bind action to button
+        ratings_btn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                getHighestRatingMovies();
+            }
+        });
+
+        popular_btn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                getMostPopularMovies();
+            }
+        });
+
+        moviePostersGrid.setAdapter(new ImageAdapter(this));
+        moviePostersGrid.setOnItemClickListener(new OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+                Toast.makeText(MainActivity.this, "" + position,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    /**
-     * Create network requests in the background to connect to IMDB
-     */
-    public class FetchMovies extends AsyncTask<String, Void, String[]> {
 
-        /**
-         * Build endpoint, send http request, parse json request to string array
-         * @param params
-         * @return String[]
-         */
-
-        @Override
-        protected String[] doInBackground(String... params) {
-
-            // determine which API to call: ratings or popularity
-            String api = null;
-            if (params[0].equals("ratings")) {
-                api = "top_rated";
-            } else if (params[0].equals("popularity")) {
-                api = "popular";
-            } else {
-                api = "details";
-            }
-
-            // send request
-            URL endpoint = NetworkUtils.buildEndpoint(api);
-            try {
-                String jsonString = NetworkUtils.getHttpResponse(endpoint);
-                String[] detailsArray = JsonParse.parseThatJson(jsonString, api);
-                return detailsArray;
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-
-        }
-
-        /**
-         * Read from array and display movie info
-         * details: 0 - movie id, 1 - title, 2 - image link, 3 - plot, 4 - rating, 5 - release date, 6 - top_rated/popular/details
-         * top_rated/popular: 0-9: [movie_id]~[poster_path]
-         * @param {string array}
-         */
-        @Override
-        protected void onPostExecute(String[] info) {
-
-            // last element of array determines which view to populate
-            if (info[info.length-1].equals("details")) {
-
-            } else {
-                moviePostersGrid.setAdapter(new ImageAdapter(getApplicationContext(), info));
-            }
-
-
-        }
-    }
 
     /**
      * Calls Top 10 Rated Movies from IMDB when 'Highest Ratings' button clicked
      */
     public void getHighestRatingMovies() {
         String searchParam = "ratings";
-        new FetchMovies().execute(searchParam);
+        Toast.makeText(this, searchParam, Toast.LENGTH_SHORT).show();
+        //new FetchMovies().execute(searchParam);
     }
 
     /**
@@ -116,6 +86,9 @@ public class MainActivity extends AppCompatActivity {
      */
     public void getMostPopularMovies() {
         String searchParam = "popularity";
-        new FetchMovies().execute(searchParam);
+        Toast.makeText(this, searchParam, Toast.LENGTH_SHORT).show();
+        //new FetchMovies().execute(searchParam);
+
+
     }
 }

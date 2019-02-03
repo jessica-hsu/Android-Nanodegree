@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <!-- buttons on home page -->
+    <!-- buttons to toggle between most popular and highest ratings -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -15,27 +15,25 @@
             android:id="@+id/button_popular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/button_popular"/>
+            android:text="Popularity"/>
 
         <Button xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/button_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/button_rating"/>
+            android:text="Ratings"/>
     </LinearLayout>
 
-    <!-- movie posters in grid layout -->
-    <GridView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/movies_grid"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+    <!-- grid for movie posters -->
+    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/movie_grid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:columnWidth="90dp"
         android:numColumns="auto_fit"
         android:verticalSpacing="0dp"
         android:horizontalSpacing="0dp"
         android:stretchMode="columnWidth"
-        android:gravity="center">
-    </GridView>
+        android:gravity="center"></GridView>
 
 </android.support.constraint.ConstraintLayout>

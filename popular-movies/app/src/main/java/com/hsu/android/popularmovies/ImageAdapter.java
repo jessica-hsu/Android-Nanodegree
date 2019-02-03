@@ -1,12 +1,11 @@
 package com.hsu.android.popularmovies;
 
-import android.widget.BaseAdapter;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import com.squareup.picasso.Picasso;
 
 /**
  * Adapter to fill the grid with images
@@ -18,9 +17,9 @@ public class ImageAdapter extends BaseAdapter {
     private String[] info;
 
     // info - holds 10 images
-    public ImageAdapter(Context c, String[] info) {
+    public ImageAdapter(Context c/*, String[] info*/) {
         this.context = c;
-        this.info = info;
+        //this.info = info;
     }
 
     public int getCount() {
@@ -51,12 +50,27 @@ public class ImageAdapter extends BaseAdapter {
         }
 
         // set full poster path name and insert to view
-        String poster_url = this.info[position].split("~")[1];
-        String imageEndpoint = "http://image.tmdb.org/t/p/w185/" + poster_url;
+        /*String poster_url = this.info[position].split("~")[1];
+        String imageEndpoint = "http://image.tmdb.org/t/p/w185/" + poster_url;*/
         // http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg
-        Picasso.get().load(imageEndpoint).into(poster);
+        // Picasso.get().load(imageEndpoint).into(poster);
 
+        poster.setImageResource(mThumbIds[position]);
         return poster;
+
     }
 
+    public Integer[] mThumbIds = {
+            R.drawable.sample_2, R.drawable.sample_3,
+            R.drawable.sample_4, R.drawable.sample_5,
+            R.drawable.sample_6, R.drawable.sample_7,
+            R.drawable.sample_0, R.drawable.sample_1,
+            R.drawable.sample_2, R.drawable.sample_3,
+            R.drawable.sample_4, R.drawable.sample_5,
+            R.drawable.sample_6, R.drawable.sample_7,
+            R.drawable.sample_0, R.drawable.sample_1,
+            R.drawable.sample_2, R.drawable.sample_3,
+            R.drawable.sample_4, R.drawable.sample_5,
+            R.drawable.sample_6, R.drawable.sample_7
+    };
 }
