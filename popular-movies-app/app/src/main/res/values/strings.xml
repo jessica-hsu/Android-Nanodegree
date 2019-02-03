@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">popular-movies-app</string>
-    <String name="button_popular">Popularity</String>
-    <String name="button_ratings">Highest Ratings</String>
+    <string name="button_popular">Popularity</string>
+    <string name="button_ratings">Highest Ratings</string>
 </resources>

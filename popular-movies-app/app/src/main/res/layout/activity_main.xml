@@ -15,13 +15,13 @@
             android:id="@+id/button_popular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Popularity"/>
+            android:text="@string/button_popular"/>
 
         <Button xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/button_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ratings"/>
+            android:text="@string/button_ratings"/>
     </LinearLayout>
 
     <!-- grid for movie posters -->

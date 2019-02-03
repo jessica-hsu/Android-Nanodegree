@@ -1,6 +1,7 @@
 package com.udacity.android.app;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,8 +23,11 @@ public class MainActivity extends Activity {
         movieGrid.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                Toast.makeText(MainActivity.this, "" + position,
-                        Toast.LENGTH_SHORT).show();
+                // Send intent to SingleViewActivity
+                Intent i = new Intent(getApplicationContext(), MovieDetailsActivity.class);
+                // Pass image index
+                i.putExtra("id", position);
+                startActivity(i);
             }
         });
     }
