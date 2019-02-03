@@ -27,6 +27,14 @@ public class MainActivity extends Activity {
                 Intent i = new Intent(getApplicationContext(), MovieDetailsActivity.class);
                 // Pass image index
                 i.putExtra("id", position);
+                // transfer movie details over to new activity
+                i.putExtra("movie_id", "1234");
+                i.putExtra("movie_title", "test title "+position);
+                i.putExtra("movie_poster", "poster link "+position);
+                i.putExtra("movie_plot", "plot "+position);
+                i.putExtra("movie_ratings", "ratings "+position);
+                i.putExtra("movie_date", "date "+position);
+
                 startActivity(i);
             }
         });

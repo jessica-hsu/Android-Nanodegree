@@ -2,4 +2,10 @@
     <string name="app_name">popular-movies-app</string>
     <string name="button_popular">Popularity</string>
     <string name="button_ratings">Highest Ratings</string>
+
+    <!-- for movie details view -->
+    <string name="plot_label">Synopsis: </string>
+    <string name="ratings_label">Ratings: </string>
+    <string name="date_label">Release Date: </string>
+
 </resources>

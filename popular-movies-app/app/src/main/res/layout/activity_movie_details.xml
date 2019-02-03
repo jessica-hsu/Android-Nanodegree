@@ -9,9 +9,76 @@
         android:layout_height="match_parent"
         android:orientation="vertical" >
 
+        <!-- MOVIE TITLE -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/title_tv"
+            android:text="test title"/>
+
+        <!-- MOVIE POSTER THUMBNAIL -->
         <ImageView android:id="@+id/selected_movie"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <!-- RATINGS -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ratings_label"
+                android:text="@string/ratings_label"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ratings_tv"
+                android:text="9.7"/>
+
+        </LinearLayout>
+
+
+        <!-- RELEASE DATE -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/date_label"
+                android:text="@string/date_label"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/date_tv"
+                android:text="12-09-2009"/>
+        </LinearLayout>
+
+
+        <!-- MOVIE SYNOPSIS -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/plot_label"
+                android:text="@string/plot_label"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/plot_tv"
+                android:text="fdasfasf"/>
+        </LinearLayout>
+
 
     </LinearLayout>
 
