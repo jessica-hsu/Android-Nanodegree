@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -17,6 +18,7 @@ import android.widget.Toast;
 public class MainActivity extends Activity {
 
     private GridView movieGrid;
+    private TextView test;
     private Button popularBtn, ratingsBtn;
     private ImageAdapter imageAdapter;
 
@@ -25,10 +27,11 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         movieGrid = (GridView) findViewById(R.id.movie_grid);
+        test = (TextView) findViewById(R.id.test);
         popularBtn = (Button) findViewById(R.id.button_popular);
         ratingsBtn = (Button) findViewById(R.id.button_rating);
 
-        imageAdapter = new ImageAdapter(this);
+        /*imageAdapter = new ImageAdapter(this);
         movieGrid.setAdapter(imageAdapter);
 
         movieGrid.setOnItemClickListener(new OnItemClickListener() {
@@ -48,20 +51,20 @@ public class MainActivity extends Activity {
 
                 startActivity(i);
             }
-        });
+        });*/
 
         /**
          * Give buttons functionality when clicked
          */
         popularBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ratingsMovies(MainActivity.this);
+                popularMovies(MainActivity.this);
             }
         });
 
         ratingsBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                popularMovies(MainActivity.this);
+                ratingsMovies(MainActivity.this);
             }
         });
     }
@@ -73,15 +76,15 @@ public class MainActivity extends Activity {
     private void popularMovies(Context context) {
         Toast.makeText(context, "Get Popular Movies",
                 Toast.LENGTH_SHORT).show();
-        FetchMoviesTask fetchMovies = new FetchMoviesTask(context, movieGrid);
-        fetchMovies.execute("popularity");
+        FetchMoviesTask fetchMovies = new FetchMoviesTask(context, test);
+        fetchMovies.execute("popular");
     }
 
     private void ratingsMovies(Context context) {
         Toast.makeText(context, "Get Highest Ratings Movies",
                 Toast.LENGTH_SHORT).show();
-        FetchMoviesTask fetchMovies = new FetchMoviesTask(context, movieGrid);
-        fetchMovies.execute("ratings");
+        FetchMoviesTask fetchMovies = new FetchMoviesTask(context, test);
+        fetchMovies.execute("top_rated");
     }
 
 

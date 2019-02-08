@@ -15,7 +15,7 @@ public class NetworkUtils {
     private static final String IMDB_URL = "https://api.themoviedb.org/3/movie/";
     private static final String LANGUAGE = "en-US";
     private static final String LIMIT = "10";
-    private static String KEY = null;
+    private static String KEY = "73c51e9ec420508456d018916725686d";
 
     /**
      * Build endpoint with given params
@@ -25,7 +25,7 @@ public class NetworkUtils {
     public static URL buildEndpoint(String api) {
 
         // read config file for API KEY
-        Properties prop = new Properties();
+       /* Properties prop = new Properties();
         try {
             InputStream in = NetworkUtils.class.getClassLoader().getResourceAsStream("config.properties");
             prop.load(in);
@@ -33,16 +33,17 @@ public class NetworkUtils {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
-        }
+        }*/
 
         // create uri
         Uri uri = Uri.parse(IMDB_URL+api).buildUpon()
-                    .appendQueryParameter("key", KEY)
+                    .appendQueryParameter("api_key", KEY)
                     .appendQueryParameter("language", LANGUAGE)
                     .appendQueryParameter("page", LIMIT)
                     .build();
 
         URL endpoint = null;
+        System.out.print("ENDPOINT: " + uri.toString());
         try {
             endpoint = new URL(uri.toString());
         } catch (MalformedURLException e) {

@@ -18,14 +18,14 @@ public class JsonUtils {
 
         List<Movie> movies = new ArrayList<Movie>();
         JSONObject mainObj = new JSONObject(details);
-        JSONObject[] results = (JSONObject[]) mainObj.get("results");
-        for (int i = 0; i < results.length; i++) {
-            String id = results[i].getString("id");
-            String original_title = results[i].getString("original_title");
-            String poster_path = results[i].getString("poster_path");
-            String overview = results[i].getString("overview");
-            String vote_average = results[i].getString("vote_average");
-            String release_date = results[i].getString("release_date");
+        JSONArray results = mainObj.getJSONArray("results");
+        for (int i = 0; i < results.length(); i++) {
+            String id = results.getJSONObject(i).getString("id");
+            String original_title = results.getJSONObject(i).getString("original_title");
+            String poster_path = results.getJSONObject(i).getString("poster_path");
+            String overview = results.getJSONObject(i).getString("overview");
+            String vote_average = results.getJSONObject(i).getString("vote_average");
+            String release_date = results.getJSONObject(i).getString("release_date");
             Movie m = new Movie(id, original_title, poster_path, overview, release_date, vote_average);
             movies.add(m);
         }

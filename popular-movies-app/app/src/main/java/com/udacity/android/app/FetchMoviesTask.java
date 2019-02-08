@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.net.URL;
@@ -24,13 +25,14 @@ import com.udacity.android.app.utils.NetworkUtils;
 public class FetchMoviesTask extends AsyncTask<String, Void, List<Movie>> {
 
     private ImageAdapter imageAdapter;
-    private GridView movieGrid;
+    private TextView test;
     private Context context;
+    private String error;
 
     // constructor
     public FetchMoviesTask(Context context, View view) {
         this.imageAdapter = new ImageAdapter(context);
-        this.movieGrid = (GridView) view;
+        this.test = (TextView) view;
         this.context = context;
     }
 
@@ -40,11 +42,11 @@ public class FetchMoviesTask extends AsyncTask<String, Void, List<Movie>> {
         URL endpoint = NetworkUtils.buildEndpoint(api);
         try {
             String httpResponse = NetworkUtils.getHttpResponse(endpoint);
-            List<Movie> movies = new ArrayList<Movie>();
-            movies = JsonUtils.parse(httpResponse);
+            List<Movie> movies = JsonUtils.parse(httpResponse);
             return movies;
         } catch (Exception e) {
             e.printStackTrace();
+            error = e.toString();
             return null;
         }
     }
@@ -52,8 +54,7 @@ public class FetchMoviesTask extends AsyncTask<String, Void, List<Movie>> {
     @Override
     protected void onPostExecute(List<Movie> movies) {
         if (movies != null) {
-            Toast.makeText(context, "API CALL LIST SIZE: " + movies.size(),
-                    Toast.LENGTH_SHORT).show();
+            test.setText("SUCCESS. Movie list size: " + movies.size());
             /*movieGrid.setAdapter(imageAdapter);
 
             movieGrid.setOnItemClickListener(new OnItemClickListener() {
@@ -74,6 +75,8 @@ public class FetchMoviesTask extends AsyncTask<String, Void, List<Movie>> {
                     startActivity(i);
                 }
             });*/
+        } else {
+            test.setText(error);
         }
     }
 }
