@@ -16,8 +16,9 @@ import android.widget.Toast;
  */
 public class MainActivity extends Activity {
 
-    private static GridView movieGrid;
-    private static Button popularBtn, ratingsBtn;
+    private GridView movieGrid;
+    private Button popularBtn, ratingsBtn;
+    private ImageAdapter imageAdapter;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +28,8 @@ public class MainActivity extends Activity {
         popularBtn = (Button) findViewById(R.id.button_popular);
         ratingsBtn = (Button) findViewById(R.id.button_rating);
 
-        movieGrid.setAdapter(new ImageAdapter(this));
+        imageAdapter = new ImageAdapter(this);
+        movieGrid.setAdapter(imageAdapter);
 
         movieGrid.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
@@ -64,14 +66,22 @@ public class MainActivity extends Activity {
         });
     }
 
-    private static void popularMovies(Context context) {
-        Toast.makeText(context, "Get Popular Movies",
-                Toast.LENGTH_SHORT).show();
+    private void setClickAction() {
+
     }
 
-    private static void ratingsMovies(Context context) {
+    private void popularMovies(Context context) {
+        Toast.makeText(context, "Get Popular Movies",
+                Toast.LENGTH_SHORT).show();
+        FetchMoviesTask fetchMovies = new FetchMoviesTask(context, movieGrid);
+        fetchMovies.execute("popularity");
+    }
+
+    private void ratingsMovies(Context context) {
         Toast.makeText(context, "Get Highest Ratings Movies",
                 Toast.LENGTH_SHORT).show();
+        FetchMoviesTask fetchMovies = new FetchMoviesTask(context, movieGrid);
+        fetchMovies.execute("ratings");
     }
 
 
