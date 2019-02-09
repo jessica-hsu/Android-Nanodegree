@@ -1,10 +1,10 @@
 package com.udacity.android.app.utils;
+import android.content.Context;
 import android.net.Uri;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.util.Properties;
@@ -14,32 +14,30 @@ import java.util.Properties;
 public class NetworkUtils {
     private static final String IMDB_URL = "https://api.themoviedb.org/3/movie/";
     private static final String LANGUAGE = "en-US";
-    private static final String LIMIT = "10";
-    private static String KEY = "73c51e9ec420508456d018916725686d";
+    private static String KEY = null;
 
+    private Context context;
+    private AssetsReader assetsReader;
+    private Properties prop;
+
+    public NetworkUtils(Context context) {
+        this.context = context;
+    }
     /**
      * Build endpoint with given params
      * @param api
      * @return
      */
-    public static URL buildEndpoint(String api) {
+    public URL buildEndpoint(String api) {
 
-        // read config file for API KEY
-       /* Properties prop = new Properties();
-        try {
-            InputStream in = NetworkUtils.class.getClassLoader().getResourceAsStream("config.properties");
-            prop.load(in);
-            KEY = prop.getProperty("key");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }*/
+        this.assetsReader = new AssetsReader(this.context);
+        this.prop = this.assetsReader.getProperties("config.properties");
+        KEY = this.prop.getProperty("key");
 
         // create uri
         Uri uri = Uri.parse(IMDB_URL+api).buildUpon()
                     .appendQueryParameter("api_key", KEY)
                     .appendQueryParameter("language", LANGUAGE)
-                    .appendQueryParameter("page", LIMIT)
                     .build();
 
         URL endpoint = null;
@@ -57,7 +55,7 @@ public class NetworkUtils {
     /**
      * Get Http Response from IMDB
      */
-    public static String getHttpResponse(URL url) throws IOException {
+    public String getHttpResponse(URL url) throws IOException {
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
         String current=null;

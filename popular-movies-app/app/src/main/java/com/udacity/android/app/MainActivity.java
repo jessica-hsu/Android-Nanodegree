@@ -76,14 +76,14 @@ public class MainActivity extends Activity {
     private void popularMovies(Context context) {
         Toast.makeText(context, "Get Popular Movies",
                 Toast.LENGTH_SHORT).show();
-        FetchMoviesTask fetchMovies = new FetchMoviesTask(context, test);
+        FetchMoviesTask fetchMovies = new FetchMoviesTask(context, test, movieGrid);
         fetchMovies.execute("popular");
     }
 
     private void ratingsMovies(Context context) {
         Toast.makeText(context, "Get Highest Ratings Movies",
                 Toast.LENGTH_SHORT).show();
-        FetchMoviesTask fetchMovies = new FetchMoviesTask(context, test);
+        FetchMoviesTask fetchMovies = new FetchMoviesTask(context, test, movieGrid);
         fetchMovies.execute("top_rated");
     }
 

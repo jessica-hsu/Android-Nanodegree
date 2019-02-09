@@ -9,6 +9,7 @@ import android.widget.ImageView;
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
 
+
     public ImageAdapter(Context c) {
         mContext = c;
     }
@@ -41,6 +42,7 @@ public class ImageAdapter extends BaseAdapter {
         imageView.setImageResource(mThumbIds[position]);
         return imageView;
     }
+
 
     // references to our images
     public Integer[] mThumbIds = {
