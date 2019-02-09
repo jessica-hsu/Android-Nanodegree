@@ -9,6 +9,8 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import com.udacity.android.app.model.Movie;
 import com.udacity.android.app.utils.JsonUtils;
@@ -61,11 +63,16 @@ public class FetchMoviesTask extends AsyncTask<String, Void, List<Movie>> {
     @Override
     protected void onPostExecute(List<Movie> movies) {
         progressDialog.dismiss();
+        List<String> moviePoster = new ArrayList<String>();
         if (movies != null) {
-
-            movieGrid.setAdapter(imageAdapter);
+            for (Movie m: movies) {
+                moviePoster.add(m.getPoster());
+            }
+            imageAdapter.setPosterPaths(moviePoster);
+            movieGrid.setAdapter(imageAdapter); // well this works
         } else {
             test.setText(error);
         }
     }
+
 }

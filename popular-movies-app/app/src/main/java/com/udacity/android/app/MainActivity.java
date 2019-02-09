@@ -11,6 +11,9 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.udacity.android.app.model.Movie;
+
+import java.util.HashMap;
 
 /**
  * Main activity. Set onclick listeners to call events
@@ -21,6 +24,7 @@ public class MainActivity extends Activity {
     private TextView test;
     private Button popularBtn, ratingsBtn;
     private ImageAdapter imageAdapter;
+    private HashMap<Integer, Movie> movieDetailsHash;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,8 +35,8 @@ public class MainActivity extends Activity {
         popularBtn = (Button) findViewById(R.id.button_popular);
         ratingsBtn = (Button) findViewById(R.id.button_rating);
 
-        /*imageAdapter = new ImageAdapter(this);
-        movieGrid.setAdapter(imageAdapter);
+        imageAdapter = new ImageAdapter(this);
+        /*movieGrid.setAdapter(imageAdapter);
 
         movieGrid.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,

@@ -38,7 +38,7 @@ public class MovieDetailsActivity extends Activity {
     }
 
     private static void populateDetails(Intent intent, ImageAdapter adapter, int position) {
-        image.setImageResource(adapter.mThumbIds[position]);
+        //image.setImageResource(adapter.mThumbIds[position]);
         title.setText(intent.getExtras().getString("movie_title"));
         plot.setText(intent.getExtras().getString("movie_plot"));
         date.setText(intent.getExtras().getString("movie_date"));
