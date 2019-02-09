@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 /**
  * Activity to populate view with movie details
  */
@@ -39,6 +41,8 @@ public class MovieDetailsActivity extends Activity {
 
     private static void populateDetails(Intent intent, ImageAdapter adapter, int position) {
         //image.setImageResource(adapter.mThumbIds[position]);
+        String imageUrl = "http://image.tmdb.org/t/p/w185/" + adapter.getPosters().get(position);
+        Picasso.get().load(imageUrl).into(image);
         title.setText(intent.getExtras().getString("movie_title"));
         plot.setText(intent.getExtras().getString("movie_plot"));
         date.setText(intent.getExtras().getString("movie_date"));

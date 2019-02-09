@@ -12,6 +12,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import com.udacity.android.app.model.Movie;
 import com.udacity.android.app.utils.JsonUtils;
 import com.udacity.android.app.utils.NetworkUtils;
@@ -27,6 +29,7 @@ public class FetchMoviesTask extends AsyncTask<String, Void, List<Movie>> {
     private GridView movieGrid;
     private Context context;
     private String error;
+    private HashMap<Integer, Movie> details;
 
     // constructor
     public FetchMoviesTask(Context context, View view, View view2) {
@@ -64,15 +67,21 @@ public class FetchMoviesTask extends AsyncTask<String, Void, List<Movie>> {
     protected void onPostExecute(List<Movie> movies) {
         progressDialog.dismiss();
         List<String> moviePoster = new ArrayList<String>();
+        this.details = new HashMap<>();
         if (movies != null) {
-            for (Movie m: movies) {
-                moviePoster.add(m.getPoster());
+            for (int i = 0; i<movies.size(); i++) {
+                moviePoster.add(movies.get(i).getPoster());
+                this.details.put(i, movies.get(i));
             }
             imageAdapter.setPosterPaths(moviePoster);
             movieGrid.setAdapter(imageAdapter); // well this works
         } else {
             test.setText(error);
         }
+    }
+
+    public HashMap<Integer, Movie> getMovieDetails() {
+        return this.details;
     }
 
 }

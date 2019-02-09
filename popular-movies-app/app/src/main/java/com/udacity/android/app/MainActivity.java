@@ -36,60 +36,54 @@ public class MainActivity extends Activity {
         ratingsBtn = (Button) findViewById(R.id.button_rating);
 
         imageAdapter = new ImageAdapter(this);
-        /*movieGrid.setAdapter(imageAdapter);
-
-        movieGrid.setOnItemClickListener(new OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
-                // Send intent to SingleViewActivity
-                Intent i = new Intent(getApplicationContext(), MovieDetailsActivity.class);
-                // Pass image index
-                i.putExtra("id", position);
-                // transfer movie details over to new activity
-                i.putExtra("movie_id", "1234");
-                i.putExtra("movie_title", "test title "+position);
-                i.putExtra("movie_poster", "poster link "+position);
-                i.putExtra("movie_plot", "plot "+position);
-                i.putExtra("movie_ratings", "ratings "+position);
-                i.putExtra("movie_date", "date "+position);
-
-                startActivity(i);
-            }
-        });*/
 
         /**
          * Give buttons functionality when clicked
          */
         popularBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                popularMovies(MainActivity.this);
+                getMovies(MainActivity.this, "popular");
             }
         });
 
         ratingsBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ratingsMovies(MainActivity.this);
+                getMovies(MainActivity.this, "top_rated");
             }
         });
     }
 
-    private void setClickAction() {
-
-    }
-
-    private void popularMovies(Context context) {
-        Toast.makeText(context, "Get Popular Movies",
-                Toast.LENGTH_SHORT).show();
+    private void getMovies(Context context, String api) {
         FetchMoviesTask fetchMovies = new FetchMoviesTask(context, test, movieGrid);
-        fetchMovies.execute("popular");
+        fetchMovies.execute(api);
+        movieDetailsHash = fetchMovies.getMovieDetails();
+        //test.setText(movieDetailsHash.get(0).getTitle());
+        movieGrid.setOnItemClickListener(new OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+                // Send intent to SingleViewActivity
+                Intent i = new Intent(getApplicationContext(), MovieDetailsActivity.class);
+                // Pass image index
+                /*i.putExtra("id", position);
+                // transfer movie details over to new activity
+                i.putExtra("movie_id", movieDetailsHash.get(position).getId());
+                i.putExtra("movie_title", movieDetailsHash.get(position).getTitle());
+                i.putExtra("movie_poster", movieDetailsHash.get(position).getPoster());
+                i.putExtra("movie_plot", movieDetailsHash.get(position).getPlot());
+                i.putExtra("movie_ratings", movieDetailsHash.get(position).getRating());
+                i.putExtra("movie_date", movieDetailsHash.get(position).getDate());*/
+
+                i.putExtra("id", position);
+                // transfer movie details over to new activity
+                i.putExtra("movie_id", "test id");
+                i.putExtra("movie_title", "test title");
+                i.putExtra("movie_poster", "test poster");
+                i.putExtra("movie_plot", "test plot");
+                i.putExtra("movie_ratings", "test ratings");
+                i.putExtra("movie_date", "test date");
+
+                startActivity(i);
+            }
+        });
     }
-
-    private void ratingsMovies(Context context) {
-        Toast.makeText(context, "Get Highest Ratings Movies",
-                Toast.LENGTH_SHORT).show();
-        FetchMoviesTask fetchMovies = new FetchMoviesTask(context, test, movieGrid);
-        fetchMovies.execute("top_rated");
-    }
-
-
 }
