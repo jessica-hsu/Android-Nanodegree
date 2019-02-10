@@ -5,14 +5,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.udacity.android.app.model.Movie;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
-    private List<String> posters;
+    private List<Movie> movies;
 
     public ImageAdapter(Context c) {
         this.mContext = c;
@@ -20,7 +22,7 @@ public class ImageAdapter extends BaseAdapter {
     }
 
     public int getCount() {
-        return posters.size();
+        return movies.size();
     }
 
     public Object getItem(int position) {
@@ -31,16 +33,16 @@ public class ImageAdapter extends BaseAdapter {
         return 0;
     }
 
-    public void setPosterPaths(List<String> posters) {
-        this.posters = posters;
+    public void setMovieDetails(List<Movie> movies) {
+        this.movies = movies;
     }
 
-    public List<String> getPosters() {
-        return this.posters;
+    public List<Movie> getMovies() {
+        return this.movies;
     }
 
     // create a new ImageView for each item referenced by the Adapter
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ImageView imageView;
         if (convertView == null) {
             // if it's not recycled, initialize some attributes
@@ -52,8 +54,19 @@ public class ImageAdapter extends BaseAdapter {
             imageView = (ImageView) convertView;
         }
 
-        String imageUrl = "http://image.tmdb.org/t/p/w185/" + posters.get(position);
+        // load images in
+        String imageUrl = "http://image.tmdb.org/t/p/w185/" + movies.get(position).getPoster();
         Picasso.get().load(imageUrl).into(imageView);
+
+        //set onclick
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                view.setVisibility(View.INVISIBLE);
+            }
+        });
         return imageView;
     }
+
+
 }

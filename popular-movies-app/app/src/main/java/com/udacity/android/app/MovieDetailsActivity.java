@@ -40,8 +40,7 @@ public class MovieDetailsActivity extends Activity {
     }
 
     private static void populateDetails(Intent intent, ImageAdapter adapter, int position) {
-        //image.setImageResource(adapter.mThumbIds[position]);
-        String imageUrl = "http://image.tmdb.org/t/p/w185/" + adapter.getPosters().get(position);
+        String imageUrl = "http://image.tmdb.org/t/p/w185/" + adapter.getMovies().get(position).getPoster();
         Picasso.get().load(imageUrl).into(image);
         title.setText(intent.getExtras().getString("movie_title"));
         plot.setText(intent.getExtras().getString("movie_plot"));

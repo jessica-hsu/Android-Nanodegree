@@ -1,18 +1,17 @@
 package com.udacity.android.app;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.udacity.android.app.model.Movie;
 import com.udacity.android.app.utils.JsonUtils;
@@ -21,15 +20,14 @@ import com.udacity.android.app.utils.NetworkUtils;
 /**
  * Class to run async tasks in background
  */
-public class FetchMoviesTask extends AsyncTask<String, Void, List<Movie>> {
+public class FetchMoviesTask extends AsyncTask<String, Void, List<Movie>>  {
 
-    ProgressDialog progressDialog;
+    private ProgressDialog progressDialog;
     private ImageAdapter imageAdapter;
     private TextView test;
     private GridView movieGrid;
     private Context context;
     private String error;
-    private HashMap<Integer, Movie> details;
 
     // constructor
     public FetchMoviesTask(Context context, View view, View view2) {
@@ -57,31 +55,28 @@ public class FetchMoviesTask extends AsyncTask<String, Void, List<Movie>> {
 
     @Override
     protected void onPreExecute() {
-        progressDialog = ProgressDialog.show(context,
-                "Loading",
-                "Getting movies from IMDB...");
-
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Getting movies from IMDB...");
+        progressDialog.show();
+        super.onPreExecute();
     }
 
     @Override
     protected void onPostExecute(List<Movie> movies) {
         progressDialog.dismiss();
-        List<String> moviePoster = new ArrayList<String>();
-        this.details = new HashMap<>();
         if (movies != null) {
-            for (int i = 0; i<movies.size(); i++) {
-                moviePoster.add(movies.get(i).getPoster());
-                this.details.put(i, movies.get(i));
-            }
-            imageAdapter.setPosterPaths(moviePoster);
-            movieGrid.setAdapter(imageAdapter); // well this works
+            imageAdapter.setMovieDetails(movies);
+            movieGrid.setAdapter(imageAdapter);
+            /*this.movieGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                    Toast.makeText(context, "Position: "+position, Toast.LENGTH_SHORT);
+                }
+            });*/
         } else {
             test.setText(error);
         }
     }
 
-    public HashMap<Integer, Movie> getMovieDetails() {
-        return this.details;
-    }
 
 }
