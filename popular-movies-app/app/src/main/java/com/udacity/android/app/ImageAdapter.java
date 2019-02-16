@@ -1,13 +1,11 @@
 package com.udacity.android.app;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.udacity.android.app.model.Movie;
 import com.squareup.picasso.Picasso;
@@ -17,16 +15,10 @@ import java.util.List;
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
     private List<Movie> movies;
-    private Activity activity;
 
     public ImageAdapter(Context c) {
         this.mContext = c;
 
-    }
-
-    public ImageAdapter(Context c, Activity a) {
-        this.mContext = c;
-        this.activity = a;
     }
 
     public int getCount() {
@@ -45,9 +37,6 @@ public class ImageAdapter extends BaseAdapter {
         this.movies = movies;
     }
 
-    public List<Movie> getMovies() {
-        return this.movies;
-    }
 
     // create a new ImageView for each item referenced by the Adapter
     public View getView(final int position, View convertView, ViewGroup parent) {

@@ -1,6 +1,5 @@
 package com.udacity.android.app;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -26,15 +25,13 @@ public class FetchMoviesTask extends AsyncTask<String, Void, List<Movie>>  {
     private GridView movieGrid;
     private Context context;
     private String error;
-    private Activity activity;
 
     // constructor
-    public FetchMoviesTask(Context context, View view, View view2, Activity activity) {
-        this.imageAdapter = new ImageAdapter(context, activity);
+    public FetchMoviesTask(Context context, View view, View view2) {
+        this.imageAdapter = new ImageAdapter(context);
         this.test = (TextView) view;
         this.context = context;
         this.movieGrid = (GridView) view2;
-        this.activity = activity;
     }
 
     @Override
@@ -67,12 +64,6 @@ public class FetchMoviesTask extends AsyncTask<String, Void, List<Movie>>  {
         if (movies != null) {
             imageAdapter.setMovieDetails(movies);
             movieGrid.setAdapter(imageAdapter);
-            /*this.movieGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                    Toast.makeText(context, "Position: "+position, Toast.LENGTH_SHORT);
-                }
-            });*/
         } else {
             test.setText(error);
         }
