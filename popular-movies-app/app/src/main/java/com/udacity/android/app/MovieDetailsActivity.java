@@ -1,6 +1,5 @@
 package com.udacity.android.app;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,28 +22,21 @@ public class MovieDetailsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
 
-        // Get intent data
-        Intent i = getIntent();
-
-        // Selected image id
-        int position = i.getExtras().getInt("id");
-        ImageAdapter imageAdapter = new ImageAdapter(this);
-
         image = (ImageView) findViewById(R.id.selected_movie);
         title = (TextView) findViewById(R.id.title_tv);
         plot = (TextView) findViewById(R.id.plot_tv);
         date = (TextView) findViewById(R.id.date_tv);
         ratings = (TextView) findViewById(R.id.ratings_tv);
 
-        populateDetails(i, imageAdapter, position);
+        populateDetails();
     }
 
-    private static void populateDetails(Intent intent, ImageAdapter adapter, int position) {
-        String imageUrl = "http://image.tmdb.org/t/p/w185/" + adapter.getMovies().get(position).getPoster();
+    private void populateDetails() {
+        String imageUrl = "http://image.tmdb.org/t/p/w185/" + getIntent().getStringExtra("poster");
         Picasso.get().load(imageUrl).into(image);
-        title.setText(intent.getExtras().getString("movie_title"));
-        plot.setText(intent.getExtras().getString("movie_plot"));
-        date.setText(intent.getExtras().getString("movie_date"));
-        ratings.setText(intent.getExtras().getString("movie_ratings"));
+        title.setText(getIntent().getStringExtra("title"));
+        plot.setText(getIntent().getStringExtra("plot"));
+        date.setText(getIntent().getStringExtra("date"));
+        ratings.setText(getIntent().getStringExtra("rating"));
     }
 }

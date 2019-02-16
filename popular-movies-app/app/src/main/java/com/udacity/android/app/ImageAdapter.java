@@ -1,6 +1,8 @@
 package com.udacity.android.app;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -15,10 +17,16 @@ import java.util.List;
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
     private List<Movie> movies;
+    private Activity activity;
 
     public ImageAdapter(Context c) {
         this.mContext = c;
 
+    }
+
+    public ImageAdapter(Context c, Activity a) {
+        this.mContext = c;
+        this.activity = a;
     }
 
     public int getCount() {
@@ -62,11 +70,18 @@ public class ImageAdapter extends BaseAdapter {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                view.setVisibility(View.INVISIBLE);
+                Intent intent = new Intent(mContext, MovieDetailsActivity.class);
+                intent.putExtra("title", movies.get(position).getTitle());
+                intent.putExtra("poster", movies.get(position).getPoster());
+                intent.putExtra("plot", movies.get(position).getPlot());
+                intent.putExtra("rating", movies.get(position).getRating());
+                intent.putExtra("date", movies.get(position).getDate());
+                mContext.startActivity(intent);
             }
         });
         return imageView;
     }
+
 
 
 }

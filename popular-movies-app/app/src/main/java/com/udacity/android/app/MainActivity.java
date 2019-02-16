@@ -43,21 +43,21 @@ public class MainActivity extends Activity {
          */
         popularBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                getMovies(MainActivity.this, "popular");
+                getMovies(MainActivity.this, "popular", MainActivity.this);
 
             }
         });
 
         ratingsBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                getMovies(MainActivity.this, "top_rated");
+                getMovies(MainActivity.this, "top_rated", MainActivity.this);
             }
         });
     }
 
 
-    private void getMovies(Context context, String api) {
-        FetchMoviesTask fetchMovies = new FetchMoviesTask(context, test, movieGrid);
+    private void getMovies(Context context, String api, Activity activity) {
+        FetchMoviesTask fetchMovies = new FetchMoviesTask(context, test, movieGrid, activity);
         fetchMovies.execute(api);
         /*try {
             List<Movie> movieDetails = fetchMovies.execute(api).get();

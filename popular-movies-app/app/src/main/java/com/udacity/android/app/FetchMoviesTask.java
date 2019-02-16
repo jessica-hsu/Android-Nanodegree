@@ -5,10 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.net.URL;
 import java.util.List;
@@ -28,13 +26,15 @@ public class FetchMoviesTask extends AsyncTask<String, Void, List<Movie>>  {
     private GridView movieGrid;
     private Context context;
     private String error;
+    private Activity activity;
 
     // constructor
-    public FetchMoviesTask(Context context, View view, View view2) {
-        this.imageAdapter = new ImageAdapter(context);
+    public FetchMoviesTask(Context context, View view, View view2, Activity activity) {
+        this.imageAdapter = new ImageAdapter(context, activity);
         this.test = (TextView) view;
         this.context = context;
         this.movieGrid = (GridView) view2;
+        this.activity = activity;
     }
 
     @Override
