@@ -10,7 +10,8 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal">
 
         <Button xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/button_popular"
@@ -31,7 +32,7 @@
         android:id="@+id/movie_grid"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="75dp"
+        android:layout_marginTop="50dp"
         android:columnWidth="0dp"
         android:gravity="center"
         android:horizontalSpacing="0dp"

@@ -26,6 +26,9 @@ public class MainActivity extends Activity {
         popularBtn = (Button) findViewById(R.id.button_popular);
         ratingsBtn = (Button) findViewById(R.id.button_rating);
 
+        // by default when loading, show most popular movies
+        getMovies(MainActivity.this, "popular");
+
         /**
          * Give buttons functionality when clicked
          */
