@@ -3,49 +3,57 @@ package com.udacity.android.app;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 /**
  * Main activity. Set onclick listeners to call events
  */
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
     private GridView movieGrid;
     private TextView test;
-    private Button popularBtn, ratingsBtn;
+    private Toolbar toolBar;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         movieGrid = (GridView) findViewById(R.id.movie_grid);
-        popularBtn = (Button) findViewById(R.id.button_popular);
-        ratingsBtn = (Button) findViewById(R.id.button_rating);
 
         // by default when loading, show most popular movies
         getMovies(MainActivity.this, "popular");
 
-        /**
-         * Give buttons functionality when clicked
-         */
-        popularBtn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                getMovies(MainActivity.this, "popular");
-
-            }
-        });
-
-        ratingsBtn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                getMovies(MainActivity.this, "top_rated");
-            }
-        });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.nav_bar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id){
+            case R.id.popular_movies:
+                getMovies(MainActivity.this, "popular");
+                return true;
+            case R.id.top_rated_movies:
+                getMovies(MainActivity.this, "top_rated");
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     private void getMovies(Context context, String api) {
         FetchMoviesTask fetchMovies = new FetchMoviesTask(context, test, movieGrid);

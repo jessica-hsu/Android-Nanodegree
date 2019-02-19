@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">popular-movies-app</string>
-    <string name="button_popular">Popularity</string>
-    <string name="button_ratings">Highest Ratings</string>
+    <string name="app_name">Popular Movies</string>
+    <string name="button_popular">Most Popular</string>
+    <string name="button_ratings">Top Ratings</string>
 
     <!-- for movie details view -->
     <string name="plot_label">Synopsis: </string>
