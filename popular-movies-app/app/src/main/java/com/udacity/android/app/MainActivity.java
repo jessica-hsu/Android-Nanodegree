@@ -2,6 +2,8 @@ package com.udacity.android.app;
 
 import android.app.Activity;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -56,7 +58,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getMovies(Context context, String api) {
-        FetchMoviesTask fetchMovies = new FetchMoviesTask(context, test, movieGrid);
-        fetchMovies.execute(api);
+        boolean internet = checkInternetAccess();
+        if (internet) {
+            FetchMoviesTask fetchMovies = new FetchMoviesTask(context, test, movieGrid);
+            fetchMovies.execute(api);
+        } else {
+            Toast.makeText(MainActivity.this, R.string.no_internet, Toast.LENGTH_LONG);
+        }
+    }
+
+    private boolean checkInternetAccess() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info = cm.getActiveNetworkInfo();
+        return info != null && info.isConnected();
     }
 }

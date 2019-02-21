@@ -37,6 +37,7 @@ public class MovieDetailsActivity extends Activity {
         title.setText(getIntent().getStringExtra("title"));
         plot.setText(getIntent().getStringExtra("plot"));
         date.setText(getIntent().getStringExtra("date"));
-        ratings.setText(getIntent().getStringExtra("rating"));
+        String rating_txt = getIntent().getStringExtra("rating")+"/10";
+        ratings.setText(rating_txt);
     }
 }
