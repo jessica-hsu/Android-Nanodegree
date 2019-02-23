@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="25dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="51dp">
+
+        <!-- MOVIE TITLE -->
+        <TextView
+            android:id="@+id/title_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:fontFamily="serif" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- MOVIE POSTER THUMBNAIL -->
+            <ImageView
+                android:id="@+id/selected_movie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:textAlignment="center">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <!-- RATINGS -->
+                    <TextView
+                        android:id="@+id/ratings_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@string/ratings_label"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:fontFamily="serif" />
+
+                    <TextView
+                        android:id="@+id/ratings_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:textSize="14sp"
+                        app:fontFamily="serif" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/date_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/date_label"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:fontFamily="serif" />
+
+                <TextView
+                    android:id="@+id/date_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:textSize="14sp"
+                    app:fontFamily="serif" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- MOVIE SYNOPSIS -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/plot_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/plot_label"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:fontFamily="serif"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:id="@+id/plot_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                app:fontFamily="serif" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>
