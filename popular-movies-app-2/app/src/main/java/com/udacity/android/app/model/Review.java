@@ -2,19 +2,19 @@ package com.udacity.android.app.model;
 
 public class Review {
 
-    private int movie_id;
+    private String movie_id;
     private String author;
     private String content;
     private String url;
 
-    public Review(int movie_id, String author, String content, String url) {
+    public Review(String movie_id, String author, String content, String url) {
         this.movie_id = movie_id;
         this.author = author;
         this.content = content;
         this.url = url;
     }
 
-    public int getMovieId() {
+    public String getMovieId() {
         return this.movie_id;
     }
 
@@ -30,7 +30,7 @@ public class Review {
         return this.url;
     }
 
-    public void setMovieId(int id) {
+    public void setMovieId(String id) {
         this.movie_id = id;
     }
 

@@ -2,17 +2,17 @@ package com.udacity.android.app.model;
 
 public class Video {
 
-    private int movie_id;
+    private String movie_id;
     private String key;
     private String name;
 
-    public Video(int movie_id, String key, String name) {
+    public Video(String movie_id, String key, String name) {
         this.movie_id = movie_id;
         this.key = key;
         this.name = name;
     }
 
-    public int getMovieId() {
+    public String getMovieId() {
         return this.movie_id;
     }
 
@@ -24,7 +24,7 @@ public class Video {
         return this.name;
     }
 
-    public void setMovieId(int id) {
+    public void setMovieId(String id) {
         this.movie_id = id;
     }
 

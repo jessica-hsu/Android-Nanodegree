@@ -53,6 +53,36 @@ public class NetworkUtils {
     }
 
     /**
+     * Build endpoint to get videos with movie id
+     * @param api, movie_id
+     * @return
+     * https://api.themoviedb.org/3/movie/{movie_id}/videos?api_key={api_key}&language=en-US
+     */
+    public URL buildEndpoint(String api, String movie_id) {
+
+        this.assetsReader = new AssetsReader(this.context);
+        this.prop = this.assetsReader.getProperties("config.properties");
+        KEY = this.prop.getProperty("key");
+
+        // create uri
+        Uri uri = Uri.parse(IMDB_URL+movie_id+"/"+api).buildUpon()
+                .appendQueryParameter("api_key", KEY)
+                .appendQueryParameter("language", LANGUAGE)
+                .build();
+
+        URL endpoint = null;
+        System.out.print("ENDPOINT: " + uri.toString());
+        try {
+            endpoint = new URL(uri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        return endpoint;
+
+    }
+
+    /**
      * Get Http Response from IMDB
      */
     public String getHttpResponse(URL url) throws IOException {

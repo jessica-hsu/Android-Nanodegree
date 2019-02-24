@@ -5,6 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.udacity.android.app.model.Movie;
+import com.udacity.android.app.model.Video;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,5 +32,26 @@ public class JsonUtils {
         }
 
         return movies;
+    }
+
+    /**
+     * parse JSON for httpResponse for getting videos
+     * @param details
+     * @return
+     * @throws JSONException
+     */
+    public static List<Video> parseVideos(String details) throws JSONException {
+        List<Video> videos = new ArrayList<Video>();
+        JSONObject mainObj = new JSONObject(details);
+        String movie_id = mainObj.getString("id");
+        JSONArray results = mainObj.getJSONArray("results");
+        for (int i = 0; i < results.length(); i++) {
+            String key = results.getJSONObject(i).getString("id");
+            String name = results.getJSONObject(i).getString("original_title");
+            Video v = new Video(movie_id, key, name);
+            videos.add(v);
+        }
+
+        return videos;
     }
 }
