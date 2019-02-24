@@ -1,4 +1,4 @@
-package com.udacity.android.app;
+package com.udacity.android.app.tasks;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 import java.net.URL;
 import java.util.List;
 
+import com.udacity.android.app.ImageAdapter;
 import com.udacity.android.app.model.Movie;
 import com.udacity.android.app.utils.JsonUtils;
 import com.udacity.android.app.utils.NetworkUtils;
