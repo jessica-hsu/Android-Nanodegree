@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Popular Movies</string>
+    <string name="button_popular">Most Popular</string>
+    <string name="button_ratings">Top Ratings</string>
+    <string name="no_internet">Error: No Internet Connection.</string>
+    <!-- for movie details view -->
+    <string name="plot_label">Synopsis: </string>
+    <string name="ratings_label">Ratings: </string>
+    <string name="date_label">Release Date: </string>
+    <string name="ratings_suffix">/10</string>
+    <string name="trailers_label">Trailers: </string>
+    <string name="reviews_label">Reviews: </string>
+    <string name="no_videos">No videos available</string>
+</resources>

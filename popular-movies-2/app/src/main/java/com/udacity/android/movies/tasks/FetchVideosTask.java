@@ -1,14 +1,10 @@
 package com.udacity.android.movies.tasks;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.os.AsyncTask;
-import android.util.TypedValue;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.udacity.android.movies.model.Video;
 import com.udacity.android.movies.utils.JsonUtils;
