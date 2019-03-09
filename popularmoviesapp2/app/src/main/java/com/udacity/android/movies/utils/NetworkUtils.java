@@ -48,6 +48,7 @@ public class NetworkUtils {
      * @param api, movie_id
      * @return
      * https://api.themoviedb.org/3/movie/{movie_id}/videos?api_key={api_key}&language=en-US
+     * https://api.themoviedb.org/3/movie/{movie_id}/reviews?api_key={api_key}&language=en-US&page=1
      */
     public static URL buildEndpoint(String api, String movie_id) {
 

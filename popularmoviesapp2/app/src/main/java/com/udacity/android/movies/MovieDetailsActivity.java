@@ -41,8 +41,7 @@ public class MovieDetailsActivity extends Activity {
         trailersLayout = (LinearLayout) findViewById(R.id.trailer_layout);
         test = (TextView) findViewById(R.id.trailers_test);
 
-        String movie_id = getIntent().getStringExtra("movie_id");
-        getTrailers(movie_id);
+
         //getReviews(movie_id);
         populateDetails();
     }
@@ -64,7 +63,8 @@ public class MovieDetailsActivity extends Activity {
         /*reviews:
         https://api.themoviedb.org/3/movie/{movie_id}/reviews?api_key={api_key}&language=en-US&page=1
          */
-
+        String movie_id = getIntent().getStringExtra("movie_id");
+        getTrailers(movie_id);
     }
 
     /**
@@ -72,11 +72,11 @@ public class MovieDetailsActivity extends Activity {
      * @param movie_id
      */
     private void getTrailers(String movie_id) {
-        new FetchVideosTask(MovieDetailsActivity.this, movie_id) {
+        new FetchVideosTask(test, movie_id) {
             @Override
             protected void onPostExecute(List<Video> videos) {
                 if (videos != null) {
-                    noVideos.setText(videos.size());
+                    test.setText("Number of trailers: " + videos.size());
                 }
             }
         }.execute();

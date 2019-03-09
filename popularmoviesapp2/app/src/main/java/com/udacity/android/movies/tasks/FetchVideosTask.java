@@ -19,13 +19,13 @@ import java.util.List;
  */
 public class FetchVideosTask extends AsyncTask<String, Void, List<Video>> {
 
-    private Context context;
     private String id;
+    private TextView t;
 
 
-    public FetchVideosTask(Context c, String id) {
-        this.context = c;
+    public FetchVideosTask(TextView t, String id) {
         this.id = id;
+        this.t = t;
     }
 
     @Override
@@ -36,12 +36,13 @@ public class FetchVideosTask extends AsyncTask<String, Void, List<Video>> {
         try {
             String httpResponse = NetworkUtils.getHttpResponse(endpoint);
             List<Video> videos = JsonUtils.parseVideos(httpResponse);
-            System.out.println("videos: " + videos.size());
             return videos;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
+
+
 
 }
