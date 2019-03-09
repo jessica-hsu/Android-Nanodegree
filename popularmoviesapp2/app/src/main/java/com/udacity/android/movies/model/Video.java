@@ -24,6 +24,7 @@ public class Video {
         return this.name;
     }
 
+
     public void setMovieId(String id) {
         this.movie_id = id;
     }
@@ -35,5 +36,6 @@ public class Video {
     public void setName(String n) {
         this.name = n;
     }
+
 }
 

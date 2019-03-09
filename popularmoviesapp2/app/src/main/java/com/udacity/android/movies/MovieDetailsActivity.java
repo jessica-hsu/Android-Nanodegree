@@ -1,5 +1,8 @@
 package com.udacity.android.movies;
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -55,11 +58,6 @@ public class MovieDetailsActivity extends Activity {
         String rating_txt = getIntent().getStringExtra("rating")+"/10";
         ratings.setText(rating_txt);
 
-        /*example youtube link: https://www.youtube.com/watch?v=ii3n7hYQOl4
-        https://www.youtube.com/watch?v={key}
-        https://api.themoviedb.org/3/movie/{movie_id}/videos?api_key={api_key}&language=en-US*/
-
-
         /*reviews:
         https://api.themoviedb.org/3/movie/{movie_id}/reviews?api_key={api_key}&language=en-US&page=1
          */
@@ -71,6 +69,7 @@ public class MovieDetailsActivity extends Activity {
      * Make API call to IMDB to get trailers and populate movie details intent
      * @param movie_id
      */
+    @SuppressLint("StaticFieldLeak")
     private void getTrailers(String movie_id) {
         new FetchVideosTask(test, movie_id) {
             @Override
@@ -85,7 +84,9 @@ public class MovieDetailsActivity extends Activity {
                             final String youtube = "https://www.youtube.com/watch?v=" + v.getKey();
                             b.setOnClickListener(new View.OnClickListener() {
                                 public void onClick(View v) {
-                                    Toast.makeText(MovieDetailsActivity.this, youtube, Toast.LENGTH_SHORT).show();
+                                    Intent youtubeIntent = new Intent(Intent.ACTION_VIEW,
+                                            Uri.parse(youtube));
+                                    startActivity(youtubeIntent);
                                 }
                             });
                             trailersLayout.addView(b);

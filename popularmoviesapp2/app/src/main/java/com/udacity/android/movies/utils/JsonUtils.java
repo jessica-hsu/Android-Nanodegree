@@ -46,7 +46,7 @@ public class JsonUtils {
         String movie_id = mainObj.getString("id");
         JSONArray results = mainObj.getJSONArray("results");
         for (int i = 0; i < results.length(); i++) {
-            String key = results.getJSONObject(i).getString("id");
+            String key = results.getJSONObject(i).getString("key");
             String name = results.getJSONObject(i).getString("name");
             Video v = new Video(movie_id, key, name);
             videos.add(v);
