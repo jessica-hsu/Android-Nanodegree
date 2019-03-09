@@ -2,6 +2,7 @@ package com.udacity.android.movies;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -39,7 +40,6 @@ public class MovieDetailsActivity extends Activity {
         ratings = (TextView) findViewById(R.id.ratings_tv);
         noVideos = (TextView) findViewById(R.id.no_videos);
         trailersLayout = (LinearLayout) findViewById(R.id.trailer_layout);
-        test = (TextView) findViewById(R.id.trailers_test);
 
 
         //getReviews(movie_id);
@@ -76,7 +76,22 @@ public class MovieDetailsActivity extends Activity {
             @Override
             protected void onPostExecute(List<Video> videos) {
                 if (videos != null) {
-                    test.setText("Number of trailers: " + videos.size());
+                    if (videos.size() == 0) {
+                        noVideos.setVisibility(View.VISIBLE);
+                    } else {
+                        for(Video v: videos) {
+                            Button b = new Button(MovieDetailsActivity.this);
+                            b.setText(v.getName());
+                            final String youtube = "https://www.youtube.com/watch?v=" + v.getKey();
+                            b.setOnClickListener(new View.OnClickListener() {
+                                public void onClick(View v) {
+                                    Toast.makeText(MovieDetailsActivity.this, youtube, Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            trailersLayout.addView(b);
+                        }
+                    }
+
                 }
             }
         }.execute();
