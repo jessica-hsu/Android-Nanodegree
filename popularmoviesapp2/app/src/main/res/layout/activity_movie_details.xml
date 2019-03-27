@@ -86,6 +86,12 @@
                     app:fontFamily="serif" />
 
             </LinearLayout>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/favorites_btn" />
+
         </LinearLayout>
 
         <!-- MOVIE SYNOPSIS -->
