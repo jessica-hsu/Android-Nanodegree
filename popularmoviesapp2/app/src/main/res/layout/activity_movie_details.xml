@@ -113,6 +113,7 @@
         </LinearLayout>
 
         <include layout="@layout/activity_movie_details_trailers"></include>
+        <include layout="@layout/activity_movie_details_reviews"></include>
 
     </LinearLayout>
 

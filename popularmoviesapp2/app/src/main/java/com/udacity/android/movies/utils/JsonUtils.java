@@ -5,6 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.udacity.android.movies.model.Movie;
+import com.udacity.android.movies.model.Review;
 import com.udacity.android.movies.model.Video;
 
 import java.util.ArrayList;
@@ -53,5 +54,27 @@ public class JsonUtils {
         }
 
         return videos;
+    }
+
+    /**
+     * parse JSON for httpResponse for getting reviews
+     * @param details
+     * @return
+     * @throws JSONException
+     */
+    public static List<Review> parseReviews(String details) throws JSONException {
+        List<Review> reviews = new ArrayList<Review>();
+        JSONObject mainObj = new JSONObject(details);
+        String movie_id = mainObj.getString("id");
+        JSONArray results = mainObj.getJSONArray("results");
+        for (int i = 0; i < results.length(); i++) {
+            String author = results.getJSONObject(i).getString("author");
+            String content = results.getJSONObject(i).getString("content");
+            String url = results.getJSONObject(i).getString("url");
+            Review r = new Review(movie_id, author, content, url);
+            reviews.add(r);
+        }
+
+        return reviews;
     }
 }

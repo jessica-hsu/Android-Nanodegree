@@ -12,7 +12,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+import com.udacity.android.movies.model.Review;
 import com.udacity.android.movies.model.Video;
+import com.udacity.android.movies.tasks.FetchReviewsTask;
 import com.udacity.android.movies.tasks.FetchVideosTask;
 
 import java.util.List;
@@ -29,7 +31,8 @@ public class MovieDetailsActivity extends Activity {
     private static TextView ratings;
     private static TextView noVideos;
     private static LinearLayout trailersLayout;
-    private static TextView test;
+    private static LinearLayout reviewsLayout;
+    private static TextView noReviews;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,26 +46,24 @@ public class MovieDetailsActivity extends Activity {
         ratings = (TextView) findViewById(R.id.ratings_tv);
         noVideos = (TextView) findViewById(R.id.no_videos);
         trailersLayout = (LinearLayout) findViewById(R.id.trailer_layout);
+        noReviews = (TextView) findViewById(R.id.no_reviews);
+        reviewsLayout = (LinearLayout) findViewById(R.id.review_layout);
 
-
-        //getReviews(movie_id);
         populateDetails();
     }
 
     private void populateDetails() {
         String imageUrl = "http://image.tmdb.org/t/p/w185/" + getIntent().getStringExtra("poster");
         Picasso.get().load(imageUrl).into(image);
-        title.setText(getIntent().getStringExtra("title")+" "+getIntent().getStringExtra("movie_id"));
+        title.setText(getIntent().getStringExtra("title"));
         plot.setText(getIntent().getStringExtra("plot"));
         date.setText(getIntent().getStringExtra("date"));
         String rating_txt = getIntent().getStringExtra("rating")+"/10";
         ratings.setText(rating_txt);
 
-        /*reviews:
-        https://api.themoviedb.org/3/movie/{movie_id}/reviews?api_key={api_key}&language=en-US&page=1
-         */
         String movie_id = getIntent().getStringExtra("movie_id");
         getTrailers(movie_id);
+        getReviews(movie_id, getIntent().getStringExtra("title"));
     }
 
     /**
@@ -71,17 +72,31 @@ public class MovieDetailsActivity extends Activity {
      */
     @SuppressLint("StaticFieldLeak")
     private void getTrailers(String movie_id) {
-        new FetchVideosTask(test, movie_id) {
+        new FetchVideosTask(movie_id) {
             @Override
             protected void onPostExecute(List<Video> videos) {
                 if (videos != null) {
                     if (videos.size() == 0) {
                         noVideos.setVisibility(View.VISIBLE);
-                    } else {
+                    } else if (videos.size() <= 5) {
                         for(Video v: videos) {
                             Button b = new Button(MovieDetailsActivity.this);
                             b.setText(v.getName());
                             final String youtube = "https://www.youtube.com/watch?v=" + v.getKey();
+                            b.setOnClickListener(new View.OnClickListener() {
+                                public void onClick(View v) {
+                                    Intent youtubeIntent = new Intent(Intent.ACTION_VIEW,
+                                            Uri.parse(youtube));
+                                    startActivity(youtubeIntent);
+                                }
+                            });
+                            trailersLayout.addView(b);
+                        }
+                    } else {
+                        for(int i=0; i<5; i++) {
+                            Button b = new Button(MovieDetailsActivity.this);
+                            b.setText(videos.get(i).getName());
+                            final String youtube = "https://www.youtube.com/watch?v=" + videos.get(i).getKey();
                             b.setOnClickListener(new View.OnClickListener() {
                                 public void onClick(View v) {
                                     Intent youtubeIntent = new Intent(Intent.ACTION_VIEW,
@@ -102,7 +117,56 @@ public class MovieDetailsActivity extends Activity {
      * Make API call to IMDB to get reviews and populate movie details intent
      * @param movie_id
      */
-    private void getReviews(String movie_id) {
+    @SuppressLint("StaticFieldLeak")
+    private void getReviews(String movie_id, final String title) {
+        new FetchReviewsTask(movie_id) {
+            @Override
+            protected void onPostExecute(List<Review> reviews) {
+                if (reviews != null) {
+                    if (reviews.size() == 0) {
+                        noReviews.setVisibility(View.VISIBLE);
+                    } else if (reviews.size() <= 5) {
+                        int index = 1;
+                        for(Review r: reviews) {
+                            Button b = new Button(MovieDetailsActivity.this);
+                            final String movieTitle = title;
+                            final String author = r.getAuthor();
+                            final String content = r.getContent();
+                            b.setText("Review #" + index);
+                            b.setOnClickListener(new View.OnClickListener() {
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(MovieDetailsActivity.this, ReviewsActivity.class);
+                                    intent.putExtra("author", author);
+                                    intent.putExtra("title", movieTitle);
+                                    intent.putExtra("content", content);
+                                    startActivity(intent);
+                                }
+                            });
+                            reviewsLayout.addView(b);
+                            index++;
+                        }
 
+                    } else {
+                        for (int i=0; i<5; i++) {
+                            Button b = new Button(MovieDetailsActivity.this);
+                            final String movieTitle = title;
+                            final String author = reviews.get(i).getAuthor();
+                            final String content = reviews.get(i).getContent();
+                            b.setText("Review #" + (i+1));
+                            b.setOnClickListener(new View.OnClickListener() {
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(MovieDetailsActivity.this, ReviewsActivity.class);
+                                    intent.putExtra("author", author);
+                                    intent.putExtra("title", movieTitle);
+                                    intent.putExtra("content", content);
+                                    startActivity(intent);
+                                }
+                            });
+                            reviewsLayout.addView(b);
+                        }
+                    }
+                }
+            }
+        }.execute();
     }
 }
