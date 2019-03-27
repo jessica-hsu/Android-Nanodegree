@@ -12,4 +12,5 @@
     <string name="reviews_label">Reviews: </string>
     <string name="no_videos">No videos available</string>
     <string name="no_reviews">No reviews available</string>
+    <string name="favorite_movie">LIKE</string>
 </resources>

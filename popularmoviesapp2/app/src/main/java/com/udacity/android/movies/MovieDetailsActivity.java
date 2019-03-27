@@ -33,6 +33,7 @@ public class MovieDetailsActivity extends Activity {
     private static LinearLayout trailersLayout;
     private static LinearLayout reviewsLayout;
     private static TextView noReviews;
+    private static Button likeBtn;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,7 @@ public class MovieDetailsActivity extends Activity {
         trailersLayout = (LinearLayout) findViewById(R.id.trailer_layout);
         noReviews = (TextView) findViewById(R.id.no_reviews);
         reviewsLayout = (LinearLayout) findViewById(R.id.review_layout);
+        likeBtn = (Button) findViewById(R.id.favorites_btn);
 
         populateDetails();
     }
@@ -60,6 +62,11 @@ public class MovieDetailsActivity extends Activity {
         date.setText(getIntent().getStringExtra("date"));
         String rating_txt = getIntent().getStringExtra("rating")+"/10";
         ratings.setText(rating_txt);
+        likeBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                likeBtn.setText("UNLIKE");
+            }
+        });
 
         String movie_id = getIntent().getStringExtra("movie_id");
         getTrailers(movie_id);
