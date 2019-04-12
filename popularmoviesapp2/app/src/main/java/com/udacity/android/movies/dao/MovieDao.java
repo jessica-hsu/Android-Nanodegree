@@ -13,11 +13,14 @@ import java.util.List;
 public interface MovieDao {
 
     @Query("SELECT * FROM movies")
-    List<Movie> getAll();
+    public List<Movie> getAll();
 
     @Insert
-    void insertAll(Movie... m);
+    public void insertAll(Movie... m);
 
     @Delete
-    void delete(Movie m);
+    public void delete(Movie m);
+
+    @Query("SELECT * FROM movies WHERE movieId = :id")
+    public Movie getMovieById();
 }
