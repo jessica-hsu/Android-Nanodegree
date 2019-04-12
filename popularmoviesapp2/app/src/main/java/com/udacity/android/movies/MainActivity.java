@@ -1,5 +1,6 @@
 package com.udacity.android.movies;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -33,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
         // by default when loading, show most popular movies
         getMovies(MainActivity.this, "popular");
 
+        // create internal database
+        createRoom();
     }
 
     @Override
@@ -70,5 +73,11 @@ public class MainActivity extends AppCompatActivity {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = cm.getActiveNetworkInfo();
         return info != null && info.isConnected();
+    }
+
+    private void createRoom() {
+        AppDatabase database = Room.databaseBuilder(this, AppDatabase.class, "movieDb")
+                .allowMainThreadQueries()
+                .build();
     }
 }
