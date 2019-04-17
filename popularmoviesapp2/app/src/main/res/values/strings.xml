@@ -2,6 +2,7 @@
     <string name="app_name">Popular Movies</string>
     <string name="button_popular">Most Popular</string>
     <string name="button_ratings">Top Ratings</string>
+    <string name="button_like">Your Movies</string>
     <string name="no_internet">Error: No Internet Connection.</string>
     <!-- for movie details view -->
     <string name="plot_label">Synopsis: </string>

@@ -6,6 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/no_movies"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:textAlignment="center" />
+
     <!-- grid for movie posters -->
     <GridView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/movie_grid"

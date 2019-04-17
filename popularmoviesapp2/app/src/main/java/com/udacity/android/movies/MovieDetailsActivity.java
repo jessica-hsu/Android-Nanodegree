@@ -9,9 +9,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+import com.udacity.android.movies.entity.Movie;
 import com.udacity.android.movies.model.Review;
 import com.udacity.android.movies.model.Video;
 import com.udacity.android.movies.tasks.FetchReviewsTask;
@@ -24,16 +24,17 @@ import java.util.List;
  */
 public class MovieDetailsActivity extends Activity {
 
-    private static ImageView image;
-    private static TextView title;
-    private static TextView plot;
-    private static TextView date;
-    private static TextView ratings;
-    private static TextView noVideos;
-    private static LinearLayout trailersLayout;
-    private static LinearLayout reviewsLayout;
-    private static TextView noReviews;
-    private static Button likeBtn;
+    private ImageView image;
+    private TextView title;
+    private TextView plot;
+    private TextView date;
+    private TextView ratings;
+    private TextView noVideos;
+    private LinearLayout trailersLayout;
+    private LinearLayout reviewsLayout;
+    private TextView noReviews;
+    private Button likeBtn;
+    private AppDatabase database;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,18 +58,38 @@ public class MovieDetailsActivity extends Activity {
     private void populateDetails() {
         String imageUrl = "http://image.tmdb.org/t/p/w185/" + getIntent().getStringExtra("poster");
         Picasso.get().load(imageUrl).into(image);
-        title.setText(getIntent().getStringExtra("title"));
-        plot.setText(getIntent().getStringExtra("plot"));
-        date.setText(getIntent().getStringExtra("date"));
-        String rating_txt = getIntent().getStringExtra("rating")+"/10";
+        final String movie_id = getIntent().getStringExtra("movie_id");
+        final String movie_title = getIntent().getStringExtra("title");
+        final String movie_date = getIntent().getStringExtra("date");
+        final String movie_plot = getIntent().getStringExtra("plot");
+        final String movie_rating = getIntent().getStringExtra("rating");
+        title.setText(movie_title);
+        plot.setText(movie_plot);
+        date.setText(movie_date);
+        String rating_txt = movie_rating+"/10";
         ratings.setText(rating_txt);
+        // prep database and set btn to LIKE or UNLIKE
+        database = AppDatabase.getDatabase(getApplicationContext());
+        likeBtn.setText(database.toString());
+        final boolean exists = (database.movieDao().getMovieById(movie_id) != null) ? true : false;
+        if (exists) {
+            likeBtn.setText("UNLIKE");
+        } else {
+            likeBtn.setText("LIKE");
+        }
         likeBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                likeBtn.setText("UNLIKE");
+                if (exists) {
+                    database.movieDao().delete(movie_id);
+                    likeBtn.setText("LIKE");
+                } else {
+                    Movie movie = new Movie(movie_id, movie_title, movie_date, movie_rating, movie_plot);
+                    database.movieDao().insertMovie(movie);
+                    likeBtn.setText("UNLIKE");
+                }
+
             }
         });
-
-        String movie_id = getIntent().getStringExtra("movie_id");
         getTrailers(movie_id);
         getReviews(movie_id, getIntent().getStringExtra("title"));
     }

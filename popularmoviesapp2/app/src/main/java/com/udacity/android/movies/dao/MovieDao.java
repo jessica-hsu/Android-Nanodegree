@@ -16,11 +16,14 @@ public interface MovieDao {
     public List<Movie> getAll();
 
     @Insert
-    public void insertAll(Movie... m);
+    public void insertMovies(Movie... m);
 
-    @Delete
-    public void delete(Movie m);
+    @Insert
+    public void insertMovie(Movie m);
+
+    @Query("DELETE FROM movies WHERE movieId = :id")
+    public void delete(String id);
 
     @Query("SELECT * FROM movies WHERE movieId = :id")
-    public Movie getMovieById();
+    public Movie getMovieById(String id);
 }

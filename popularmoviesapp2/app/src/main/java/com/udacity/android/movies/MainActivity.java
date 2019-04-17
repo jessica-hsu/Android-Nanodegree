@@ -1,6 +1,5 @@
 package com.udacity.android.movies;
 
-import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -13,7 +12,10 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.udacity.android.movies.entity.Movie;
 import com.udacity.android.movies.tasks.FetchMoviesTask;
+
+import java.util.List;
 
 
 /**
@@ -22,20 +24,19 @@ import com.udacity.android.movies.tasks.FetchMoviesTask;
 public class MainActivity extends AppCompatActivity {
 
     private GridView movieGrid;
-    private TextView test;
+    private TextView test, noMovies;
     private Toolbar toolBar;
+    private AppDatabase database;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         movieGrid = (GridView) findViewById(R.id.movie_grid);
+        noMovies = (TextView) findViewById(R.id.no_movies);
 
         // by default when loading, show most popular movies
         getMovies(MainActivity.this, "popular");
-
-        // create internal database
-        createRoom();
     }
 
     @Override
@@ -53,6 +54,10 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.top_rated_movies:
                 getMovies(MainActivity.this, "top_rated");
+                return true;
+            case R.id.your_movies:
+                Toast.makeText(this, "your movies", Toast.LENGTH_SHORT).show();
+                //loadYourMovies();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -75,9 +80,13 @@ public class MainActivity extends AppCompatActivity {
         return info != null && info.isConnected();
     }
 
-    private void createRoom() {
-        AppDatabase database = Room.databaseBuilder(this, AppDatabase.class, "movieDb")
-                .allowMainThreadQueries()
-                .build();
+    private void loadYourMovies() {
+        database = AppDatabase.getDatabase(getApplicationContext());
+        List<Movie> yourMovies = database.movieDao().getAll();
+        if (yourMovies != null) {
+            noMovies.setText(yourMovies.size());
+        } else {
+            noMovies.setText("No movies available.");
+        }
     }
 }

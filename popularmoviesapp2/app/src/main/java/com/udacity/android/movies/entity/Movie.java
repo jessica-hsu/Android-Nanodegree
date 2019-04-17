@@ -9,7 +9,7 @@ import android.support.annotation.NonNull;
 public class Movie {
 
     @PrimaryKey
-    @NonNull public int movieId;
+    @NonNull public String movieId;
 
     @ColumnInfo(name = "movie_title")
     public String movieTitle;
@@ -21,8 +21,18 @@ public class Movie {
     public String movieRating;
 
     @ColumnInfo(name = "movie_plot")
-    public String movie_plot;
+    public String moviePlot;
 
+    public Movie(String id, String title, String date, String rating, String plot) {
+        this.movieId = id;
+        this.movieTitle = title;
+        this.movieReleaseDate = date;
+        this.movieRating = rating;
+        this.moviePlot = plot;
+    }
 
+    public Movie() {
+
+    }
 
 }
