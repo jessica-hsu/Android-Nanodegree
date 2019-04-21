@@ -87,8 +87,8 @@ public class MainActivity extends AppCompatActivity {
         database = AppDatabase.getDatabase(getApplicationContext());
         List<Movie> yourMovies = database.movieDao().getAll();
         if (yourMovies != null && yourMovies.size() > 0) {
-            Toast.makeText(MainActivity.this, ""+yourMovies.size(), Toast.LENGTH_SHORT).show();
-            /*ImageAdapter imageAdapter = new ImageAdapter(getApplicationContext());
+            noMovies.setVisibility(View.INVISIBLE);
+            ImageAdapter imageAdapter = new ImageAdapter(getApplicationContext());
             List<com.udacity.android.movies.model.Movie> gridMovies = new ArrayList<>();
             for (Movie m : yourMovies) {
                 String id = m.movieId;
@@ -102,7 +102,8 @@ public class MainActivity extends AppCompatActivity {
                 gridMovies.add(newMovie);
             }
             imageAdapter.setMovieDetails(gridMovies);
-            movieGrid.setAdapter(imageAdapter);*/
+            movieGrid.setAdapter(imageAdapter);
+            movieGrid.setVisibility(View.VISIBLE);
         } else {
             noMovies.setVisibility(View.VISIBLE);
             noMovies.setText("No movies available.");
