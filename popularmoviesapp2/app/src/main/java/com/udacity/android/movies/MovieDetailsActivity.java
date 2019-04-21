@@ -56,8 +56,7 @@ public class MovieDetailsActivity extends Activity {
     }
 
     private void populateDetails() {
-        String imageUrl = "http://image.tmdb.org/t/p/w185/" + getIntent().getStringExtra("poster");
-        Picasso.get().load(imageUrl).into(image);
+        final String movie_poster = getIntent().getStringExtra("poster");
         final String movie_id = getIntent().getStringExtra("movie_id");
         final String movie_title = getIntent().getStringExtra("title");
         final String movie_date = getIntent().getStringExtra("date");
@@ -68,6 +67,8 @@ public class MovieDetailsActivity extends Activity {
         date.setText(movie_date);
         String rating_txt = movie_rating+"/10";
         ratings.setText(rating_txt);
+        String imageUrl = "http://image.tmdb.org/t/p/w185/" + movie_poster;
+        Picasso.get().load(imageUrl).into(image);
         // prep database and set btn to LIKE or UNLIKE
         database = AppDatabase.getDatabase(getApplicationContext());
         likeBtn.setText(database.toString());
@@ -83,7 +84,7 @@ public class MovieDetailsActivity extends Activity {
                     database.movieDao().delete(movie_id);
                     likeBtn.setText("LIKE");
                 } else {
-                    Movie movie = new Movie(movie_id, movie_title, movie_date, movie_rating, movie_plot);
+                    Movie movie = new Movie(movie_id, movie_title, movie_date, movie_rating, movie_plot, movie_poster);
                     database.movieDao().insertMovie(movie);
                     likeBtn.setText("UNLIKE");
                 }

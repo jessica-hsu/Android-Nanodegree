@@ -23,12 +23,16 @@ public class Movie {
     @ColumnInfo(name = "movie_plot")
     public String moviePlot;
 
-    public Movie(String id, String title, String date, String rating, String plot) {
+    @ColumnInfo(name = "movie_poster")
+    public String moviePoster;
+
+    public Movie(String id, String title, String date, String rating, String plot, String poster) {
         this.movieId = id;
         this.movieTitle = title;
         this.movieReleaseDate = date;
         this.movieRating = rating;
         this.moviePlot = plot;
+        this.moviePoster = poster;
     }
 
     public Movie() {
