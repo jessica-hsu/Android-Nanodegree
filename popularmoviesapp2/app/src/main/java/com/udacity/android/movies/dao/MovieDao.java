@@ -1,7 +1,7 @@
 package com.udacity.android.movies.dao;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
-import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
@@ -13,7 +13,7 @@ import java.util.List;
 public interface MovieDao {
 
     @Query("SELECT * FROM movies")
-    public List<Movie> getAll();
+    public LiveData<List<Movie>> getAll();
 
     @Insert
     public void insertMovies(Movie... m);
