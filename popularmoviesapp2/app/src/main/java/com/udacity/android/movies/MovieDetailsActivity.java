@@ -1,6 +1,7 @@
 package com.udacity.android.movies;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import com.udacity.android.movies.model.Review;
 import com.udacity.android.movies.model.Video;
 import com.udacity.android.movies.tasks.FetchReviewsTask;
 import com.udacity.android.movies.tasks.FetchVideosTask;
+import com.udacity.android.movies.viewmodel.MovieViewModel;
 
 import java.util.List;
 
@@ -35,6 +37,7 @@ public class MovieDetailsActivity extends Activity {
     private TextView noReviews;
     private Button likeBtn;
     private AppDatabase database;
+    private MovieViewModel movieViewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,7 @@ public class MovieDetailsActivity extends Activity {
         reviewsLayout = (LinearLayout) findViewById(R.id.review_layout);
         likeBtn = (Button) findViewById(R.id.favorites_btn);
 
+        movieViewModel = ViewModelProviders.of(this).get(MovieViewModel.class);
         populateDetails();
     }
 
@@ -81,11 +85,12 @@ public class MovieDetailsActivity extends Activity {
         likeBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (exists) {
-                    database.movieDao().delete(movie_id);
+                    /*database.movieDao().delete(movie_id);*/
+                    movieViewModel.deleteMovie(movie_id);
                     likeBtn.setText("LIKE");
                 } else {
                     Movie movie = new Movie(movie_id, movie_title, movie_date, movie_rating, movie_plot, movie_poster);
-                    database.movieDao().insertMovie(movie);
+                    movieViewModel.insertMovie(movie);
                     likeBtn.setText("UNLIKE");
                 }
 
