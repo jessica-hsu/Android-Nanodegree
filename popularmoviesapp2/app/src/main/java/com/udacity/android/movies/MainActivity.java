@@ -1,9 +1,12 @@
 package com.udacity.android.movies;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -15,6 +18,7 @@ import android.widget.Toast;
 
 import com.udacity.android.movies.entity.Movie;
 import com.udacity.android.movies.tasks.FetchMoviesTask;
+import com.udacity.android.movies.viewmodel.MovieViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView test, noMovies;
     private Toolbar toolBar;
     private AppDatabase database;
+    private MovieViewModel movieViewModel;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         movieGrid = (GridView) findViewById(R.id.movie_grid);
         noMovies = (TextView) findViewById(R.id.no_movies);
-
+        movieViewModel = ViewModelProviders.of(this).get(MovieViewModel.class);
         // by default when loading, show most popular movies
         getMovies(MainActivity.this, "popular");
     }
@@ -84,7 +89,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadYourMovies() {
-        database = AppDatabase.getDatabase(getApplicationContext());
+        movieViewModel.getAllMovies().observe(this, new Observer<List<Movie>>() {
+            @Override
+            public void onChanged(@Nullable List<Movie> movies) {
+                if (movies != null && movies.size() > 0) {
+                    noMovies.setVisibility(View.INVISIBLE);
+                    ImageAdapter imageAdapter = new ImageAdapter(getApplicationContext());
+                    List<com.udacity.android.movies.model.Movie> gridMovies = new ArrayList<>();
+                    for (Movie m : movies) {
+                        String id = m.movieId;
+                        String title = m.movieTitle;
+                        String date = m.movieReleaseDate;
+                        String plot = m.moviePlot;
+                        String rating = m.movieRating;
+                        String poster = m.moviePoster;
+                        com.udacity.android.movies.model.Movie newMovie =
+                                new com.udacity.android.movies.model.Movie(id, title, poster, plot, date, rating);
+                        gridMovies.add(newMovie);
+                    }
+                    imageAdapter.setMovieDetails(gridMovies);
+                    movieGrid.setAdapter(imageAdapter);
+                    movieGrid.setVisibility(View.VISIBLE);
+                } else {
+                    noMovies.setVisibility(View.VISIBLE);
+                    noMovies.setText("No movies available.");
+                    movieGrid.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+        /*database = AppDatabase.getDatabase(getApplicationContext());
         List<Movie> yourMovies = database.movieDao().getAll();
         if (yourMovies != null && yourMovies.size() > 0) {
             noMovies.setVisibility(View.INVISIBLE);
@@ -108,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
             noMovies.setVisibility(View.VISIBLE);
             noMovies.setText("No movies available.");
             movieGrid.setVisibility(View.INVISIBLE);
-        }
+        }*/
 
     }
 }
