@@ -1,5 +1,8 @@
 package com.udacity.android.movies.model;
 
+/**
+ * Model to hold reviews for selected movie. Includes setters and getters
+ */
 public class Review {
 
     private String movie_id;

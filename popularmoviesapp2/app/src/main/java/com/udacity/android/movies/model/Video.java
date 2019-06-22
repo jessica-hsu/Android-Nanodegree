@@ -1,5 +1,8 @@
 package com.udacity.android.movies.model;
 
+/**
+ * Video model to hold trailers for movie with getters and setters
+ */
 public class Video {
 
     private String movie_id;

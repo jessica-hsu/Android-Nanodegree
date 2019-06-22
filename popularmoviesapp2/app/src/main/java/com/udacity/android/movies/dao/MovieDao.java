@@ -9,21 +9,21 @@ import com.udacity.android.movies.entity.Movie;
 
 import java.util.List;
 
+/**
+ * Data Access Object for viewModel to use to add, delete, and get movies
+ */
 @Dao
 public interface MovieDao {
 
     @Query("SELECT * FROM movies")
-    public LiveData<List<Movie>> getAll();
+    LiveData<List<Movie>> getAll();
 
     @Insert
-    public void insertMovies(Movie... m);
-
-    @Insert
-    public void insertMovie(Movie m);
+    void insertMovie(Movie m);
 
     @Query("DELETE FROM movies WHERE movieId = :id")
-    public void delete(String id);
+    void delete(String id);
 
     @Query("SELECT * FROM movies WHERE movieId = :id")
-    public Movie getMovieById(String id);
+    Movie getMovieById(String id);
 }

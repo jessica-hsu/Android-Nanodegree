@@ -2,6 +2,7 @@ package com.udacity.android.movies.model;
 
 /**
  * Movie object with attributes like movie_id, plot, release date, poster, etc
+ * Includes setters and getter
  */
 public class Movie {
 

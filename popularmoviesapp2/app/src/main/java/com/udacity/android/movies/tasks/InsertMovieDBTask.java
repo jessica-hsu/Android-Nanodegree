@@ -7,6 +7,7 @@ import com.udacity.android.movies.entity.Movie;
 
 /**
  * Class to run async tasks in background
+ * Insert movie to Room database with LiveData/ViewModel implementation
  */
 public class InsertMovieDBTask extends AsyncTask<Movie, Void, Void>  {
 

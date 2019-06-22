@@ -1,10 +1,6 @@
 package com.udacity.android.movies.tasks;
 
-import android.content.Context;
 import android.os.AsyncTask;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.udacity.android.movies.model.Video;
 import com.udacity.android.movies.utils.JsonUtils;
@@ -15,7 +11,7 @@ import java.net.URL;
 import java.util.List;
 
 /**
- * Async task to get trailers given movie id
+ * Async task to get trailers given movie id. With Room/LiveData/ViewModel implementation
  */
 public class FetchVideosTask extends AsyncTask<String, Void, List<Video>> {
 

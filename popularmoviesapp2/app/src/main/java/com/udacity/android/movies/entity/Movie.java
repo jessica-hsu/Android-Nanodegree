@@ -5,6 +5,9 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+/**
+ * Entity model for Movie. For ViewModel/LiveData implementation
+ */
 @Entity(tableName = "movies")
 public class Movie {
 

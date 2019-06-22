@@ -8,6 +8,9 @@ import android.content.Context;
 import com.udacity.android.movies.dao.MovieDao;
 import com.udacity.android.movies.entity.Movie;
 
+/**
+ * Creates/calls the room database
+ */
 @Database(entities = {Movie.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract MovieDao movieDao();

@@ -9,6 +9,10 @@ import com.udacity.android.movies.utils.NetworkUtils;
 import java.net.URL;
 import java.util.List;
 
+/**
+ * Async task in background - will grab reviews given a movie.
+ * For Room/ViewModel/LiveData implementation
+ */
 public class FetchReviewsTask extends AsyncTask<String, Void, List<Review>> {
     private String id;
 

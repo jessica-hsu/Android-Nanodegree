@@ -10,6 +10,9 @@ import com.udacity.android.movies.tasks.InsertMovieDBTask;
 
 import java.util.List;
 
+/**
+ * Repository class for LiveData/ViewModel use
+ */
 public class MovieRepo {
 
     private MovieDao movieDao;
@@ -26,10 +29,12 @@ public class MovieRepo {
         return allMovies;
     }
 
+    // insert to db
     public void insertMovie(Movie m) {
         new InsertMovieDBTask(movieDao).execute(m);
     }
 
+    // delete from db
     public void deleteMovie(String id) {
         new DeleteMovieDBTask(movieDao).execute(id);
     }

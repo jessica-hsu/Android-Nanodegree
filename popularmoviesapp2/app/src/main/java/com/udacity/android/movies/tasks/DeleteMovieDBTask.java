@@ -2,11 +2,10 @@ package com.udacity.android.movies.tasks;
 
 import android.os.AsyncTask;
 import com.udacity.android.movies.dao.MovieDao;
-import com.udacity.android.movies.entity.Movie;
 
 
 /**
- * Class to run async tasks in background
+ * Class to run async tasks in background - delete movie from Room database
  */
 public class DeleteMovieDBTask extends AsyncTask<String, Void, Void>  {
 

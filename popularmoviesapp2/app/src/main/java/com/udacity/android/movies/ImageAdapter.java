@@ -12,6 +12,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+/**
+ * Image adapter to put all movie posters in grid form
+ */
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
     private List<Movie> movies;
@@ -42,12 +45,8 @@ public class ImageAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         ImageView imageView;
         if (convertView == null) {
-            // if it's not recycled, initialize some attributes
             imageView = new ImageView(mContext);
-            //imageView.setLayoutParams(new ViewGroup.LayoutParams(185, 185));
-           // imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-           // imageView.setPadding(0, 10, 0, 10);
         } else {
             imageView = (ImageView) convertView;
         }
@@ -72,7 +71,4 @@ public class ImageAdapter extends BaseAdapter {
         });
         return imageView;
     }
-
-
-
 }

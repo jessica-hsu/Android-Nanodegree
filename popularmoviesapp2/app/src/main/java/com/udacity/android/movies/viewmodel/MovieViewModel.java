@@ -9,6 +9,9 @@ import com.udacity.android.movies.entity.Movie;
 
 import java.util.List;
 
+/**
+ * ViewModel for Movie. To use with LiveData and ROom Database
+ */
 public class MovieViewModel extends AndroidViewModel {
 
     private MovieRepo movieRepo;

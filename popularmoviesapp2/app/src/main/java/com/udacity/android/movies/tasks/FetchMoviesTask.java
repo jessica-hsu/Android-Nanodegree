@@ -16,7 +16,7 @@ import com.udacity.android.movies.utils.JsonUtils;
 import com.udacity.android.movies.utils.NetworkUtils;
 
 /**
- * Class to run async tasks in background
+ * Class to run async tasks in background - fetch movies from IMDB
  */
 public class FetchMoviesTask extends AsyncTask<String, Void, List<Movie>>  {
 

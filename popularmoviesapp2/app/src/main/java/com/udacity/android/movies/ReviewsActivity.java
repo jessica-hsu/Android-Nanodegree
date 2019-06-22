@@ -19,6 +19,12 @@ public class ReviewsActivity extends Activity {
 
     }
 
+    /**
+     * Populate another page with review details and content
+     * @param title
+     * @param author
+     * @param content
+     */
     private void populate(String title, String author, String content) {
         TextView title_tv = (TextView) findViewById(R.id.reviews_title);
         TextView author_tv = (TextView) findViewById(R.id.reviews_author);

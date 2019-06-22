@@ -46,12 +46,22 @@ public class MainActivity extends AppCompatActivity {
         getMovies(MainActivity.this, "popular");
     }
 
+    /**
+     * Create the options menu in main screen
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.nav_bar, menu);
         return true;
     }
 
+    /**
+     * Determine action depending on which menu option selected
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -71,8 +81,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Call IMDB API to get top rated or most popular movies depending on user selection
+     * @param context
+     * @param api - keyword 'popular' or 'top_rated'
+     */
     private void getMovies(Context context, String api) {
         boolean internet = checkInternetAccess();
+        // only make http request if internet connection
         if (internet) {
             noMovies.setVisibility(View.INVISIBLE);
             FetchMoviesTask fetchMovies = new FetchMoviesTask(context, test, movieGrid);
@@ -83,12 +99,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Check for internet access
+     * @return boolean
+     */
     private boolean checkInternetAccess() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = cm.getActiveNetworkInfo();
         return info != null && info.isConnected();
     }
 
+    /**
+     * Load movies saved to room database
+     */
     private void loadYourMovies() {
         movieViewModel.getAllMovies().observe(this, new Observer<List<Movie>>() {
             @Override
@@ -121,6 +144,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Remove LiveData observers
+     */
     @Override
     protected void onDestroy() {
         movieViewModel.getAllMovies().removeObservers(this);
