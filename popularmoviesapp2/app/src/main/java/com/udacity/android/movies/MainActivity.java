@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         movieGrid = (GridView) findViewById(R.id.movie_grid);
         noMovies = (TextView) findViewById(R.id.no_movies);
-        movieViewModel = ViewModelProviders.of(this).get(MovieViewModel.class);
+
         // by default when loading, show most popular movies
         getMovies(MainActivity.this, "popular");
     }
@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
                 getMovies(MainActivity.this, "top_rated");
                 return true;
             case R.id.your_movies:
+                movieViewModel = ViewModelProviders.of(this).get(MovieViewModel.class);
                 loadYourMovies();
                 return true;
             default:
@@ -117,31 +118,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        /*database = AppDatabase.getDatabase(getApplicationContext());
-        List<Movie> yourMovies = database.movieDao().getAll();
-        if (yourMovies != null && yourMovies.size() > 0) {
-            noMovies.setVisibility(View.INVISIBLE);
-            ImageAdapter imageAdapter = new ImageAdapter(getApplicationContext());
-            List<com.udacity.android.movies.model.Movie> gridMovies = new ArrayList<>();
-            for (Movie m : yourMovies) {
-                String id = m.movieId;
-                String title = m.movieTitle;
-                String date = m.movieReleaseDate;
-                String plot = m.moviePlot;
-                String rating = m.movieRating;
-                String poster = m.moviePoster;
-                com.udacity.android.movies.model.Movie newMovie =
-                        new com.udacity.android.movies.model.Movie(id, title, poster, plot, date, rating);
-                gridMovies.add(newMovie);
-            }
-            imageAdapter.setMovieDetails(gridMovies);
-            movieGrid.setAdapter(imageAdapter);
-            movieGrid.setVisibility(View.VISIBLE);
-        } else {
-            noMovies.setVisibility(View.VISIBLE);
-            noMovies.setText("No movies available.");
-            movieGrid.setVisibility(View.INVISIBLE);
-        }*/
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        movieViewModel.getAllMovies().removeObservers(this);
+        super.onDestroy();
     }
 }
