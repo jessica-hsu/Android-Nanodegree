@@ -1,6 +1,7 @@
 package com.udacity.android.baking;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
@@ -73,6 +74,13 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < recipes.size(); i++) {
             Button b = new Button(MainActivity.this);
             b.setText(recipes.get(i).getName());
+            // make each button clickable to master/detail flow
+            b.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this, RecipeListActivity.class);
+                    startActivity(intent);
+                }
+            });
             homepage_layout.addView(b);
         }
     }
