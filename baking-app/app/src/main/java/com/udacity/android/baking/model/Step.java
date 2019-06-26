@@ -1,13 +1,9 @@
 package com.udacity.android.baking.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 /**
- * Model for Step after converting JSON. Getters and setters included.
- * Used http://www.parcelabler.com/ to turn into Parcelable class
+ * Model for Step
  */
-public class Step implements Parcelable {
+public class Step {
 
     private int id;
     private String shortDescription;
@@ -15,19 +11,16 @@ public class Step implements Parcelable {
     private String videoURL;
     private String thumbnailURL;
 
-    public Step () {}
-
-    public Step (int id, String shortDescription, String description,
-                 String videoURL, String thumbnailURL) {
-       this.id = id;
-       this.shortDescription = shortDescription;
-       this.description = description;
-       this.videoURL = videoURL;
-       this.thumbnailURL = thumbnailURL;
+    public Step(int id, String s, String d, String v, String t) {
+        this.id = id;
+        this.shortDescription = s;
+        this.description = d;
+        this.videoURL = v;
+        this.thumbnailURL = t;
     }
 
     public int getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(int id) {
@@ -35,7 +28,7 @@ public class Step implements Parcelable {
     }
 
     public String getShortDescription() {
-        return this.shortDescription;
+        return shortDescription;
     }
 
     public void setShortDescription(String shortDescription) {
@@ -43,7 +36,7 @@ public class Step implements Parcelable {
     }
 
     public String getDescription() {
-        return this.description;
+        return description;
     }
 
     public void setDescription(String description) {
@@ -51,7 +44,7 @@ public class Step implements Parcelable {
     }
 
     public String getVideoURL() {
-        return this.videoURL;
+        return videoURL;
     }
 
     public void setVideoURL(String videoURL) {
@@ -59,46 +52,10 @@ public class Step implements Parcelable {
     }
 
     public String getThumbnailURL() {
-        return this.thumbnailURL;
+        return thumbnailURL;
     }
 
     public void setThumbnailURL(String thumbnailURL) {
         this.thumbnailURL = thumbnailURL;
     }
-
-    // methods to make Parcelable
-    protected Step(Parcel in) {
-        id = in.readInt();
-        shortDescription = in.readString();
-        description = in.readString();
-        videoURL = in.readString();
-        thumbnailURL = in.readString();
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
-        dest.writeString(shortDescription);
-        dest.writeString(description);
-        dest.writeString(videoURL);
-        dest.writeString(thumbnailURL);
-    }
-
-    @SuppressWarnings("unused")
-    public static final Parcelable.Creator<Step> CREATOR = new Parcelable.Creator<Step>() {
-        @Override
-        public Step createFromParcel(Parcel in) {
-            return new Step(in);
-        }
-
-        @Override
-        public Step[] newArray(int size) {
-            return new Step[size];
-        }
-    };
 }

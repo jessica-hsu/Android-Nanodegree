@@ -1,28 +1,21 @@
 package com.udacity.android.baking.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 /**
- * Model for Ingredient after converting JSON. Getters and setters included
- * Used http://www.parcelabler.com/ to turn into Parcelable class
+ * Model for Ingredient
  */
-public class Ingredient implements Parcelable {
-
+public class Ingredient {
     private int quantity;
     private String measure;
     private String ingredient;
 
-    public Ingredient() {}
-
-    public Ingredient(int quantity, String measure, String ingredient) {
-      this.quantity = quantity;
-      this.measure = measure;
-      this.ingredient = ingredient;
+    public Ingredient(int q, String m, String i) {
+        this.quantity = q;
+        this.measure = m;
+        this.ingredient = i;
     }
 
     public int getQuantity() {
-        return this.quantity;
+        return quantity;
     }
 
     public void setQuantity(int quantity) {
@@ -30,7 +23,7 @@ public class Ingredient implements Parcelable {
     }
 
     public String getMeasure() {
-        return this.measure;
+        return measure;
     }
 
     public void setMeasure(String measure) {
@@ -38,42 +31,10 @@ public class Ingredient implements Parcelable {
     }
 
     public String getIngredient() {
-        return this.ingredient;
+        return ingredient;
     }
 
     public void setIngredient(String ingredient) {
         this.ingredient = ingredient;
     }
-
-    protected Ingredient(Parcel in) {
-        quantity = in.readInt();
-        measure = in.readString();
-        ingredient = in.readString();
-    }
-
-    // methods to make Parcelable
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(quantity);
-        dest.writeString(measure);
-        dest.writeString(ingredient);
-    }
-
-    @SuppressWarnings("unused")
-    public static final Parcelable.Creator<Ingredient> CREATOR = new Parcelable.Creator<Ingredient>() {
-        @Override
-        public Ingredient createFromParcel(Parcel in) {
-            return new Ingredient(in);
-        }
-
-        @Override
-        public Ingredient[] newArray(int size) {
-            return new Ingredient[size];
-        }
-    };
 }
