@@ -167,7 +167,7 @@ public class RecipeListActivity extends AppCompatActivity {
                 title_tv = (TextView) view.findViewById(R.id.recipe_title);
                 servings_tv = (TextView) view.findViewById(R.id.recipe_serving);
                 ingredients_tv = (TextView) view.findViewById(R.id.recipe_ingredients);
-                steps_layout = (LinearLayout) view.findViewById(R.id.list_of_steps_layout);
+                steps_layout = (LinearLayout) view.findViewById(R.id.step_list);
             }
         }
     }
