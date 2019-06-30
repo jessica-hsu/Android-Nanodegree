@@ -1,9 +1,11 @@
 package com.udacity.android.baking.model;
 
+import java.io.Serializable;
+
 /**
  * Model for Ingredient
  */
-public class Ingredient {
+public class Ingredient implements Serializable {
     private int quantity;
     private String measure;
     private String ingredient;

@@ -1,11 +1,12 @@
 package com.udacity.android.baking.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Model for Recipe
  */
-public class Recipe {
+public class Recipe implements Serializable {
 
     private int id;
     private String name;

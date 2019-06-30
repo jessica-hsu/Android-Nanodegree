@@ -1,9 +1,11 @@
 package com.udacity.android.baking.model;
 
+import java.io.Serializable;
+
 /**
  * Model for Step
  */
-public class Step {
+public class Step implements Serializable {
 
     private int id;
     private String shortDescription;

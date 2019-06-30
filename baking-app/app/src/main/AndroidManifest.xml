@@ -24,7 +24,7 @@
         <activity
             android:name=".RecipeListActivity"
             android:label="@string/title_recipe_list"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".RecipeDetailActivity"
             android:label="@string/title_recipe_detail"
@@ -34,6 +34,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.udacity.android.baking.RecipeListActivity" />
         </activity>
+        <activity android:name=".TestActivity"></activity>
     </application>
 
 </manifest>

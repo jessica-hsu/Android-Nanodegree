@@ -73,11 +73,13 @@ public class MainActivity extends AppCompatActivity {
     private void loadHomePageUI(List<Recipe> recipes) {
         for (int i = 0; i < recipes.size(); i++) {
             Button b = new Button(MainActivity.this);
+            final Recipe currentRecipe = recipes.get(i);
             b.setText(recipes.get(i).getName());
             // make each button clickable to master/detail flow
             b.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     Intent intent = new Intent(MainActivity.this, RecipeListActivity.class);
+                    intent.putExtra("details", currentRecipe);
                     startActivity(intent);
                 }
             });

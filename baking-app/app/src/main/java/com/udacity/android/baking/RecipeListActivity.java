@@ -15,6 +15,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.udacity.android.baking.dummy.DummyContent;
+import com.udacity.android.baking.model.Ingredient;
+import com.udacity.android.baking.model.Recipe;
+import com.udacity.android.baking.model.Step;
 
 import java.util.List;
 
@@ -33,6 +36,7 @@ public class RecipeListActivity extends AppCompatActivity {
      * device.
      */
     private boolean mTwoPane;
+    private Recipe allRecipeDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,9 @@ public class RecipeListActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
+
+        // get recipe details back
+        allRecipeDetails = (Recipe) getIntent().getSerializableExtra("details");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -66,14 +73,14 @@ public class RecipeListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, mTwoPane));
+        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, allRecipeDetails, mTwoPane));
     }
 
     public static class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
         private final RecipeListActivity mParentActivity;
-        private final List<DummyContent.DummyItem> mValues;
+        private final Recipe recipeDetails;
         private final boolean mTwoPane;
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
@@ -98,9 +105,9 @@ public class RecipeListActivity extends AppCompatActivity {
         };
 
         SimpleItemRecyclerViewAdapter(RecipeListActivity parent,
-                                      List<DummyContent.DummyItem> items,
+                                      Recipe recipeDetails,
                                       boolean twoPane) {
-            mValues = items;
+            this.recipeDetails = recipeDetails;
             mParentActivity = parent;
             mTwoPane = twoPane;
         }
@@ -114,26 +121,34 @@ public class RecipeListActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mIdView.setText(mValues.get(position).id);
-            holder.mContentView.setText(mValues.get(position).content);
-
-            holder.itemView.setTag(mValues.get(position));
-            holder.itemView.setOnClickListener(mOnClickListener);
+            holder.title_tv.setText(this.recipeDetails.getName());
+            holder.servings_tv.setText("Servings: " + this.recipeDetails.getServings());
+            StringBuilder ingredientString = new StringBuilder();
+            for (int i = 0; i < this.recipeDetails.getIngredients().size(); i++) {
+                Ingredient ing = this.recipeDetails.getIngredients().get(i);
+                ingredientString.append((i+1) + ") " + ing.getIngredient()
+                        + " - " + ing.getQuantity() + " " + ing.getMeasure() + "\n");
+            }
+            holder.ingredients_tv.setText(ingredientString.toString());
+            //holder.itemView.setTag(recipeDetails.get(position));
+            //holder.itemView.setOnClickListener(mOnClickListener);
         }
 
         @Override
         public int getItemCount() {
-            return mValues.size();
+            return 1;
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
-            final TextView mIdView;
-            final TextView mContentView;
+            final TextView title_tv;
+            final TextView servings_tv;
+            final TextView ingredients_tv;
 
             ViewHolder(View view) {
                 super(view);
-                mIdView = (TextView) view.findViewById(R.id.id_text);
-                mContentView = (TextView) view.findViewById(R.id.content);
+                title_tv = (TextView) view.findViewById(R.id.recipe_title);
+                servings_tv = (TextView) view.findViewById(R.id.recipe_serving);
+                ingredients_tv = (TextView) view.findViewById(R.id.recipe_ingredients);
             }
         }
     }
