@@ -24,4 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:textAppearance="?attr/textAppearanceListItem" />
+
+    <include layout="@id/list_of_steps_layout"></include>
+
 </LinearLayout>

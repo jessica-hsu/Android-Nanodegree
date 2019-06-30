@@ -12,6 +12,8 @@ import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.udacity.android.baking.dummy.DummyContent;
@@ -121,8 +123,13 @@ public class RecipeListActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
+            // set recipe title
             holder.title_tv.setText(this.recipeDetails.getName());
+
+            // set recipe servings
             holder.servings_tv.setText("Servings: " + this.recipeDetails.getServings());
+
+            // set recipe ingredients
             StringBuilder ingredientString = new StringBuilder();
             for (int i = 0; i < this.recipeDetails.getIngredients().size(); i++) {
                 Ingredient ing = this.recipeDetails.getIngredients().get(i);
@@ -130,6 +137,16 @@ public class RecipeListActivity extends AppCompatActivity {
                         + " - " + ing.getQuantity() + " " + ing.getMeasure() + "\n");
             }
             holder.ingredients_tv.setText(ingredientString.toString());
+
+            // set list of recipe steps
+            for (int i = 0; i < this.recipeDetails.getSteps().size(); i++) {
+                Step currStep = this.recipeDetails.getSteps().get(i);
+                Button btn = new Button(mParentActivity);
+                btn.setText(currStep.getShortDescription());
+                holder.steps_layout.addView(btn);
+            }
+
+
             //holder.itemView.setTag(recipeDetails.get(position));
             //holder.itemView.setOnClickListener(mOnClickListener);
         }
@@ -143,12 +160,14 @@ public class RecipeListActivity extends AppCompatActivity {
             final TextView title_tv;
             final TextView servings_tv;
             final TextView ingredients_tv;
+            final LinearLayout steps_layout;
 
             ViewHolder(View view) {
                 super(view);
                 title_tv = (TextView) view.findViewById(R.id.recipe_title);
                 servings_tv = (TextView) view.findViewById(R.id.recipe_serving);
                 ingredients_tv = (TextView) view.findViewById(R.id.recipe_ingredients);
+                steps_layout = (LinearLayout) view.findViewById(R.id.list_of_steps_layout);
             }
         }
     }
