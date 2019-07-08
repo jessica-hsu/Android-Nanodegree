@@ -11,6 +11,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
+import com.udacity.android.baking.model.Step;
+
 /**
  * An activity representing a single Recipe detail screen. This
  * activity is only used on narrow width devices. On tablet-size devices,
@@ -53,14 +55,16 @@ public class RecipeDetailActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
-            /*Bundle arguments = new Bundle();
-            arguments.putString(RecipeDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(RecipeDetailFragment.ARG_ITEM_ID));
+            Bundle arguments = new Bundle();
+            Step step = (Step) getIntent().getSerializableExtra("details");
+            arguments.putSerializable("details", step);
+            //arguments.putString(RecipeDetailFragment.ARG_ITEM_ID,
+                   // getIntent().getStringExtra(RecipeDetailFragment.ARG_ITEM_ID));
             RecipeDetailFragment fragment = new RecipeDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.recipe_detail_container, fragment)
-                    .commit();*/
+                    .commit();
         }
     }
 

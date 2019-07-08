@@ -89,16 +89,17 @@ public class RecipeListActivity extends AppCompatActivity {
                 Step step = (Step) view.getTag();
                 if (mTwoPane) {
 
-                    /*Bundle arguments = new Bundle();
-                    arguments.putString(RecipeDetailFragment.ARG_ITEM_ID, item.id);
+                    Bundle arguments = new Bundle();
+                    arguments.putSerializable("details", step);
+                    //arguments.putString(RecipeDetailFragment.ARG_ITEM_ID, item.id);
                     RecipeDetailFragment fragment = new RecipeDetailFragment();
                     fragment.setArguments(arguments);
                     mParentActivity.getSupportFragmentManager().beginTransaction()
                             .replace(R.id.recipe_detail_container, fragment)
-                            .commit();*/
+                            .commit();
                 } else {
                     Context context = view.getContext();
-                    Intent intent = new Intent(context, TestActivity.class);
+                    Intent intent = new Intent(context, RecipeDetailActivity.class);
                    // intent.putExtra(RecipeDetailFragment.ARG_ITEM_ID, item.id);
                     intent.putExtra("details", step);
                     context.startActivity(intent);

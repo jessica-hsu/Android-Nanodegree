@@ -42,6 +42,7 @@ public class RecipeDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Activity activity = this.getActivity();
         CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
+        step = (Step) getArguments().getSerializable("details");
         if (appBarLayout != null) {
             appBarLayout.setTitle(step.getShortDescription());
         }
