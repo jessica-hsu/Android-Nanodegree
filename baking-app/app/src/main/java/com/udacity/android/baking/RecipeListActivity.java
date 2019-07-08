@@ -8,19 +8,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.udacity.android.baking.dummy.DummyContent;
+import com.udacity.android.baking.model.DetailsContainer;
 import com.udacity.android.baking.model.Ingredient;
 import com.udacity.android.baking.model.Recipe;
 import com.udacity.android.baking.model.Step;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -56,8 +55,7 @@ public class RecipeListActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Toast.makeText(RecipeListActivity.this, "ADD TO HOMESCREEN", Toast.LENGTH_SHORT);
             }
         });
 
@@ -82,25 +80,27 @@ public class RecipeListActivity extends AppCompatActivity {
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
         private final RecipeListActivity mParentActivity;
-        private final Recipe recipeDetails;
+        private final List<Object> DETAILS = new ArrayList<>();
         private final boolean mTwoPane;
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DummyContent.DummyItem item = (DummyContent.DummyItem) view.getTag();
+                //DummyContent.DummyItem item = (DummyContent.DummyItem) view.getTag();
+                Step step = (Step) view.getTag();
                 if (mTwoPane) {
-                    Bundle arguments = new Bundle();
+
+                    /*Bundle arguments = new Bundle();
                     arguments.putString(RecipeDetailFragment.ARG_ITEM_ID, item.id);
                     RecipeDetailFragment fragment = new RecipeDetailFragment();
                     fragment.setArguments(arguments);
                     mParentActivity.getSupportFragmentManager().beginTransaction()
                             .replace(R.id.recipe_detail_container, fragment)
-                            .commit();
+                            .commit();*/
                 } else {
                     Context context = view.getContext();
-                    Intent intent = new Intent(context, RecipeDetailActivity.class);
-                    intent.putExtra(RecipeDetailFragment.ARG_ITEM_ID, item.id);
-
+                    Intent intent = new Intent(context, TestActivity.class);
+                   // intent.putExtra(RecipeDetailFragment.ARG_ITEM_ID, item.id);
+                    intent.putExtra("details", step);
                     context.startActivity(intent);
                 }
             }
@@ -109,10 +109,17 @@ public class RecipeListActivity extends AppCompatActivity {
         SimpleItemRecyclerViewAdapter(RecipeListActivity parent,
                                       Recipe recipeDetails,
                                       boolean twoPane) {
-            this.recipeDetails = recipeDetails;
+            DetailsContainer mainDetails =
+                    new DetailsContainer(recipeDetails.getName(), recipeDetails.getImage(),
+                            recipeDetails.getServings(), recipeDetails.getIngredients());
+            DETAILS.add(mainDetails);
+            for (Step s: recipeDetails.getSteps()) {
+                DETAILS.add(s);
+            }
             mParentActivity = parent;
             mTwoPane = twoPane;
         }
+
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -122,53 +129,42 @@ public class RecipeListActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
-            // set recipe title
-            holder.title_tv.setText(this.recipeDetails.getName());
+        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+            if (position == 0) {
+                DetailsContainer details = (DetailsContainer) DETAILS.get(position);
 
-            // set recipe servings
-            holder.servings_tv.setText("Servings: " + this.recipeDetails.getServings());
-
-            // set recipe ingredients
-            StringBuilder ingredientString = new StringBuilder();
-            for (int i = 0; i < this.recipeDetails.getIngredients().size(); i++) {
-                Ingredient ing = this.recipeDetails.getIngredients().get(i);
-                ingredientString.append((i+1) + ") " + ing.getIngredient()
-                        + " - " + ing.getQuantity() + " " + ing.getMeasure() + "\n");
+                StringBuilder detailString = new StringBuilder();
+                detailString.append(details.getName() + "\n");
+                detailString.append("Servings: " + details.getServings() + "\nIngredients:\n");
+                
+                for (int i = 0; i < details.getIngredients().size(); i++) {
+                    Ingredient ing = details.getIngredients().get(i);
+                    detailString.append((i+1) + ") " + ing.getIngredient()
+                            + " - " + ing.getQuantity() + " " + ing.getMeasure() + "\n");
+                }
+                holder.step_tv.setText(detailString.toString() + "Steps:");
+            } else {
+                Step step = (Step) DETAILS.get(position);
+                holder.step_tv.setText(step.getShortDescription());
+                holder.itemView.setTag(step);
+                holder.itemView.setOnClickListener(mOnClickListener);
             }
-            holder.ingredients_tv.setText(ingredientString.toString());
-
-            // set list of recipe steps
-            for (int i = 0; i < this.recipeDetails.getSteps().size(); i++) {
-                Step currStep = this.recipeDetails.getSteps().get(i);
-                Button btn = new Button(mParentActivity);
-                btn.setText(currStep.getShortDescription());
-                holder.steps_layout.addView(btn);
-            }
-
-
-            //holder.itemView.setTag(recipeDetails.get(position));
-            //holder.itemView.setOnClickListener(mOnClickListener);
         }
 
         @Override
         public int getItemCount() {
-            return 1;
+            return this.DETAILS.size();
         }
 
+        // ViewHolder for the recyclerView item
         class ViewHolder extends RecyclerView.ViewHolder {
-            final TextView title_tv;
-            final TextView servings_tv;
-            final TextView ingredients_tv;
-            final LinearLayout steps_layout;
+            final TextView step_tv;
 
             ViewHolder(View view) {
                 super(view);
-                title_tv = (TextView) view.findViewById(R.id.recipe_title);
-                servings_tv = (TextView) view.findViewById(R.id.recipe_serving);
-                ingredients_tv = (TextView) view.findViewById(R.id.recipe_ingredients);
-                steps_layout = (LinearLayout) view.findViewById(R.id.step_list);
+                step_tv = (TextView) view.findViewById(R.id.step);
             }
         }
+
     }
 }

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.udacity.android.baking.dummy.DummyContent;
+import com.udacity.android.baking.model.Step;
 
 /**
  * A fragment representing a single Recipe detail screen.
@@ -19,15 +20,15 @@ import com.udacity.android.baking.dummy.DummyContent;
  */
 public class RecipeDetailFragment extends Fragment {
     /**
-     * The fragment argument representing the item ID that this fragment
+     * The fragment argument representing the step ID that this fragment
      * represents.
      */
-    public static final String ARG_ITEM_ID = "item_id";
+    public static final String STEP_ID = "item_id";
 
     /**
-     * The dummy content this fragment is presenting.
+     * The Step content this fragment is presenting.
      */
-    private DummyContent.DummyItem mItem;
+    private Step step;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -39,18 +40,10 @@ public class RecipeDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments().containsKey(ARG_ITEM_ID)) {
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
-            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
-
-            Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-            if (appBarLayout != null) {
-                appBarLayout.setTitle(mItem.content);
-            }
+        Activity activity = this.getActivity();
+        CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
+        if (appBarLayout != null) {
+            appBarLayout.setTitle(step.getShortDescription());
         }
     }
 
@@ -60,8 +53,8 @@ public class RecipeDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.recipe_detail, container, false);
 
         // Show the dummy content as text in a TextView.
-        if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.recipe_detail)).setText(mItem.details);
+        if (step != null) {
+            ((TextView) rootView.findViewById(R.id.recipe_detail)).setText(step.getDescription());
         }
 
         return rootView;

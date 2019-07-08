@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.udacity.android.baking.model.Recipe;
+import com.udacity.android.baking.model.Step;
 
 public class TestActivity extends AppCompatActivity {
 
@@ -14,9 +15,9 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
 
+        Step step = (Step) getIntent().getSerializableExtra("details");
         tv = (TextView) findViewById(R.id.test);
-        Recipe recipe = (Recipe) getIntent().getSerializableExtra("details");
-        String text = recipe.getName() + "\n" + recipe.getServings();
+        String text = step.getDescription();
         tv.setText(text);
     }
 }
