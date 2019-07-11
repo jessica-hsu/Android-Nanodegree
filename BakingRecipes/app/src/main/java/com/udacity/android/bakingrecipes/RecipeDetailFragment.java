@@ -104,6 +104,7 @@ public class RecipeDetailFragment extends Fragment {
         videoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
                 .createMediaSource(videoURI);
 
+        player.prepare(videoSource);
         player.setPlayWhenReady(true);
     }
 
