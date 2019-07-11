@@ -1,6 +1,7 @@
 package com.udacity.android.bakingrecipes;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelection;
+import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.util.Util;
 import com.udacity.android.bakingrecipes.model.Step;
 
 
@@ -24,6 +38,14 @@ public class RecipeDetailFragment extends Fragment {
      * The Step content this fragment is presenting.
      */
     private Step step;
+    private String url;
+
+    PlayerView playerView;
+    SimpleExoPlayer player;
+    DefaultBandwidthMeter bandwidthMeter;
+    TrackSelector trackSelector;
+    DataSource.Factory dataSourceFactory;
+    MediaSource videoSource;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -52,12 +74,46 @@ public class RecipeDetailFragment extends Fragment {
         if (step != null) {
 
             ((TextView) rootView.findViewById(R.id.recipe_detail)).setText(step.getDescription());
+            if (step.getVideoURL().length() > 0 || step.getThumbnailURL().length() > 0) {
 
+                if (step.getVideoURL().length() > 0) {
+                    url = step.getVideoURL();
+                } else if (step.getThumbnailURL().length() > 0) {
+                    url = step.getThumbnailURL();
+                }
+
+                playerView = rootView.findViewById(R.id.video_player);
+
+            }
 
         }
 
         return rootView;
     }
 
+    private void setUpPlayer() {
 
+        bandwidthMeter = new DefaultBandwidthMeter();
+        trackSelector = new DefaultTrackSelector(new AdaptiveTrackSelection.Factory(bandwidthMeter));
+        player = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector);
+        playerView.setPlayer(player);
+        dataSourceFactory = new DefaultDataSourceFactory(getContext(),
+                Util.getUserAgent(getContext(), "BakingRecipe"), bandwidthMeter);
+
+        Uri videoURI = Uri.parse(url);
+        videoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
+                .createMediaSource(videoURI);
+
+        player.setPlayWhenReady(true);
+    }
+
+    private void releasePlayer() {
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        setUpPlayer();
+    }
 }
