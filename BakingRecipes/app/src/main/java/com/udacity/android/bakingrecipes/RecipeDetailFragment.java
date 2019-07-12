@@ -18,6 +18,7 @@ import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
@@ -83,7 +84,9 @@ public class RecipeDetailFragment extends Fragment {
                 }
 
                 playerView = rootView.findViewById(R.id.video_player);
+                playerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_ZOOM);
 
+                setUpPlayer();
             }
 
         }
@@ -109,12 +112,37 @@ public class RecipeDetailFragment extends Fragment {
     }
 
     private void releasePlayer() {
-
+        if (player != null) {
+            player.stop();
+            player.release();
+            player = null;
+            dataSourceFactory = null;
+            videoSource = null;
+            trackSelector = null;
+        }
     }
 
-    @Override
+   /* @Override
     public void onStart() {
         super.onStart();
         setUpPlayer();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setUpPlayer();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        releasePlayer();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        releasePlayer();
+    }*/
 }
