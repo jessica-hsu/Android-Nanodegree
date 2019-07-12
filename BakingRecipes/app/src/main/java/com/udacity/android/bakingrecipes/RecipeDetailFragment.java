@@ -122,27 +122,10 @@ public class RecipeDetailFragment extends Fragment {
         }
     }
 
-   /* @Override
-    public void onStart() {
-        super.onStart();
-        setUpPlayer();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        setUpPlayer();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        releasePlayer();
-    }
-
     @Override
     public void onStop() {
         super.onStop();
         releasePlayer();
-    }*/
+    }
+
 }
