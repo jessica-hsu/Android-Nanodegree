@@ -79,6 +79,7 @@ public class RecipeListActivity extends AppCompatActivity {
     public static class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
+        private final Recipe theRecipe;
         private final RecipeListActivity mParentActivity;
         private final List<Object> DETAILS = new ArrayList<>();
         private final boolean mTwoPane;
@@ -91,6 +92,7 @@ public class RecipeListActivity extends AppCompatActivity {
 
                     Bundle arguments = new Bundle();
                     arguments.putSerializable("details", step);
+                    arguments.putSerializable("entireRecipe", theRecipe);
                     //arguments.putString(RecipeDetailFragment.ARG_ITEM_ID, item.id);
                     RecipeDetailFragment fragment = new RecipeDetailFragment();
                     fragment.setArguments(arguments);
@@ -102,6 +104,7 @@ public class RecipeListActivity extends AppCompatActivity {
                     Intent intent = new Intent(context, RecipeDetailActivity.class);
                    // intent.putExtra(RecipeDetailFragment.ARG_ITEM_ID, item.id);
                     intent.putExtra("details", step);
+                    intent.putExtra("entireRecipe", theRecipe);
                     context.startActivity(intent);
                 }
             }
@@ -119,6 +122,7 @@ public class RecipeListActivity extends AppCompatActivity {
             }
             mParentActivity = parent;
             mTwoPane = twoPane;
+            theRecipe = recipeDetails;
         }
 
 

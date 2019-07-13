@@ -10,7 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.udacity.android.bakingrecipes.model.Recipe;
 import com.udacity.android.bakingrecipes.model.Step;
 
 /**
@@ -20,6 +22,9 @@ import com.udacity.android.bakingrecipes.model.Step;
  * in a {@link RecipeListActivity}.
  */
 public class RecipeDetailActivity extends AppCompatActivity {
+
+    // Recipe obj to send back to RecipeListActivity when click back button
+    private Recipe theRecipe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +53,8 @@ public class RecipeDetailActivity extends AppCompatActivity {
             // using a fragment transaction.
             Bundle arguments = new Bundle();
             Step step = (Step) getIntent().getSerializableExtra("details");
+            theRecipe = (Recipe) getIntent().getSerializableExtra("entireRecipe");
             arguments.putSerializable("details", step);
-            //arguments.putString(RecipeDetailFragment.ARG_ITEM_ID,
-                   // getIntent().getStringExtra(RecipeDetailFragment.ARG_ITEM_ID));
             RecipeDetailFragment fragment = new RecipeDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
@@ -70,8 +74,12 @@ public class RecipeDetailActivity extends AppCompatActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            NavUtils.navigateUpTo(this, new Intent(this, RecipeListActivity.class));
+            //
+            Intent intent = new Intent(this, RecipeListActivity.class);
+            intent.putExtra("details", theRecipe);
+            NavUtils.navigateUpTo(this, intent);
             return true;
+            //Toast.makeText(this, "hello", Toast.LENGTH_SHORT);
         }
         return super.onOptionsItemSelected(item);
     }
