@@ -2,15 +2,11 @@ package com.udacity.android.bakingrecipes;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.udacity.android.bakingrecipes.model.Recipe;
 import com.udacity.android.bakingrecipes.model.Step;
@@ -79,7 +75,6 @@ public class RecipeDetailActivity extends AppCompatActivity {
             intent.putExtra("details", theRecipe);
             NavUtils.navigateUpTo(this, intent);
             return true;
-            //Toast.makeText(this, "hello", Toast.LENGTH_SHORT);
         }
         return super.onOptionsItemSelected(item);
     }
