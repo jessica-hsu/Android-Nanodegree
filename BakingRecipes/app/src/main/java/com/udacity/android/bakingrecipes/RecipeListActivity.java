@@ -2,6 +2,7 @@ package com.udacity.android.bakingrecipes;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.udacity.android.bakingrecipes.model.DetailsContainer;
 import com.udacity.android.bakingrecipes.model.Ingredient;
 import com.udacity.android.bakingrecipes.model.Recipe;
 import com.udacity.android.bakingrecipes.model.Step;
@@ -44,12 +44,12 @@ public class RecipeListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_list);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setTitle(getTitle());
-
         // get recipe details back
         allRecipeDetails = (Recipe) getIntent().getSerializableExtra("details");
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle(allRecipeDetails.getName());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -113,10 +113,13 @@ public class RecipeListActivity extends AppCompatActivity {
         SimpleItemRecyclerViewAdapter(RecipeListActivity parent,
                                       Recipe recipeDetails,
                                       boolean twoPane) {
-            DetailsContainer mainDetails =
+            /*DetailsContainer mainDetails =
                     new DetailsContainer(recipeDetails.getName(), recipeDetails.getImage(),
                             recipeDetails.getServings(), recipeDetails.getIngredients());
-            DETAILS.add(mainDetails);
+            DETAILS.add(mainDetails);*/
+            //DETAILS.add(recipeDetails.getName());
+           // DETAILS.add(recipeDetails.getServings());
+            DETAILS.add(recipeDetails.getIngredients());
             for (Step s: recipeDetails.getSteps()) {
                 DETAILS.add(s);
             }
@@ -135,25 +138,57 @@ public class RecipeListActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            if (position == 0) {
-                DetailsContainer details = (DetailsContainer) DETAILS.get(position);
 
+           if (position == 0) {
+
+                List<Ingredient> ingredients = (List<Ingredient>) DETAILS.get(position);
                 StringBuilder detailString = new StringBuilder();
-                detailString.append(details.getName() + "\n");
-                detailString.append("Servings: " + details.getServings() + "\nIngredients:\n");
-                
-                for (int i = 0; i < details.getIngredients().size(); i++) {
-                    Ingredient ing = details.getIngredients().get(i);
+                for (int i = 0; i < ingredients.size(); i++) {
+                    Ingredient ing = ingredients.get(i);
                     detailString.append((i+1) + ") " + ing.getIngredient()
                             + " - " + ing.getQuantity() + " " + ing.getMeasure() + "\n");
                 }
-                holder.step_tv.setText(detailString.toString() + "Steps:");
+                holder.step_tv.setText(detailString.toString());
+
             } else {
+
                 Step step = (Step) DETAILS.get(position);
                 holder.step_tv.setText(step.getShortDescription());
+                holder.step_tv.setBackgroundColor(Color.rgb(187, 235, 237));
                 holder.itemView.setTag(step);
                 holder.itemView.setOnClickListener(mOnClickListener);
+
             }
+
+           /* switch (position) {
+                case 0: // add image
+                    String name = (String) DETAILS.get(position);
+                    holder.step_tv.setText(name);
+                    holder.step_tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                    break;
+                case 1: // add servings
+                    int servings = (int) DETAILS.get(position);
+                    holder.step_tv.setText("Servings: " + servings);
+                    break;
+                case 2: // add ingredients
+                    List<Ingredient> ingredients = (List<Ingredient>) DETAILS.get(position);
+                    StringBuilder detailString = new StringBuilder();
+                    for (int i = 0; i < ingredients.size(); i++) {
+                        Ingredient ing = ingredients.get(i);
+                        detailString.append((i+1) + ") " + ing.getIngredient()
+                                + " - " + ing.getQuantity() + " " + ing.getMeasure() + "\n");
+                    }
+                    holder.step_tv.setText(detailString.toString());
+                    break;
+                default:    // load steps
+                    Step step = (Step) DETAILS.get(position);
+                    holder.step_tv.setText(step.getShortDescription());
+                    holder.step_tv.setBackgroundColor(Color.rgb(187, 235, 237));
+                    holder.itemView.setTag(step);
+                    holder.itemView.setOnClickListener(mOnClickListener);
+                    break;
+            }*/
+
         }
 
         @Override
