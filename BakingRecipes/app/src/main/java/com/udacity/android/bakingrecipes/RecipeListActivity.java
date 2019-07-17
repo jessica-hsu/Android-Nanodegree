@@ -117,8 +117,8 @@ public class RecipeListActivity extends AppCompatActivity {
                     new DetailsContainer(recipeDetails.getName(), recipeDetails.getImage(),
                             recipeDetails.getServings(), recipeDetails.getIngredients());
             DETAILS.add(mainDetails);*/
-            //DETAILS.add(recipeDetails.getName());
-           // DETAILS.add(recipeDetails.getServings());
+            DETAILS.add(recipeDetails.getName());
+            DETAILS.add(recipeDetails.getServings());
             DETAILS.add(recipeDetails.getIngredients());
             for (Step s: recipeDetails.getSteps()) {
                 DETAILS.add(s);
@@ -138,8 +138,13 @@ public class RecipeListActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
-           if (position == 0) {
+            if (position == 0) {
+                String name = (String) DETAILS.get(position);
+                holder.step_tv.setText(name);
+            } else if (position == 1)  {
+                int servings = (int) DETAILS.get(position);
+                holder.step_tv.setText("Servings: " + servings);
+            } else if (position == 2) {
 
                 List<Ingredient> ingredients = (List<Ingredient>) DETAILS.get(position);
                 StringBuilder detailString = new StringBuilder();
@@ -154,7 +159,7 @@ public class RecipeListActivity extends AppCompatActivity {
 
                 Step step = (Step) DETAILS.get(position);
                 holder.step_tv.setText(step.getShortDescription());
-                holder.step_tv.setBackgroundColor(Color.rgb(187, 235, 237));
+                // holder.step_tv.setBackgroundColor(Color.rgb(187, 235, 237));
                 holder.itemView.setTag(step);
                 holder.itemView.setOnClickListener(mOnClickListener);
 
