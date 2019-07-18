@@ -30,16 +30,21 @@ public class BakingRecipeUITest {
             e.printStackTrace();
         }
 
+        // click the brownies button
         Espresso.onView(ViewMatchers.withText("BROWNIES")).perform(ViewActions.click());
 
+        // did intent with this class show up?
         intended(hasComponent(RecipeListActivity.class.getName()));
 
+        // scroll to recipe intro
         Espresso.onView(ViewMatchers.withId(R.id.recipe_list))
                 .perform(RecyclerViewActions.scrollToPosition(3));
 
+        // click recipe intro
         Espresso.onView(ViewMatchers.withId(R.id.recipe_list))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(3, ViewActions.click()));
 
+        // did intent with this class show up?
         intended(hasComponent(RecipeDetailActivity.class.getName()));
 
     }
