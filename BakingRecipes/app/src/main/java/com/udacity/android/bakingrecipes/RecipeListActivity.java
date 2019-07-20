@@ -2,6 +2,7 @@ package com.udacity.android.bakingrecipes;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -55,6 +56,18 @@ public class RecipeListActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                List<Ingredient> ingredients = allRecipeDetails.getIngredients();
+                StringBuilder detailString = new StringBuilder();
+                detailString.append("Recipe: " + allRecipeDetails.getName() + "\n");
+                for (int i = 0; i < ingredients.size(); i++) {
+                    Ingredient ing = ingredients.get(i);
+                    detailString.append((i+1) + ") " + ing.getIngredient()
+                            + " - " + ing.getQuantity() + " " + ing.getMeasure() + "\n");
+                }
+                SharedPreferences pref = getApplicationContext().getSharedPreferences("ingredients", 0);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("widgetIngredients", detailString.toString());
+                editor.commit();
                 Snackbar.make(view, "Ingredients added to widget", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
