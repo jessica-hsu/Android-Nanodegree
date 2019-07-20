@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -17,10 +18,13 @@ import com.udacity.android.bakingrecipes.tasks.FetchRecipesTask;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import info.hoang8f.widget.FButton;
+
 public class MainActivity extends AppCompatActivity {
 
     private TextView error_tv;
     private LinearLayout homepage_layout;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         // set variables
         error_tv = (TextView) findViewById(R.id.homepage_error);
-        homepage_layout = (LinearLayout) findViewById(R.id.home_page);
-
-        getRecipes();
+        homepage_layout = (LinearLayout) findViewById(R.id.home_page);getRecipes();
     }
 
     /**
@@ -71,9 +73,19 @@ public class MainActivity extends AppCompatActivity {
      */
     private void loadHomePageUI(List<Recipe> recipes) {
         for (int i = 0; i < recipes.size(); i++) {
-            Button b = new Button(MainActivity.this);
+            FButton b = new FButton(MainActivity.this);
             final Recipe currentRecipe = recipes.get(i);
             b.setText(recipes.get(i).getName());
+            b.setButtonColor(getResources().getColor(R.color.fbutton_color_green_sea));
+            b.setShadowColor(getResources().getColor(R.color.fbutton_color_asbestos));
+            b.setShadowEnabled(true);
+            b.setShadowHeight(5);
+            b.setCornerRadius(5);
+            LinearLayout.LayoutParams params
+                    = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.setMargins(3, 3, 3, 3);
+            b.setLayoutParams(params);
             // make each button clickable to master/detail flow
             b.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
