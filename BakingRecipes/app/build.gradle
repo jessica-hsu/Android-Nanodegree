@@ -37,5 +37,5 @@ dependencies {
         exclude module: 'recyclerview-v7'
     }
     implementation 'com.google.android.exoplayer:exoplayer:2.8.1'
-
+    implementation 'info.hoang8f:fbutton:1.0.5'
 }
