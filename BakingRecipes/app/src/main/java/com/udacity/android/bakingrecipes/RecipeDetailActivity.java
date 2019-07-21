@@ -33,6 +33,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeActionContentDescription("go home");
         }
 
         // savedInstanceState is non-null when there is fragment state
