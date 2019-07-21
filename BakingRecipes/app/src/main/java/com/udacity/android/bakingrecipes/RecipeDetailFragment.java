@@ -2,6 +2,7 @@ package com.udacity.android.bakingrecipes;
 
 import android.app.Activity;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.exoplayer2.C;
+import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
@@ -46,7 +49,9 @@ public class RecipeDetailFragment extends Fragment {
     TrackSelector trackSelector;
     DataSource.Factory dataSourceFactory;
     MediaSource videoSource;
-
+    long playerPosition;
+    boolean playerReady;
+    int playerWindow;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -63,7 +68,19 @@ public class RecipeDetailFragment extends Fragment {
         if (appBarLayout != null) {
             appBarLayout.setTitle(step.getShortDescription());
         }
+
+        if (savedInstanceState != null) {
+            playerReady = savedInstanceState.getBoolean("state");
+            playerPosition = savedInstanceState.getLong("position");
+            playerWindow = savedInstanceState.getInt("window");
+
+        } else {
+            playerReady = true;
+            playerPosition = 0;
+        }
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,8 +100,6 @@ public class RecipeDetailFragment extends Fragment {
 
                 playerView = rootView.findViewById(R.id.video_player);
                 playerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_ZOOM);
-
-                setUpPlayer();
             }
 
         }
@@ -97,7 +112,7 @@ public class RecipeDetailFragment extends Fragment {
         bandwidthMeter = new DefaultBandwidthMeter();
         trackSelector = new DefaultTrackSelector(new AdaptiveTrackSelection.Factory(bandwidthMeter));
         player = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector);
-        playerView.setPlayer(player);
+
         dataSourceFactory = new DefaultDataSourceFactory(getContext(),
                 Util.getUserAgent(getContext(), "BakingRecipe"), bandwidthMeter);
 
@@ -106,11 +121,27 @@ public class RecipeDetailFragment extends Fragment {
                 .createMediaSource(videoURI);
 
         player.prepare(videoSource);
-        player.setPlayWhenReady(true);
+        player.setPlayWhenReady(playerReady);
+        player.seekTo(playerWindow, playerPosition);
+        playerView.setPlayer(player);
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        playerPosition =player.getCurrentPosition();
+        outState.putLong("position", playerPosition );
+        playerReady = player.getPlayWhenReady();
+        outState.putBoolean("state", playerReady);
+        playerWindow = player.getCurrentWindowIndex();
+        outState.putInt("window", playerWindow);
+        super.onSaveInstanceState(outState);
     }
 
     private void releasePlayer() {
         if (player != null) {
+            playerPosition = player.getCurrentPosition();
+            playerWindow = player.getCurrentWindowIndex();
+            playerReady = player.getPlayWhenReady();
             player.stop();
             player.release();
             player = null;
@@ -123,7 +154,32 @@ public class RecipeDetailFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        releasePlayer();
+        if (Util.SDK_INT > 23) {
+            releasePlayer();
+        }
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (Util.SDK_INT <= 23) {
+            releasePlayer();
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (Util.SDK_INT > 23) {
+            setUpPlayer();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if ((Util.SDK_INT <= 23 || player == null)) {
+            setUpPlayer();
+        }
+    }
 }
