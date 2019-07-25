@@ -1,5 +1,7 @@
 package com.udacity.android.bakingrecipes;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -66,10 +68,23 @@ public class RecipeListActivity extends AppCompatActivity {
                 }
                 SharedPreferences pref = getApplicationContext().getSharedPreferences("ingredients", 0);
                 SharedPreferences.Editor editor = pref.edit();
+                if (pref.getString("widgetIngredients", null) != null) {
+                    // remove some old values
+                    editor.remove("widgetIngredients");
+                    editor.commit();
+                }
+                // add new ingredient list in
                 editor.putString("widgetIngredients", detailString.toString());
                 editor.commit();
                 Snackbar.make(view, "Ingredients added to widget", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
+                // Put changes on the Widget
+                ComponentName provider = new ComponentName(getApplicationContext(), RecipeWidget.class);
+                AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getApplicationContext());
+                int[] ids = appWidgetManager.getAppWidgetIds(provider);
+                RecipeWidget recipeWidgetProvider = new RecipeWidget();
+                recipeWidgetProvider.onUpdate(getApplicationContext(), appWidgetManager, ids);
             }
         });
 
