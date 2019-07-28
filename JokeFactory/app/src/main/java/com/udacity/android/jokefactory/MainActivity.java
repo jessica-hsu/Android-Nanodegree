@@ -1,12 +1,13 @@
 package com.udacity.android.jokefactory;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
+import com.udacity.android.jokelibrary.DisplayJokeActivity;
 import com.udacity.android.jokerjava.Joker;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,7 +42,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void tellJoke(View view) {
         Joker joker = new Joker();
-        Toast.makeText(this, joker.tellJoke(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, DisplayJokeActivity.class);
+        intent.putExtra("joke", joker.tellJoke());
+        startActivity(intent);
     }
 
 }
