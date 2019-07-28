@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -31,4 +32,5 @@ dependencies {
     implementation 'com.google.code.findbugs:jsr305:3.0.1'
     implementation project(":JokerJava")
     implementation project(":jokelibrary")
+
 }
