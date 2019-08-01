@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/homepage_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/homepage_purple"
@@ -13,13 +14,14 @@
 
 
     <TextView
+        android:id="@+id/homepage_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal|center_vertical"
-        android:text="@string/title"
+        android:text="@string/app_name"
         android:textAlignment="center"
         android:textColor="@color/text_white"
-        android:textSize="45sp"
+        android:textSize="35sp"
         app:fontFamily="@font/alice" />
 
     <ImageView
@@ -27,8 +29,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:contentDescription="@string/homepage_icon_contentDescription"
         android:src="@drawable/baseline_radio_white_48" />
 

@@ -1,9 +1,15 @@
 <resources>
     <string name="app_name">PodcastBeMine</string>
 
-    <string name="title">PODCAST\nBE\nMINE</string>
-
-    <string name="main_menu_title">Hello,</string>
-
+    <!-- For homepage -->
     <string name="homepage_icon_contentDescription">radio icon</string>
+
+    <!-- For main menu -->
+    <string name="main_menu_title">Hello, Jessica.</string>
+    <string name="main_menu_subtitle">What would you like to do?</string>
+    <string name="main_menu_search_btn">SEARCH PODCASTS</string>
+    <string name="main_menu_fav_btn">MY FAVORITES</string>
+    <string name="main_menu_logout_btn">LOGOUT</string>
+
+    <!-- universal -->
 </resources>
