@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "976949587026",
+    "firebase_url": "https://android-capstone-1563579825890.firebaseio.com",
+    "project_id": "android-capstone-1563579825890",
+    "storage_bucket": "android-capstone-1563579825890.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:976949587026:android:953e7369ae2358d6",
+        "android_client_info": {
+          "package_name": "com.udacity.android.podcastbemine"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "976949587026-2mof0l7h27judo35ectblghle1jq8ush.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.udacity.android.podcastbemine",
+            "certificate_hash": "979dc18e527eddad2e5377760c38da261e588e87"
+          }
+        },
+        {
+          "client_id": "976949587026-rlqk2ddop2s3vp2a4e8cpes1ehimsnau.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjm2Vom2eoLbI__i2UUE8osnYA4l3U2Fc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "976949587026-rlqk2ddop2s3vp2a4e8cpes1ehimsnau.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
