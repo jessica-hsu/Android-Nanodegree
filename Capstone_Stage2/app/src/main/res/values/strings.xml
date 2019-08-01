@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">PodcastBeMine</string>
-    <string name="title_1">PODCAST</string>
-    <string name="title_2">BE</string>
-    <string name="title_3">MINE</string>
+
+    <string name="title">PODCAST\nBE\nMINE</string>
+
+    <string name="main_menu_title">Hello,</string>
 
     <string name="homepage_icon_contentDescription">radio icon</string>
 </resources>
