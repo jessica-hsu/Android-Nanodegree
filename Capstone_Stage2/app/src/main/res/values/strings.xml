@@ -20,6 +20,8 @@
         <item>Episode</item>
         <item>Podcast</item>
     </string-array>
+    <string name="title_podcast_list">Podcasts</string>
+    <string name="title_podcast_detail">Podcast Detail</string>
 
     <!-- universal -->
 </resources>
