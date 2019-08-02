@@ -11,5 +11,15 @@
     <string name="main_menu_fav_btn">MY FAVORITES</string>
     <string name="main_menu_logout_btn">LOGOUT</string>
 
+    <!-- For search page -->
+    <string name="search_title">Search</string>
+    <string name="search_btn">SEARCH</string>
+    <string name="search_label">Search keyword</string>
+    <string name="episode_label">Search for episodes or podcasts?</string>
+    <string-array name="search_option_menu">
+        <item>Episode</item>
+        <item>Podcast</item>
+    </string-array>
+
     <!-- universal -->
 </resources>
