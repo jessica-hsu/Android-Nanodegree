@@ -31,6 +31,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         googleButton = findViewById(R.id.sign_in_button);
+        googleButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                googleSignInProcess();
+            }
+        });
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
