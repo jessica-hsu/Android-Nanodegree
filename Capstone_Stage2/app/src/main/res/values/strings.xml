@@ -39,6 +39,10 @@
     <string name="podcast_start_btn">START PODCAST</string>
     <string name="podcast_widget_btn">ADD TO WIDGET</string>
 
+    <!-- For play podcast page -->
+    <string name="play_podcast_contentDescription">Some content description for audio</string>
+    <string name="play_podcast_error">Error playing podcast.\nTry again later.</string>
+
     <!-- universal -->
     <string name="no_internet_error">No Internet Connection</string>
 </resources>
