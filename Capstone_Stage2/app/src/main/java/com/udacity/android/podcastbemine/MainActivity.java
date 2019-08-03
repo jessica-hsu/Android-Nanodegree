@@ -1,6 +1,9 @@
 package com.udacity.android.podcastbemine;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -90,8 +93,15 @@ public class MainActivity extends AppCompatActivity {
      * Begin google sign in process
      */
     public void googleSignInProcess() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, Constant.RC_SIGN_IN);
+        boolean internet = checkInternetAccess();
+        if (internet) {
+            Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+            startActivityForResult(signInIntent, Constant.RC_SIGN_IN);
+        } else {
+            Intent intent = new Intent(this, SignInErrorActivity.class);
+            intent.putExtra(Constant.INTENT_LABEL_ERROR, Constant.NO_INTERNET_ERROR);
+            startActivity(intent);
+        }
     }
 
     /**
@@ -112,7 +122,18 @@ public class MainActivity extends AppCompatActivity {
 
             // failed to sign in. Show Sign In Error activity
             Intent intent = new Intent(this, SignInErrorActivity.class);
+            intent.putExtra(Constant.INTENT_LABEL_ERROR, Constant.GOOGLE_SIGN_IN_ERROR);
             startActivity(intent);
         }
+    }
+
+    /**
+     * Check for internet access
+     * @return boolean
+     */
+    private boolean checkInternetAccess() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info = cm.getActiveNetworkInfo();
+        return info != null && info.isConnected();
     }
 }

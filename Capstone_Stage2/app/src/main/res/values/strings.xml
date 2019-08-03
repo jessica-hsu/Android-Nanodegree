@@ -48,5 +48,5 @@
 
     <!-- universal -->
     <string name="no_internet_error">No Internet Connection</string>
-
+    <string name="unknown_error">Unknown Error.\nTry again later.</string>
 </resources>
