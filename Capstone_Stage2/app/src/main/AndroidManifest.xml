@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.PlayPodcastActivity"></activity>
+        <activity android:name=".ui.SignInErrorActivity"></activity>
+        <activity android:name=".ui.PlayPodcastActivity" />
         <activity
             android:name=".ui.PodcastListActivity"
             android:label="@string/title_podcast_list"

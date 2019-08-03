@@ -43,6 +43,10 @@
     <string name="play_podcast_contentDescription">Some content description for audio</string>
     <string name="play_podcast_error">Error playing podcast.\nTry again later.</string>
 
+    <!-- For sign in error page -->
+    <string name="google_error">Error signing in.\nTry again later.</string>
+
     <!-- universal -->
     <string name="no_internet_error">No Internet Connection</string>
+
 </resources>
