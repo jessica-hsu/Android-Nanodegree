@@ -21,7 +21,30 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/podcast_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:drawableTop="@drawable/baseline_error_black_24"
+        android:text="@string/no_internet_error"
+        android:textAlignment="center"
+        android:textSize="20dp" />
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/no_podcasts_found"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:drawableTop="@drawable/baseline_block_black_24"
+        android:text="@string/no_podcasts_found"
+        android:textAlignment="center"
+        android:textSize="20dp" />
+
     <FrameLayout
+        android:visibility="gone"
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -29,14 +52,5 @@
 
         <include layout="@layout/podcast_list" />
     </FrameLayout>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
-
 
 </android.support.design.widget.CoordinatorLayout>

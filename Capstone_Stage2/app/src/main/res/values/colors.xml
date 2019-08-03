@@ -5,7 +5,7 @@
     <color name="colorAccent">#D81B60</color>
     <color name="homepage_purple">#8658bf</color>
     <color name="text_white">#ffffff</color>
-
+    <color name="podcast_bg_grey">#e1e2e3</color>
     <!-- button colors -->
     <color name="pink_button">#f57fba</color>
     <color name="light_blue_button">#76b3f5</color>
