@@ -1,12 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- actual content for podcast details -->
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/podcast_detail"
-    style="?android:attr/textAppearanceLarge"
+<ScrollView
+    android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    android:textIsSelectable="true"
-    tools:context=".ui.PodcastDetailFragment"
-    android:text="@string/podcast_details"/>
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:orientation="vertical">
+
+        <ImageView xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/podcast_thumbnail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:contentDescription="@string/podcast_thumbnail_contentDescription"
+            android:src="@drawable/baseline_tap_and_play_black_48"
+            tools:context=".ui.PodcastDetailFragment" />
+
+        <TextView
+            xmlns:tools="http://schemas.android.com/tools"
+            tools:context=".ui.PodcastDetailFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/podcast_author"
+            android:textAlignment="center"
+            android:layout_marginTop="20dp"
+            android:text="@string/podcast_author"/>
+
+        <TextView
+            xmlns:tools="http://schemas.android.com/tools"
+            tools:context=".ui.PodcastDetailFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/podcast_audio_length"
+            android:textAlignment="center"
+            android:layout_marginTop="5dp"
+            android:text="@string/podcast_audio_length"/>
+
+        <TextView
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/podcast_detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textIsSelectable="true"
+            tools:context=".ui.PodcastDetailFragment"
+            android:layout_marginTop="20dp"
+            android:text="@string/podcast_details"/>
+
+        <Button
+            android:id="@+id/details_start_podcast"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@color/pink_button"
+            android:text="@string/podcast_start_btn" />
+
+        <Button
+            android:id="@+id/details_add_widget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/light_blue_button"
+            android:text="@string/podcast_widget_btn" />
+
+    </LinearLayout>
+</ScrollView>
