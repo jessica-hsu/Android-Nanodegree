@@ -24,5 +24,7 @@ public class MainMenuActivity extends AppCompatActivity {
         // set greeting with user's name
         String greeting = "Hello, " + user.getName() + ".";
         greeting_tv.setText(greeting);
+
+        // set onclick listeners
     }
 }
