@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         if (account != null) {
             // go to main menu
             googleButton.setVisibility(View.GONE);
-            User user = new User(account.getId(), account.getDisplayName());
+            User user = new User(account.getId(), account.getGivenName());
             Intent intent = new Intent(this, MainMenuActivity.class);
             intent.putExtra(Constant.INTENT_LABEL_USER_INFO, user);
             startActivity(intent);
@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
 
             // Signed in successfully, go to main menu page
-            User user = new User(account.getId(), account.getDisplayName());
+            User user = new User(account.getId(), account.getGivenName());
             Intent intent = new Intent(this, MainMenuActivity.class);
             intent.putExtra(Constant.INTENT_LABEL_USER_INFO, user);
             startActivity(intent);
@@ -135,5 +135,9 @@ public class MainActivity extends AppCompatActivity {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = cm.getActiveNetworkInfo();
         return info != null && info.isConnected();
+    }
+
+    public GoogleSignInClient getmGoogleSignInClient() {
+        return mGoogleSignInClient;
     }
 }
