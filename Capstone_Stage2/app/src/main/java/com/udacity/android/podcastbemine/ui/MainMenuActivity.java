@@ -75,6 +75,7 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     private void googleLogout() {
+        // TODO fix logout function
         mGoogleSignInClient.signOut()
                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {
                     @Override

@@ -1,12 +1,15 @@
 package com.udacity.android.podcastbemine.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.udacity.android.podcastbemine.R;
@@ -24,6 +27,9 @@ public class PodcastDetailFragment extends Fragment {
      * represents.
      */
     public static final String ARG_ITEM_ID = "item_id";
+
+    Button widget_btn;
+    Button play_btn;
 
     /**
      * The dummy content this fragment is presenting.
@@ -53,6 +59,7 @@ public class PodcastDetailFragment extends Fragment {
                 appBarLayout.setTitle(mItem.content);
             }
         }
+
     }
 
     @Override
@@ -60,11 +67,36 @@ public class PodcastDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.podcast_detail, container, false);
 
+
+        play_btn = rootView.findViewById(R.id.details_start_podcast);
+        widget_btn = rootView.findViewById(R.id.details_add_widget);
+
+        // set onclick listeners for the buttons
+        play_btn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // TODO check internet, pass url, go to new page
+                Intent intent = new Intent(getContext(), PlayPodcastActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        widget_btn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                addToWidget(v);
+            }
+        });
+
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
            // ((TextView) rootView.findViewById(R.id.podcast_detail)).setText(mItem.details);
         }
 
         return rootView;
+    }
+
+    private void addToWidget(View view) {
+        // TODO add audio url as audio player in widget
+        Snackbar.make(view, "Audio added to widget.", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
     }
 }

@@ -28,11 +28,16 @@ public class PodcastDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
+        // TODO check if podcast in database
+        // TODO change plus icon to minus if already in DB
+        // TODO change snackbar message to "Remove.." if already in DB
+        
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
+                // TODO add method to add to database
+                Snackbar.make(view, "Added to Favorites", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
