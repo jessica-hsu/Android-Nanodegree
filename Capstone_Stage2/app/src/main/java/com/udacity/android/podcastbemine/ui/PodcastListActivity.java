@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.udacity.android.podcastbemine.R;
 
+import com.udacity.android.podcastbemine.model.Podcast;
 import com.udacity.android.podcastbemine.ui.dummy.DummyContent;
 import com.udacity.android.podcastbemine.utils.Constant;
 
@@ -37,9 +38,8 @@ public class PodcastListActivity extends AppCompatActivity {
      */
     private boolean mTwoPane;
 
-    // TODO check for error codes
-    // TODO check for passed list of podcasts
     TextView error_tv;
+    List<Podcast> podcasts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,9 +80,11 @@ public class PodcastListActivity extends AppCompatActivity {
                     break;
                 default:
                     error_tv = findViewById(R.id.podcast_error);
-                    error_tv.setText(getResources().getString(R.string.no_podcasts_found));
+                    error_tv.setText(getResources().getString(R.string.unknown_error));
                     error_tv.setVisibility(View.VISIBLE);
             }
+        } else {
+            podcasts = (List<Podcast>) getIntent().getSerializableExtra(Constant.INTENT_LABEL_PODCAST_LIST);
         }
 
         View recyclerView = findViewById(R.id.podcast_list);
@@ -91,14 +93,14 @@ public class PodcastListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, mTwoPane));
+        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, podcasts, mTwoPane));
     }
 
     public static class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
         private final PodcastListActivity mParentActivity;
-        private final List<DummyContent.DummyItem> mValues;
+        private final List<Podcast> podcasts;
         private final boolean mTwoPane;
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
@@ -123,9 +125,9 @@ public class PodcastListActivity extends AppCompatActivity {
         };
 
         SimpleItemRecyclerViewAdapter(PodcastListActivity parent,
-                                      List<DummyContent.DummyItem> items,
+                                      List<Podcast> items,
                                       boolean twoPane) {
-            mValues = items;
+            podcasts = items;
             mParentActivity = parent;
             mTwoPane = twoPane;
         }
