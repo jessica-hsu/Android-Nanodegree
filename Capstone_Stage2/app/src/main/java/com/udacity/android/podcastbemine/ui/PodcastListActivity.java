@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.udacity.android.podcastbemine.R;
 
 import com.udacity.android.podcastbemine.ui.dummy.DummyContent;
+import com.udacity.android.podcastbemine.utils.Constant;
 
 import java.util.List;
 
@@ -36,6 +37,10 @@ public class PodcastListActivity extends AppCompatActivity {
      */
     private boolean mTwoPane;
 
+    // TODO check for error codes
+    // TODO check for passed list of podcasts
+    TextView error_tv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +56,33 @@ public class PodcastListActivity extends AppCompatActivity {
             // If this view is present, then the
             // activity should be in two-pane mode.
             mTwoPane = true;
+        }
+
+        // check if there are error codes in intent
+        boolean errorExists = getIntent().hasExtra(Constant.INTENT_LABEL_ERROR);
+        if (errorExists) {
+            int errorCode = getIntent().getIntExtra(Constant.INTENT_LABEL_ERROR, -1);
+            switch (errorCode) {
+                case Constant.NO_INTERNET_ERROR:
+                    error_tv = findViewById(R.id.podcast_error);
+                    error_tv.setText(getResources().getString(R.string.no_internet_error));
+                    error_tv.setVisibility(View.VISIBLE);
+                    break;
+                case Constant.LISTEN_API_ERROR:
+                    error_tv = findViewById(R.id.podcast_error);
+                    error_tv.setText(getResources().getString(R.string.podcast_api_error));
+                    error_tv.setVisibility(View.VISIBLE);
+                    break;
+                case Constant.NO_RESULTS:
+                    error_tv = findViewById(R.id.no_podcasts_found);
+                    error_tv.setText(getResources().getString(R.string.no_podcasts_found));
+                    error_tv.setVisibility(View.VISIBLE);
+                    break;
+                default:
+                    error_tv = findViewById(R.id.podcast_error);
+                    error_tv.setText(getResources().getString(R.string.no_podcasts_found));
+                    error_tv.setVisibility(View.VISIBLE);
+            }
         }
 
         View recyclerView = findViewById(R.id.podcast_list);
@@ -107,7 +139,7 @@ public class PodcastListActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mContentView.setText(mValues.get(position).content);
+            holder.podcast_title_tv.setText(mValues.get(position).content);
 
             holder.itemView.setTag(mValues.get(position));
             holder.itemView.setOnClickListener(mOnClickListener);
@@ -119,11 +151,11 @@ public class PodcastListActivity extends AppCompatActivity {
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
-            final TextView mContentView;
+            final TextView podcast_title_tv;
 
             ViewHolder(View view) {
                 super(view);
-                mContentView = (TextView) view.findViewById(R.id.content);
+                podcast_title_tv = (TextView) view.findViewById(R.id.content);
             }
         }
     }

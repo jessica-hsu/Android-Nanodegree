@@ -2,8 +2,13 @@ package com.udacity.android.podcastbemine.utils;
 
 public class Constant {
 
+    // intent keys
     public static final String INTENT_LABEL_USER_INFO = "userInfo";
     public static final String INTENT_LABEL_ERROR = "errorCode";
+    public static final String INTENT_LABEL_PODCAST_LIST = "podcastList";
+
+    // bundle keys
+    public static final String BUNDLE_KEY_PODCAST_LIST = "podcastListBundle";
 
     // API values
     public static final int RC_SIGN_IN = 9001;

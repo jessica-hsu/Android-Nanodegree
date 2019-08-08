@@ -1,6 +1,9 @@
 package com.udacity.android.podcastbemine.ui;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +15,13 @@ import android.widget.Spinner;
 import android.widget.AdapterView.OnItemSelectedListener;
 
 import com.udacity.android.podcastbemine.R;
+import com.udacity.android.podcastbemine.model.Podcast;
+import com.udacity.android.podcastbemine.tasks.FetchPodcastsTask;
+import com.udacity.android.podcastbemine.utils.Constant;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class SearchActivity extends AppCompatActivity implements OnItemSelectedListener {
 
@@ -43,7 +53,7 @@ public class SearchActivity extends AppCompatActivity implements OnItemSelectedL
     }
 
     private void createSpinner() {
-        Spinner spinner = (Spinner) findViewById(R.id.search_option_menu);
+        Spinner spinner = findViewById(R.id.search_option_menu);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.search_option_menu, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -52,8 +62,36 @@ public class SearchActivity extends AppCompatActivity implements OnItemSelectedL
 
     private void startPodcastSearch() {
         // TODO: start async task and pass data over
+        boolean internet = checkInternetAccess();
         Intent intent = new Intent(this, PodcastListActivity.class);
-        startActivity(intent);
+
+        if (internet) {
+
+            FetchPodcastsTask fetchPodcastsTask = new FetchPodcastsTask(this);
+            List<Podcast> podcasts;
+            try {
+                podcasts = fetchPodcastsTask.execute(keyword, type).get();
+                if (podcasts.size() < 1 || podcasts == null) {
+                    // empty list. no results found
+                    intent.putExtra(Constant.INTENT_LABEL_ERROR, Constant.NO_RESULTS);
+                } else {
+                    intent.putExtra(Constant.INTENT_LABEL_PODCAST_LIST, (Serializable) podcasts);
+                }
+                startActivity(intent);
+            } catch (ExecutionException | InterruptedException ei) {
+                // error calling async task. show error page instead
+                ei.printStackTrace();
+                intent.putExtra(Constant.INTENT_LABEL_ERROR, Constant.LISTEN_API_ERROR);
+                startActivity(intent);
+            }
+
+        } else {
+
+            // show no internet
+            intent.putExtra(Constant.INTENT_LABEL_ERROR, Constant.NO_INTERNET_ERROR);
+            startActivity(intent);
+        }
+
     }
 
     @Override
@@ -66,5 +104,15 @@ public class SearchActivity extends AppCompatActivity implements OnItemSelectedL
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
         type = "podcast";
+    }
+
+    /**
+     * Check for internet access
+     * @return boolean
+     */
+    private boolean checkInternetAccess() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info = cm.getActiveNetworkInfo();
+        return info != null && info.isConnected();
     }
 }

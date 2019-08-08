@@ -31,7 +31,7 @@ public class PodcastDetailActivity extends AppCompatActivity {
         // TODO check if podcast in database
         // TODO change plus icon to minus if already in DB
         // TODO change snackbar message to "Remove.." if already in DB
-        
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
