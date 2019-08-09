@@ -20,6 +20,7 @@ import com.udacity.android.podcastbemine.model.Podcast;
 import com.udacity.android.podcastbemine.ui.dummy.DummyContent;
 import com.udacity.android.podcastbemine.utils.Constant;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -39,7 +40,7 @@ public class PodcastListActivity extends AppCompatActivity {
     private boolean mTwoPane;
 
     TextView error_tv;
-    List<Podcast> podcasts;
+    List<Podcast> ALL_PODCASTS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +85,7 @@ public class PodcastListActivity extends AppCompatActivity {
                     error_tv.setVisibility(View.VISIBLE);
             }
         } else {
-            podcasts = (List<Podcast>) getIntent().getSerializableExtra(Constant.INTENT_LABEL_PODCAST_LIST);
+            ALL_PODCASTS = (List<Podcast>) getIntent().getSerializableExtra(Constant.INTENT_LABEL_PODCAST_LIST);
             View recyclerView = findViewById(R.id.podcast_list);
             assert recyclerView != null;
             setupRecyclerView((RecyclerView) recyclerView);
@@ -94,7 +95,7 @@ public class PodcastListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, podcasts, mTwoPane));
+        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, ALL_PODCASTS, mTwoPane));
     }
 
     public static class SimpleItemRecyclerViewAdapter
@@ -110,6 +111,7 @@ public class PodcastListActivity extends AppCompatActivity {
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
                     arguments.putSerializable(Constant.INTENT_KEY_PODCAST, podcast);
+                    arguments.putSerializable(Constant.INTENT_LABEL_PODCAST_LIST, (Serializable) podcasts);
                     PodcastDetailFragment fragment = new PodcastDetailFragment();
                     fragment.setArguments(arguments);
                     mParentActivity.getSupportFragmentManager().beginTransaction()
@@ -119,7 +121,7 @@ public class PodcastListActivity extends AppCompatActivity {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, PodcastDetailActivity.class);
                     intent.putExtra(Constant.INTENT_KEY_PODCAST, podcast);
-
+                    intent.putExtra(Constant.INTENT_LABEL_PODCAST_LIST, (Serializable) podcasts);
                     context.startActivity(intent);
                 }
             }

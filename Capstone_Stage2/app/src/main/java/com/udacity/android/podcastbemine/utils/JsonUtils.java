@@ -24,7 +24,7 @@ public class JsonUtils {
 
             String name = podcastObj.has("title_original") ? podcastObj.getString("title_original") : null;
             String author = podcastObj.has("publisher_original") ? podcastObj.getString("publisher_original") : null;
-            int length = podcastObj.has("audio_length_sec") ? podcastObj.getInt("audio_length_sec") : null;
+            int length = podcastObj.has("audio_length_sec") ? podcastObj.getInt("audio_length_sec") : -1;
             String description = podcastObj.has("description_original") ? podcastObj.getString("description_original") : null;
             String thumbnail = podcastObj.has("thumbnail") ? podcastObj.getString("thumbnail") : null;
             String url = podcastObj.has("audio") ? podcastObj.getString("audio") : null;

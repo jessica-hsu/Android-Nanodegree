@@ -10,10 +10,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.udacity.android.podcastbemine.R;
+import com.udacity.android.podcastbemine.model.Podcast;
 import com.udacity.android.podcastbemine.ui.dummy.DummyContent;
+import com.udacity.android.podcastbemine.utils.Constant;
+
+import org.w3c.dom.Text;
 
 /**
  * A fragment representing a single Podcast detail screen.
@@ -22,19 +28,14 @@ import com.udacity.android.podcastbemine.ui.dummy.DummyContent;
  * on handsets.
  */
 public class PodcastDetailFragment extends Fragment {
-    /**
-     * The fragment argument representing the item ID that this fragment
-     * represents.
-     */
-    public static final String ARG_ITEM_ID = "item_id";
 
     Button widget_btn;
     Button play_btn;
-
-    /**
-     * The dummy content this fragment is presenting.
-     */
-    private DummyContent.DummyItem mItem;
+    Podcast podcast;
+    ImageView thumbnail;
+    TextView author;
+    TextView audio_len;
+    TextView description;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -46,19 +47,13 @@ public class PodcastDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments().containsKey(ARG_ITEM_ID)) {
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
-            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
-
-            Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-            if (appBarLayout != null) {
-                appBarLayout.setTitle(mItem.content);
-            }
+        Activity activity = this.getActivity();
+        podcast = (Podcast) getArguments().getSerializable(Constant.INTENT_KEY_PODCAST);
+        CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
+        if (appBarLayout != null) {
+            appBarLayout.setTitle(podcast.getTitle());
         }
+
 
     }
 
@@ -86,9 +81,37 @@ public class PodcastDetailFragment extends Fragment {
             }
         });
 
-        // Show the dummy content as text in a TextView.
-        if (mItem != null) {
+        if (podcast != null) {
            // ((TextView) rootView.findViewById(R.id.podcast_detail)).setText(mItem.details);
+            // find those views
+            thumbnail = rootView.findViewById(R.id.podcast_thumbnail);
+            author = rootView.findViewById(R.id.podcast_author);
+            audio_len = rootView.findViewById(R.id.podcast_audio_length);
+            description = rootView.findViewById(R.id.podcast_description);
+
+            if (podcast.getAuthor() != null) {
+                author.setText(podcast.getAuthor());
+            } else  {
+                author.setText(Constant.NO_AUTHOR);
+            }
+
+            if (podcast.getAudioLength() != -1) {
+                float min = ((float) podcast.getAudioLength()) / 60;
+                audio_len.setText(min + "minutes");
+            } else  {
+                audio_len.setText(Constant.NO_AUDIO_LENGTH);
+            }
+
+            if (podcast.getDescription() != null) {
+                description.setText(podcast.getDescription());
+            } else  {
+                description.setText(Constant.NO_DESCRIPTION);
+            }
+
+            // set image
+            if (podcast.getThumbnail() != null) {
+                Picasso.get().load(podcast.getThumbnail()).into(thumbnail);
+            }
         }
 
         return rootView;

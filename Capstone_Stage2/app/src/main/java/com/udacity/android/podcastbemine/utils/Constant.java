@@ -22,4 +22,8 @@ public class Constant {
     public static final int NO_RESULTS = 3;
     public static final int PLAY_PODCAST_ERROR = 4;
 
+    // null values for podcast details
+    public static final String NO_AUTHOR = "No author found.";
+    public static final String NO_AUDIO_LENGTH = "Audio length not available.";
+    public static final String NO_DESCRIPTION = "No description available";
 }

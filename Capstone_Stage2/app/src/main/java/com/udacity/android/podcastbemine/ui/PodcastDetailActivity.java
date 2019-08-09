@@ -12,6 +12,11 @@ import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
 import com.udacity.android.podcastbemine.R;
+import com.udacity.android.podcastbemine.model.Podcast;
+import com.udacity.android.podcastbemine.utils.Constant;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * An activity representing a single Podcast detail screen. This
@@ -20,6 +25,9 @@ import com.udacity.android.podcastbemine.R;
  * in a {@link PodcastListActivity}.
  */
 public class PodcastDetailActivity extends AppCompatActivity {
+
+    Podcast podcast;
+    List<Podcast> podcastList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +66,14 @@ public class PodcastDetailActivity extends AppCompatActivity {
         // http://developer.android.com/guide/components/fragments.html
         //
         if (savedInstanceState == null) {
+
+            // get stuff from intent
+            podcast = (Podcast) getIntent().getSerializableExtra(Constant.INTENT_KEY_PODCAST);
+            podcastList = (List<Podcast>) getIntent().getSerializableExtra(Constant.INTENT_LABEL_PODCAST_LIST);
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(PodcastDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(PodcastDetailFragment.ARG_ITEM_ID));
+            arguments.putSerializable(Constant.INTENT_KEY_PODCAST, podcast);
             PodcastDetailFragment fragment = new PodcastDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
@@ -82,7 +93,9 @@ public class PodcastDetailActivity extends AppCompatActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            NavUtils.navigateUpTo(this, new Intent(this, PodcastListActivity.class));
+            Intent intent = new Intent(this, PodcastListActivity.class);
+            intent.putExtra(Constant.INTENT_LABEL_PODCAST_LIST, (Serializable) podcastList);
+            NavUtils.navigateUpTo(this, intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
