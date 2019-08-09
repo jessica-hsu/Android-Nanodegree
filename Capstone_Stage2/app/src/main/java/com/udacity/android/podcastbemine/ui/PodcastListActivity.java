@@ -85,11 +85,12 @@ public class PodcastListActivity extends AppCompatActivity {
             }
         } else {
             podcasts = (List<Podcast>) getIntent().getSerializableExtra(Constant.INTENT_LABEL_PODCAST_LIST);
+            View recyclerView = findViewById(R.id.podcast_list);
+            assert recyclerView != null;
+            setupRecyclerView((RecyclerView) recyclerView);
         }
 
-        View recyclerView = findViewById(R.id.podcast_list);
-        assert recyclerView != null;
-        setupRecyclerView((RecyclerView) recyclerView);
+
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
@@ -105,10 +106,10 @@ public class PodcastListActivity extends AppCompatActivity {
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DummyContent.DummyItem item = (DummyContent.DummyItem) view.getTag();
+                Podcast podcast = (Podcast) view.getTag();
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
-                    arguments.putString(PodcastDetailFragment.ARG_ITEM_ID, item.id);
+                    arguments.putSerializable(Constant.INTENT_KEY_PODCAST, podcast);
                     PodcastDetailFragment fragment = new PodcastDetailFragment();
                     fragment.setArguments(arguments);
                     mParentActivity.getSupportFragmentManager().beginTransaction()
@@ -117,7 +118,7 @@ public class PodcastListActivity extends AppCompatActivity {
                 } else {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, PodcastDetailActivity.class);
-                    intent.putExtra(PodcastDetailFragment.ARG_ITEM_ID, item.id);
+                    intent.putExtra(Constant.INTENT_KEY_PODCAST, podcast);
 
                     context.startActivity(intent);
                 }
@@ -141,15 +142,15 @@ public class PodcastListActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.podcast_title_tv.setText(mValues.get(position).content);
+            holder.podcast_title_tv.setText(podcasts.get(position).getTitle());
 
-            holder.itemView.setTag(mValues.get(position));
+            holder.itemView.setTag(podcasts.get(position));
             holder.itemView.setOnClickListener(mOnClickListener);
         }
 
         @Override
         public int getItemCount() {
-            return mValues.size();
+            return podcasts.size();
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
@@ -157,7 +158,7 @@ public class PodcastListActivity extends AppCompatActivity {
 
             ViewHolder(View view) {
                 super(view);
-                podcast_title_tv = (TextView) view.findViewById(R.id.content);
+                podcast_title_tv = view.findViewById(R.id.content);
             }
         }
     }

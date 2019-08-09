@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -48,8 +49,7 @@ public class SearchActivity extends AppCompatActivity implements OnItemSelectedL
             }
         });
 
-        // get input from input bar and drop down
-        keyword = keyword_input.getText().toString();
+
     }
 
     private void createSpinner() {
@@ -61,17 +61,20 @@ public class SearchActivity extends AppCompatActivity implements OnItemSelectedL
     }
 
     private void startPodcastSearch() {
-        // TODO: start async task and pass data over
+
         boolean internet = checkInternetAccess();
+        // get input from input bar and drop down
+        keyword = keyword_input.getText().toString();
         Intent intent = new Intent(this, PodcastListActivity.class);
 
         if (internet) {
 
             FetchPodcastsTask fetchPodcastsTask = new FetchPodcastsTask(this);
             List<Podcast> podcasts;
+            Log.i("myKeywords", keyword + "====" + type);
             try {
                 podcasts = fetchPodcastsTask.execute(keyword, type).get();
-                if (podcasts.size() < 1 || podcasts == null) {
+                if (podcasts == null || podcasts.size() < 1) {
                     // empty list. no results found
                     intent.putExtra(Constant.INTENT_LABEL_ERROR, Constant.NO_RESULTS);
                 } else {

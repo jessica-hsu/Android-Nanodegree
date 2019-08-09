@@ -3,6 +3,7 @@ package com.udacity.android.podcastbemine.tasks;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.content.Context;
+import android.util.Log;
 
 import com.udacity.android.podcastbemine.model.Podcast;
 import com.udacity.android.podcastbemine.utils.JsonUtils;
@@ -33,6 +34,7 @@ public class FetchPodcastsTask extends AsyncTask<String, Void, List<Podcast>> {
         String keyword = strings[0];
         String type = strings[1];
         URL endpoint = NetworkUtils.buildEndpoint(keyword, type);
+        Log.i("MyEndpoint", endpoint.toString());
         try {
             String httpResponse = NetworkUtils.getHttpResponse(endpoint);
             List<Podcast> podcasts = JsonUtils.parse(httpResponse);

@@ -19,12 +19,15 @@ public class JsonUtils {
         JSONArray results = mainObj.getJSONArray("results");
 
         for (int i = 0; i < results.length(); i++) {
-            String name = results.getJSONObject(i).getString("title_original");
-            String author = results.getJSONObject(i).getString("publisher_original");
-            int length = results.getJSONObject(i).getInt("audio_length_sec");
-            String description = results.getJSONObject(i).getString("description_original");
-            String thumbnail = results.getJSONObject(i).getString("thumbnail");
-            String url = results.getJSONObject(i).getString("audio");
+
+            JSONObject podcastObj = results.getJSONObject(i);
+
+            String name = podcastObj.has("title_original") ? podcastObj.getString("title_original") : null;
+            String author = podcastObj.has("publisher_original") ? podcastObj.getString("publisher_original") : null;
+            int length = podcastObj.has("audio_length_sec") ? podcastObj.getInt("audio_length_sec") : null;
+            String description = podcastObj.has("description_original") ? podcastObj.getString("description_original") : null;
+            String thumbnail = podcastObj.has("thumbnail") ? podcastObj.getString("thumbnail") : null;
+            String url = podcastObj.has("audio") ? podcastObj.getString("audio") : null;
 
             Podcast p = new Podcast(name, author, length, description, thumbnail, url);
             podcasts.add(p);

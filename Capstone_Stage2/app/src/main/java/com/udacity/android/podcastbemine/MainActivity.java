@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
 
-            // Signed in successfully, go to main menu page
+            // Signed in successfully, go to main menu page TODO given name returns null
             User user = new User(account.getId(), account.getGivenName());
             Intent intent = new Intent(this, MainMenuActivity.class);
             intent.putExtra(Constant.INTENT_LABEL_USER_INFO, user);
