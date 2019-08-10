@@ -42,6 +42,7 @@
     <!-- For play podcast page -->
     <string name="play_podcast_contentDescription">Some content description for audio</string>
     <string name="play_podcast_error">Error playing podcast.\nTry again later.</string>
+    <string name="play_podcast_no_url">Podcast does not have an audio file.</string>
 
     <!-- For sign in error page -->
     <string name="google_error">Error signing in.\nTry again later.</string>

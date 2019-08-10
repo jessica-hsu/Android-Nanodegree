@@ -1,7 +1,10 @@
 package com.udacity.android.podcastbemine.ui;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
@@ -69,8 +72,14 @@ public class PodcastDetailFragment extends Fragment {
         // set onclick listeners for the buttons
         play_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // TODO check internet, pass url, go to new page
                 Intent intent = new Intent(getContext(), PlayPodcastActivity.class);
+
+                if (podcast.getAudioUrl() != null) {
+                    intent.putExtra(Constant.INTENT_LABEL_AUDIO_URL, podcast.getAudioUrl());
+                } else {
+                    intent.putExtra(Constant.INTENT_LABEL_ERROR, Constant.NO_AUDIO_URL_ERROR);
+                }
+
                 startActivity(intent);
             }
         });
@@ -96,8 +105,8 @@ public class PodcastDetailFragment extends Fragment {
             }
 
             if (podcast.getAudioLength() != -1) {
-                float min = ((float) podcast.getAudioLength()) / 60;
-                audio_len.setText(min + "minutes");
+                int min = podcast.getAudioLength() / 60;
+                audio_len.setText(min + " minutes");
             } else  {
                 audio_len.setText(Constant.NO_AUDIO_LENGTH);
             }
@@ -112,6 +121,8 @@ public class PodcastDetailFragment extends Fragment {
             if (podcast.getThumbnail() != null) {
                 Picasso.get().load(podcast.getThumbnail()).into(thumbnail);
             }
+
+
         }
 
         return rootView;
@@ -122,4 +133,5 @@ public class PodcastDetailFragment extends Fragment {
         Snackbar.make(view, "Audio added to widget.", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
+
 }
