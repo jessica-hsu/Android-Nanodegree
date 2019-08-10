@@ -53,6 +53,15 @@ public class PlayPodcastActivity extends AppCompatActivity {
         error_tv = findViewById(R.id.play_error);
         playerView = findViewById(R.id.podcast_exoplayer);
 
+        if (savedInstanceState != null) {
+            playerReady = savedInstanceState.getBoolean(Constant.INSTANCE_KEY_STATE);
+            playerPosition = savedInstanceState.getLong(Constant.INSTANCE_KEY_POSITION);
+            playerWindow = savedInstanceState.getInt(Constant.INSTANCE_KEY_WINDOW);
+        } else {
+            playerReady = true;
+            playerPosition = 0;
+        }
+
         // check for internet and error codes
         if (!checkInternetAccess()) {
             error_tv.setText(getResources().getString(R.string.no_internet_error));
@@ -71,14 +80,7 @@ public class PlayPodcastActivity extends AppCompatActivity {
             audioUrl = getIntent().getStringExtra(Constant.INTENT_LABEL_AUDIO_URL);
         }
 
-        if (savedInstanceState != null) {
-            playerReady = savedInstanceState.getBoolean(Constant.INSTANCE_KEY_STATE);
-            playerPosition = savedInstanceState.getLong(Constant.INSTANCE_KEY_POSITION);
-            playerWindow = savedInstanceState.getInt(Constant.INSTANCE_KEY_WINDOW);
-        } else {
-            playerReady = true;
-            playerPosition = 0;
-        }
+
         Log.i("myAudio", audioUrl);
     }
 
@@ -90,10 +92,15 @@ public class PlayPodcastActivity extends AppCompatActivity {
 
     private void setUpPlayer() {
         playerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_ZOOM);
+
         bandwidthMeter = new DefaultBandwidthMeter();
+
         trackSelector = new DefaultTrackSelector(new AdaptiveTrackSelection.Factory(bandwidthMeter));
+
         player = ExoPlayerFactory.newSimpleInstance(this, trackSelector);
+
         playerView.setPlayer(player);
+
         httpDataSourceFactory = new DefaultHttpDataSourceFactory(
                 Util.getUserAgent(this, Constant.APP_NAME),
                 null /* listener */,
@@ -104,13 +111,16 @@ public class PlayPodcastActivity extends AppCompatActivity {
         dataSourceFactory = new DefaultDataSourceFactory(this,
                 null,
                 httpDataSourceFactory);
-        String url = audioUrl;
-        Uri videoURI = Uri.parse(url);
+
+        Uri videoURI = Uri.parse(audioUrl);
+
         videoSource = new ExtractorMediaSource.Factory(dataSourceFactory)
                 .createMediaSource(videoURI);
 
         player.prepare(videoSource);
-        player.setPlayWhenReady(true);
+        player.setPlayWhenReady(playerReady);
+        player.seekTo(playerWindow, playerPosition);
+        playerView.setPlayer(player);
     }
 
     @Override
@@ -126,9 +136,9 @@ public class PlayPodcastActivity extends AppCompatActivity {
 
     private void releasePlayer() {
         if (player != null) {
-            playerPosition = player.getCurrentPosition();
-            playerWindow = player.getCurrentWindowIndex();
-            playerReady = player.getPlayWhenReady();
+            //playerPosition = player.getCurrentPosition();
+            //playerWindow = player.getCurrentWindowIndex();
+            //playerReady = player.getPlayWhenReady();
             player.stop();
             player.release();
             player = null;
@@ -162,4 +172,11 @@ public class PlayPodcastActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (Util.SDK_INT > 23) {
+            releasePlayer();
+        }
+    }
 }
