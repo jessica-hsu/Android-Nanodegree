@@ -22,6 +22,7 @@ public class JsonUtils {
 
             JSONObject podcastObj = results.getJSONObject(i);
 
+            String id = podcastObj.has("id") ? podcastObj.getString("id") : null;
             String name = podcastObj.has("title_original") ? podcastObj.getString("title_original") : null;
             String author = podcastObj.has("publisher_original") ? podcastObj.getString("publisher_original") : null;
             int length = podcastObj.has("audio_length_sec") ? podcastObj.getInt("audio_length_sec") : -1;
@@ -29,7 +30,7 @@ public class JsonUtils {
             String thumbnail = podcastObj.has("thumbnail") ? podcastObj.getString("thumbnail") : null;
             String url = podcastObj.has("audio") ? podcastObj.getString("audio") : null;
 
-            Podcast p = new Podcast(name, author, length, description, thumbnail, url);
+            Podcast p = new Podcast(id, name, author, length, description, thumbnail, url);
             podcasts.add(p);
         }
 

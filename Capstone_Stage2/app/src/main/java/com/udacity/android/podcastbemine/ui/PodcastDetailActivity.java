@@ -11,6 +11,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.udacity.android.podcastbemine.R;
 import com.udacity.android.podcastbemine.model.Podcast;
 import com.udacity.android.podcastbemine.utils.Constant;
@@ -28,25 +30,48 @@ public class PodcastDetailActivity extends AppCompatActivity {
 
     Podcast podcast;
     List<Podcast> podcastList;
+    FloatingActionButton fab;
+    FirebaseDatabase database;
+    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_podcast_detail);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
+        Toolbar toolbar = findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
-        // TODO check if podcast in database
-        // TODO change plus icon to minus if already in DB
-        // TODO change snackbar message to "Remove.." if already in DB
+        // get stuff from intent
+        podcast = (Podcast) getIntent().getSerializableExtra(Constant.INTENT_KEY_PODCAST);
+        podcastList = (List<Podcast>) getIntent().getSerializableExtra(Constant.INTENT_LABEL_PODCAST_LIST);
+        fab = findViewById(R.id.fab);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        boolean inDatabase = checkDatabase(podcast.getId());
+
+        // set button image and snackbar message
+        final String msg;
+        if (inDatabase) {
+            msg = Constant.REMOVE_DATABASE_MSG;
+            fab.setImageDrawable(getResources().getDrawable(R.drawable.baseline_remove_circle_outline_white_36));
+        } else {
+            msg = Constant.ADD_DATABASE_MSG;
+            fab.setImageDrawable(getResources().getDrawable(R.drawable.baseline_add_circle_outline_white_36));
+        }
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO add method to add to database
-                Snackbar.make(view, "Added to Favorites", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                String m;
+                try {
+                    podcast.setUserId("testuserid");
+                    databaseReference.setValue(podcast);
+                    m = "Added";
+                } catch (Exception e) {
+                    m = e.getStackTrace().toString();
+                }
+
+                // TODO add method to add or remove to database
+                Snackbar.make(view, m, Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
 
@@ -67,9 +92,6 @@ public class PodcastDetailActivity extends AppCompatActivity {
         //
         if (savedInstanceState == null) {
 
-            // get stuff from intent
-            podcast = (Podcast) getIntent().getSerializableExtra(Constant.INTENT_KEY_PODCAST);
-            podcastList = (List<Podcast>) getIntent().getSerializableExtra(Constant.INTENT_LABEL_PODCAST_LIST);
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
@@ -99,5 +121,20 @@ public class PodcastDetailActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setUpDatabase() {
+        database = FirebaseDatabase.getInstance();
+        databaseReference = database.getReference("podcasts");
+
+        // TODO create listener to read database
+    }
+
+    // TODO method to check if podcast id is in database
+    private boolean checkDatabase(String id) {
+        boolean inDatabase;
+       databaseReference.addListenerForSingleValueEvent();
+
+        return true;
     }
 }

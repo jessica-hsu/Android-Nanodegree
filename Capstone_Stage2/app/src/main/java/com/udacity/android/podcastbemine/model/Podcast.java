@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class Podcast implements Serializable {
 
+    private String id;
     private String title;
     private String author;
     private int audio_length;
@@ -11,8 +12,12 @@ public class Podcast implements Serializable {
     private String thumbnail;
     private String audio_url;
 
-    public Podcast(String title, String author, int audio_length,
+    // add user id to identify if in database or not
+    private String userId;
+
+    public Podcast(String id, String title, String author, int audio_length,
                    String description, String thumbnail, String audio_url) {
+        this.id = id;
         this.title = title;
         this.author = author;
         this.audio_length = audio_length;
@@ -20,6 +25,8 @@ public class Podcast implements Serializable {
         this.thumbnail = thumbnail;
         this.audio_url = audio_url;
     }
+
+    public String getId() { return this.id; }
 
     public String getTitle() {
         return this.title;
@@ -45,6 +52,13 @@ public class Podcast implements Serializable {
         return this.audio_url;
     }
 
+    public String getUserId() {
+        return this.userId;
+    }
+
+    public void setUserId(String user) {
+        this.userId = user;
+    }
 
 
 }
