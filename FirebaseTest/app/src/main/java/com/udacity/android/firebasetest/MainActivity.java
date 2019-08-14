@@ -1,7 +1,6 @@
 package com.udacity.android.firebasetest;
 
 import android.content.Intent;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,12 +15,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
+/**
+ * Read from firebase realtime database. Return number of items in "information"
+ */
 public class MainActivity extends AppCompatActivity {
 
     TextView textView;
     Button btn;
+    Button search_btn;
 
     FirebaseDatabase mFirebaseDatabase;
     DatabaseReference mMessagesDatabaseReference;
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         textView = findViewById(R.id.test);
         btn = findViewById(R.id.add);
-
+        search_btn = findViewById(R.id.search);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -40,7 +41,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        search_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), SearchEntry.class);
+                startActivity(intent);
+            }
+        });
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mMessagesDatabaseReference = mFirebaseDatabase.getReference().child("information");
 

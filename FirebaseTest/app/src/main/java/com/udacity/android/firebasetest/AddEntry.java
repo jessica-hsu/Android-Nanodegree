@@ -10,7 +10,9 @@ import android.widget.Button;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-
+/**
+ * Demo - add item to firebase realtime database. Add item to "information"
+ */
 public class AddEntry extends AppCompatActivity {
 
     TextInputEditText user_input;
