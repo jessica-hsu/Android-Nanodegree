@@ -26,6 +26,13 @@
             android:text="SEARCH">
         </Button>/
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/delete"
+            android:text="DELETE">
+        </Button>/
+
         <TextView
             android:id="@+id/test"
             android:textAlignment="center"

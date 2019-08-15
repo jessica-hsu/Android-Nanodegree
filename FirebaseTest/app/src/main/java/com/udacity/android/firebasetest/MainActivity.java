@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     TextView textView;
     Button btn;
     Button search_btn;
-
+    Button delete_btn;
     FirebaseDatabase mFirebaseDatabase;
     DatabaseReference mMessagesDatabaseReference;
 
@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         textView = findViewById(R.id.test);
         btn = findViewById(R.id.add);
         search_btn = findViewById(R.id.search);
+        delete_btn = findViewById(R.id.delete);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -45,6 +46,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), SearchEntry.class);
+                startActivity(intent);
+            }
+        });
+        delete_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), DeleteEntry.class);
                 startActivity(intent);
             }
         });
