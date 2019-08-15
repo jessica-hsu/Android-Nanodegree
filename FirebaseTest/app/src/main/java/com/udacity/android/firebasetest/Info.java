@@ -10,6 +10,8 @@ public class Info {
         this.podcastId = p;
     }
 
+    public Info() {}
+
     public String getUserId() {
         return this.userId;
     }

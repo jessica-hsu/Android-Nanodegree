@@ -63,7 +63,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                long count = dataSnapshot.getChildrenCount();
-               textView.setText("Children: " + count);
+               StringBuilder sb = new StringBuilder();
+               for (DataSnapshot d : dataSnapshot.getChildren()) {
+                   Info i = d.getValue(Info.class);
+                   sb.append(i.getUserId() + " | " + i.getPodcastId() + "\n");
+               }
+               textView.setText("Children: " + count + "\n" + sb.toString());
             }
 
             @Override
