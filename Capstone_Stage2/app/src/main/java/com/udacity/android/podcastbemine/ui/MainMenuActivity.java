@@ -44,8 +44,7 @@ public class MainMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        MainActivity main = new MainActivity();
-        mGoogleSignInClient = main.getmGoogleSignInClient();
+        mGoogleSignInClient = MainActivity.getmGoogleSignInClient();
 
         greeting_tv = findViewById(R.id.main_menu_title);
         search_btn = findViewById(R.id.main_menu_search_btn);
@@ -117,7 +116,6 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     private void googleLogout() {
-        // TODO fix logout function
         mGoogleSignInClient.signOut()
                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {
                     @Override
