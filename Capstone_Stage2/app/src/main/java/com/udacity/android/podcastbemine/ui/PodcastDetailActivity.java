@@ -11,8 +11,15 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.Query;
+
+import com.udacity.android.podcastbemine.MainActivity;
 import com.udacity.android.podcastbemine.R;
 import com.udacity.android.podcastbemine.model.Podcast;
 import com.udacity.android.podcastbemine.utils.Constant;
@@ -30,9 +37,14 @@ public class PodcastDetailActivity extends AppCompatActivity {
 
     Podcast podcast;
     List<Podcast> podcastList;
+    String combinedId;
+    String userId;
     FloatingActionButton fab;
+    String fab_msg;
     FirebaseDatabase database;
     DatabaseReference databaseReference;
+    boolean inDatabase;
+    GoogleSignInClient mGoogleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,33 +57,73 @@ public class PodcastDetailActivity extends AppCompatActivity {
         podcast = (Podcast) getIntent().getSerializableExtra(Constant.INTENT_KEY_PODCAST);
         podcastList = (List<Podcast>) getIntent().getSerializableExtra(Constant.INTENT_LABEL_PODCAST_LIST);
         fab = findViewById(R.id.fab);
+        userId = MainActivity.getUserId();
+        combinedId = userId + "~" + podcast.getId();
+        setUpDatabase();
 
-        boolean inDatabase = checkDatabase(podcast.getId());
 
-        // set button image and snackbar message
-        final String msg;
-        if (inDatabase) {
-            msg = Constant.REMOVE_DATABASE_MSG;
-            fab.setImageDrawable(getResources().getDrawable(R.drawable.baseline_remove_circle_outline_white_36));
-        } else {
-            msg = Constant.ADD_DATABASE_MSG;
-            fab.setImageDrawable(getResources().getDrawable(R.drawable.baseline_add_circle_outline_white_36));
-        }
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // if count > 0, podcast already in db. mark as true
+                // set button image and snackbar message
+                long count = dataSnapshot.getChildrenCount();
+                if (count > 0) {
+                    inDatabase = true;
+                    fab_msg = Constant.REMOVE_DATABASE_MSG;
+                    fab.setImageDrawable(getResources().getDrawable(R.drawable.baseline_remove_circle_outline_white_36));
+                } else {
+                    inDatabase = false;
+                    fab_msg = Constant.ADD_DATABASE_MSG;
+                    fab.setImageDrawable(getResources().getDrawable(R.drawable.baseline_add_circle_outline_white_36));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // if db read failed, assume not in DB
+                fab_msg = Constant.ADD_DATABASE_MSG;
+                fab.setImageDrawable(getResources().getDrawable(R.drawable.baseline_add_circle_outline_white_36));
+            }
+        };
+        // attach read db listener to find item based on combinedId
+        databaseReference.orderByChild(Constant.DB_SEARCH_ID)
+                .equalTo(combinedId)
+                .addValueEventListener(listener);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String m;
-                try {
-                    podcast.setUserId("testuserid");
-                    databaseReference.setValue(podcast);
-                    m = "Added";
-                } catch (Exception e) {
-                    m = e.getStackTrace().toString();
-                }
+                final View v = view;
+                if (inDatabase) {   // remove
+                    Query query = databaseReference.orderByChild(Constant.DB_SEARCH_ID).equalTo(combinedId);
+                    ValueEventListener listener1 = new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot d : dataSnapshot.getChildren()) {
+                                d.getRef().removeValue();
+                            }
+                            Snackbar.make(v, fab_msg, Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+                        }
 
-                // TODO add method to add or remove to database
-                Snackbar.make(view, m, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Snackbar.make(v, databaseError.getMessage(), Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+                        }
+                    };
+                    query.addListenerForSingleValueEvent(listener1);
+                } else {    // add
+
+                    try {
+                        podcast.setUserId(MainActivity.getUserId());
+                        databaseReference.push().setValue(podcast);
+                    } catch (Exception e) {
+                        fab_msg = e.getStackTrace().toString();
+                    }
+                    Snackbar.make(view, fab_msg, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                }
             }
         });
 
@@ -125,16 +177,7 @@ public class PodcastDetailActivity extends AppCompatActivity {
 
     private void setUpDatabase() {
         database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("podcasts");
-
-        // TODO create listener to read database
+        databaseReference = database.getReference().child(Constant.DB_NAME);
     }
 
-    // TODO method to check if podcast id is in database
-    private boolean checkDatabase(String id) {
-        boolean inDatabase;
-       databaseReference.addListenerForSingleValueEvent();
-
-        return true;
-    }
 }

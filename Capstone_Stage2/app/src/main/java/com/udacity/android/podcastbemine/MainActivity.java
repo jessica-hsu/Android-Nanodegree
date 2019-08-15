@@ -24,7 +24,8 @@ import com.udacity.android.podcastbemine.utils.Constant;
 public class MainActivity extends AppCompatActivity {
 
     GoogleSignInOptions gso;
-    GoogleSignInClient mGoogleSignInClient;
+    private static GoogleSignInClient mGoogleSignInClient;
+    private static String userId;
     SignInButton googleButton;
 
     @Override
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         if (account != null) {
             // go to main menu
             googleButton.setVisibility(View.GONE);
+            userId = account.getId();
             User user = new User(account.getId(), account.getGivenName());
             Intent intent = new Intent(this, MainMenuActivity.class);
             intent.putExtra(Constant.INTENT_LABEL_USER_INFO, user);
@@ -137,7 +139,8 @@ public class MainActivity extends AppCompatActivity {
         return info != null && info.isConnected();
     }
 
-    public GoogleSignInClient getmGoogleSignInClient() {
+    public static GoogleSignInClient getmGoogleSignInClient() {
         return mGoogleSignInClient;
     }
+    public static String getUserId() { return userId; }
 }

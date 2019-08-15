@@ -33,9 +33,12 @@ public class Constant {
     public static final String INSTANCE_KEY_STATE = "state";
     public static final String INSTANCE_KEY_WINDOW = "window";
 
-    // Database snack bar
+    // Database stuff
+    public static final String DB_NAME = "podcasts";
+    public static final String DB_SEARCH_ID = "combinedId";
     public static final String ADD_DATABASE_MSG = "Added to favorites.";
     public static final String REMOVE_DATABASE_MSG = "Removed from favorites.";
+    public static final String DEFAULT_NO_USER = "DEFAULT";
 
     // misc values
     public static final String APP_NAME = "PodcastBeMine";
