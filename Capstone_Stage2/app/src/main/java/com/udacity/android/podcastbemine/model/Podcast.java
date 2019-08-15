@@ -30,6 +30,8 @@ public class Podcast implements Serializable {
         this.combinedId = this.userId + "~" + this.id;
     }
 
+    public Podcast() {}
+
     public String getId() { return this.id; }
 
     public String getTitle() {

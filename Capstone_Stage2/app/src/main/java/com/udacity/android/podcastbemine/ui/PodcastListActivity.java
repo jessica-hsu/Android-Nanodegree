@@ -79,6 +79,10 @@ public class PodcastListActivity extends AppCompatActivity {
                     error_tv.setText(getResources().getString(R.string.no_podcasts_found));
                     error_tv.setVisibility(View.VISIBLE);
                     break;
+                case Constant.DATABASE_ERROR:
+                    error_tv = findViewById(R.id.podcast_error);
+                    error_tv.setText(getResources().getString(R.string.podcast_db_error));
+                    error_tv.setVisibility(View.VISIBLE);
                 default:
                     error_tv = findViewById(R.id.podcast_error);
                     error_tv.setText(getResources().getString(R.string.unknown_error));

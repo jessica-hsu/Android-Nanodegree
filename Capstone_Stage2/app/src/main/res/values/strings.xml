@@ -26,6 +26,7 @@
     <string name="title_podcast_detail">Podcast Detail</string>
     <string name="podcast_api_error">Error fetching podcasts.\nTry again later.</string>
     <string name="no_podcasts_found">No Results Found</string>
+    <string name="podcast_db_error">Error reading database.</string>
 
     <!-- For podcast details page -->
     <string name="podcast_details">test details about the podcast.fdsafasfas.fsdafas fdsa.fdsas.

@@ -2,6 +2,7 @@ package com.udacity.android.podcastbemine.ui;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,10 +12,21 @@ import android.widget.TextView;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.udacity.android.podcastbemine.MainActivity;
 import com.udacity.android.podcastbemine.R;
+import com.udacity.android.podcastbemine.model.Podcast;
 import com.udacity.android.podcastbemine.model.User;
 import com.udacity.android.podcastbemine.utils.Constant;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainMenuActivity extends AppCompatActivity {
 
@@ -23,7 +35,8 @@ public class MainMenuActivity extends AppCompatActivity {
     Button search_btn;
     Button fav_btn;
     Button logout_btn;
-
+    FirebaseDatabase database;
+    DatabaseReference databaseReference;
     GoogleSignInClient mGoogleSignInClient;
 
     @Override
@@ -70,8 +83,37 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     private void getFavorites() {
-        Intent intent = new Intent(this, PodcastListActivity.class);
-        startActivity(intent);
+        final List<Podcast> favorites = new ArrayList<>();
+        database = FirebaseDatabase.getInstance();
+        databaseReference = database.getReference().child(Constant.DB_NAME);
+        Query query = databaseReference.orderByChild(Constant.DB_SEARCH_FAVORITES).equalTo(user.getId());
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Intent intent = new Intent(getApplicationContext(), PodcastListActivity.class);
+                long count = dataSnapshot.getChildrenCount();
+                if (count > 0) {
+                    for (DataSnapshot d : dataSnapshot.getChildren()) {
+                        Podcast p = d.getValue(Podcast.class);
+                        favorites.add(p);
+                    }
+                    intent.putExtra(Constant.INTENT_LABEL_PODCAST_LIST, (Serializable) favorites);
+                } else {    // nothing in db
+                    intent.putExtra(Constant.INTENT_LABEL_ERROR, Constant.NO_RESULTS);
+                }
+
+                startActivity(intent);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Intent intent = new Intent(getApplicationContext(), PodcastListActivity.class);
+                intent.putExtra(Constant.INTENT_LABEL_ERROR, Constant.DATABASE_ERROR);
+                startActivity(intent);
+            }
+        };
+        query.addValueEventListener(listener);
+
     }
 
     private void googleLogout() {

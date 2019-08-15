@@ -22,6 +22,7 @@ public class Constant {
     public static final int NO_RESULTS = 3;
     public static final int PLAY_PODCAST_ERROR = 4;
     public static final int NO_AUDIO_URL_ERROR = 5;
+    public static final int DATABASE_ERROR = 6;
 
     // null values for podcast details
     public static final String NO_AUTHOR = "No author found.";
@@ -36,6 +37,7 @@ public class Constant {
     // Database stuff
     public static final String DB_NAME = "podcasts";
     public static final String DB_SEARCH_ID = "combinedId";
+    public static final String DB_SEARCH_FAVORITES = "userId";
     public static final String ADD_DATABASE_MSG = "Added to favorites.";
     public static final String REMOVE_DATABASE_MSG = "Removed from favorites.";
     public static final String DEFAULT_NO_USER = "DEFAULT";
