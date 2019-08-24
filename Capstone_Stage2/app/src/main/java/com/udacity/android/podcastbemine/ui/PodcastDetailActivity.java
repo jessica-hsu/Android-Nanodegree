@@ -44,7 +44,6 @@ public class PodcastDetailActivity extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference databaseReference;
     boolean inDatabase;
-    GoogleSignInClient mGoogleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

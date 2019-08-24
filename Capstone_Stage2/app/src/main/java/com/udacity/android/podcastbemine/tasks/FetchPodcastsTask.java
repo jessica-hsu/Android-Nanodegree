@@ -6,10 +6,12 @@ import android.content.Context;
 import android.util.Log;
 
 import com.udacity.android.podcastbemine.model.Podcast;
+import com.udacity.android.podcastbemine.utils.Constant;
 import com.udacity.android.podcastbemine.utils.JsonUtils;
 import com.udacity.android.podcastbemine.utils.NetworkUtils;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FetchPodcastsTask extends AsyncTask<String, Void, List<Podcast>> {
@@ -31,18 +33,25 @@ public class FetchPodcastsTask extends AsyncTask<String, Void, List<Podcast>> {
 
     @Override
     protected List<Podcast> doInBackground(String... strings) {
-        String keyword = strings[0];
-        String type = strings[1];
-        URL endpoint = NetworkUtils.buildEndpoint(keyword, type);
-        Log.i("MyEndpoint", endpoint.toString());
-        try {
-            String httpResponse = NetworkUtils.getHttpResponse(endpoint);
-            List<Podcast> podcasts = JsonUtils.parse(httpResponse);
-            return podcasts;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+        List<Podcast> podcasts = new ArrayList<>();
+        if (strings.length == 2) {
+            String keyword = strings[0] != null ? strings[0] : "";
+            String type = strings[1] != null ? strings[1] : "episode";
+            URL endpoint = NetworkUtils.buildEndpoint(keyword, type);
+            if (endpoint != null) {
+                try {
+                    String httpResponse = NetworkUtils.getHttpResponse(endpoint);
+                    podcasts = JsonUtils.parse(httpResponse);
+                } catch (Exception e) {
+                    Log.e(Constant.FETCH_TASKS_ERROR_TAG, e.getStackTrace().toString());
+                    e.printStackTrace();
+                    podcasts = null;
+                }
+            }
+        } else {
+            podcasts = null;
         }
+        return podcasts;
     }
 
     @Override

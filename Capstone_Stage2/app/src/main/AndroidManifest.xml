@@ -12,9 +12,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.SignInErrorActivity"></activity>
-        <activity android:name=".ui.PlayPodcastActivity"/>
+        <receiver android:name=".PodcastPlayerWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
 
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/podcast_player_widget_info" />
+        </receiver>
+
+        <activity android:name=".ui.SignInErrorActivity" />
+        <activity android:name=".ui.PlayPodcastActivity" />
         <activity
             android:name=".ui.PodcastListActivity"
             android:label="@string/title_podcast_list"

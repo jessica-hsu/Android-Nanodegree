@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -71,7 +72,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
         logout_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                googleLogout();
+                googleLogout(v);
             }
         });
     }
@@ -115,16 +116,23 @@ public class MainMenuActivity extends AppCompatActivity {
 
     }
 
-    private void googleLogout() {
-        mGoogleSignInClient.signOut()
-                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                       // go back to homepage after signing out
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(intent);
-                    }
-                });
+    private void googleLogout(View view) {
+        try {
+            mGoogleSignInClient.signOut()
+                    .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            // go back to homepage after signing out
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+        } catch (Exception e) {
+            Log.e(Constant.LOGOUT_ERROR_TAG, e.getStackTrace().toString());
+            Snackbar.make(view, Constant.LOGOUT_ISSUES_MSG, Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        }
+
     }
 
 

@@ -9,7 +9,7 @@ import com.udacity.android.podcastbemine.utils.Constant;
 
 public class SignInErrorActivity extends AppCompatActivity {
 
-    TextView error_tv;
+    private TextView error_tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -81,7 +81,6 @@ public class PlayPodcastActivity extends AppCompatActivity {
         }
 
 
-        Log.i("myAudio", audioUrl);
     }
 
     private boolean checkInternetAccess() {
@@ -152,7 +151,14 @@ public class PlayPodcastActivity extends AppCompatActivity {
     public void onPause() {
         super.onPause();
         if (Util.SDK_INT <= 23) {
-            releasePlayer();
+            try {
+                releasePlayer();
+            } catch (Exception e) {
+                Log.e(Constant.PLAY_ERROR_TAG, e.getStackTrace().toString());
+                error_tv.setText(getResources().getString(R.string.unknown_error));
+                error_tv.setVisibility(View.VISIBLE);
+                playerView.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -160,7 +166,14 @@ public class PlayPodcastActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         if (Util.SDK_INT > 23) {
-            setUpPlayer();
+            try {
+                setUpPlayer();
+            } catch (Exception e) {
+                Log.e(Constant.PLAY_ERROR_TAG, e.getStackTrace().toString());
+                error_tv.setText(getResources().getString(R.string.unknown_error));
+                error_tv.setVisibility(View.VISIBLE);
+                playerView.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -168,7 +181,14 @@ public class PlayPodcastActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         if ((Util.SDK_INT <= 23 || player == null)) {
-            setUpPlayer();
+            try {
+                setUpPlayer();
+            } catch (Exception e) {
+                Log.e(Constant.PLAY_ERROR_TAG, e.getStackTrace().toString());
+                error_tv.setText(getResources().getString(R.string.unknown_error));
+                error_tv.setVisibility(View.VISIBLE);
+                playerView.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -176,7 +196,14 @@ public class PlayPodcastActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         if (Util.SDK_INT > 23) {
-            releasePlayer();
+            try {
+                releasePlayer();
+            } catch (Exception e) {
+                Log.e(Constant.PLAY_ERROR_TAG, e.getStackTrace().toString());
+                error_tv.setText(getResources().getString(R.string.unknown_error));
+                error_tv.setVisibility(View.VISIBLE);
+                playerView.setVisibility(View.GONE);
+            }
         }
     }
 }

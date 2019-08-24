@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -43,12 +44,21 @@ public class MainActivity extends AppCompatActivity {
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
+        try {
+            gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestEmail()
+                    .build();
 
-        // Build a GoogleSignInClient with the options specified by gso.
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+            // Build a GoogleSignInClient with the options specified by gso.
+            mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        } catch (Exception e) {
+            Log.e(Constant.LOGIN_ERROR_TAG, e.getStackTrace().toString());
+            // failed to sign in. Show Sign In Error activity
+            Intent intent = new Intent(this, SignInErrorActivity.class);
+            intent.putExtra(Constant.INTENT_LABEL_ERROR, Constant.GOOGLE_SIGN_IN_ERROR);
+            startActivity(intent);
+        }
+
 
     }
 
@@ -65,8 +75,18 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == Constant.RC_SIGN_IN) {
             // The Task returned from this call is always completed, no need to attach
             // a listener.
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            handleSignInResult(task);
+            try {
+                Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+                handleSignInResult(task);
+            } catch (Exception e) {
+                Log.e(Constant.LOGIN_ERROR_TAG, e.getStackTrace().toString());
+
+                // failed to sign in. Show Sign In Error activity
+                Intent intent = new Intent(this, SignInErrorActivity.class);
+                intent.putExtra(Constant.INTENT_LABEL_ERROR, Constant.GOOGLE_SIGN_IN_ERROR);
+                startActivity(intent);
+            }
+
         }
     }
 
@@ -121,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
 
         } catch (ApiException e) {
+            Log.e(Constant.LOGIN_ERROR_TAG, e.getStackTrace().toString());
 
             // failed to sign in. Show Sign In Error activity
             Intent intent = new Intent(this, SignInErrorActivity.class);

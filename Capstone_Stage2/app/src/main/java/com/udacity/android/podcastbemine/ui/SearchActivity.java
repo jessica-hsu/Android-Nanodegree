@@ -26,11 +26,11 @@ import java.util.concurrent.ExecutionException;
 
 public class SearchActivity extends AppCompatActivity implements OnItemSelectedListener {
 
-    Button search_btn;
-    TextInputEditText keyword_input;
-    Spinner spinner;
-    String keyword;
-    String type;
+    private Button search_btn;
+    private TextInputEditText keyword_input;
+    private Spinner spinner;
+    private String keyword;
+    private String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +67,10 @@ public class SearchActivity extends AppCompatActivity implements OnItemSelectedL
         keyword = keyword_input.getText().toString();
         Intent intent = new Intent(this, PodcastListActivity.class);
 
-        if (internet) {
+        if (internet && (keyword != null || !keyword.equals(""))) {
 
             FetchPodcastsTask fetchPodcastsTask = new FetchPodcastsTask(this);
             List<Podcast> podcasts;
-            Log.i("myKeywords", keyword + "====" + type);
             try {
                 podcasts = fetchPodcastsTask.execute(keyword, type).get();
                 if (podcasts == null || podcasts.size() < 1) {
@@ -84,6 +83,7 @@ public class SearchActivity extends AppCompatActivity implements OnItemSelectedL
             } catch (ExecutionException | InterruptedException ei) {
                 // error calling async task. show error page instead
                 ei.printStackTrace();
+                Log.e(Constant.SEARCH_ERROR_TAG, ei.getStackTrace().toString());
                 intent.putExtra(Constant.INTENT_LABEL_ERROR, Constant.LISTEN_API_ERROR);
                 startActivity(intent);
             }

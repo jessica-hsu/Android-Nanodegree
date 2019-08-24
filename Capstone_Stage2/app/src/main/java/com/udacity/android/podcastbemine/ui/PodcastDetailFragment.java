@@ -1,14 +1,15 @@
 package com.udacity.android.podcastbemine.ui;
 
 import android.app.Activity;
-import android.content.Context;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +18,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.udacity.android.podcastbemine.PodcastPlayerWidget;
 import com.udacity.android.podcastbemine.R;
 import com.udacity.android.podcastbemine.model.Podcast;
-import com.udacity.android.podcastbemine.ui.dummy.DummyContent;
 import com.udacity.android.podcastbemine.utils.Constant;
-
-import org.w3c.dom.Text;
 
 /**
  * A fragment representing a single Podcast detail screen.
@@ -86,7 +85,8 @@ public class PodcastDetailFragment extends Fragment {
 
         widget_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                addToWidget(v);
+
+                addToWidget(podcast.getAudioUrl(), v);
             }
         });
 
@@ -123,15 +123,31 @@ public class PodcastDetailFragment extends Fragment {
             }
 
 
+        } else {
+            Log.e(Constant.NO_DETAILS_ERROR_TAG, "missing serializable podcast");
         }
 
         return rootView;
     }
 
-    private void addToWidget(View view) {
-        // TODO add audio url as audio player in widget
-        Snackbar.make(view, "Audio added to widget.", Snackbar.LENGTH_LONG)
+    private void addToWidget(String url, View view) {
+        SharedPreferences pref = getContext().getSharedPreferences(Constant.WIDGET_PREFERENCE, 0);
+        SharedPreferences.Editor editor = pref.edit();
+        if (pref.getString(Constant.WIDGET_LABEL, null) != null) {
+            // remove some old values
+            editor.remove(Constant.WIDGET_LABEL);
+            editor.commit();
+        }
+        editor.putString(Constant.WIDGET_LABEL, url);
+        editor.commit();
+        Snackbar.make(view, Constant.WIDGET_ADDED, Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
+        // Put changes on the Widget
+        ComponentName provider = new ComponentName(getContext(), PodcastPlayerWidget.class);
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getContext());
+        int[] ids = appWidgetManager.getAppWidgetIds(provider);
+        PodcastPlayerWidget podcastWidgetProvider = new PodcastPlayerWidget();
+        podcastWidgetProvider.onUpdate(getContext(), appWidgetManager, ids);
     }
 
 }

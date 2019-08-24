@@ -1,9 +1,9 @@
 package com.udacity.android.podcastbemine.utils;
 
 import android.net.Uri;
+import android.util.Log;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -23,6 +23,7 @@ public class NetworkUtils {
         try {
             endpoint = new URL(uri.toString());
         } catch (MalformedURLException e) {
+            Log.e(Constant.ENDPOINT_ERROR_TAG, e.getLocalizedMessage());
             e.printStackTrace();
         }
 
@@ -30,19 +31,26 @@ public class NetworkUtils {
 
     }
 
-    public static String getHttpResponse(URL url) throws IOException {
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setRequestProperty("X-ListenAPI-Key", Constant.LISTEN_KEY);
-        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        String current=null;
-        StringBuilder sb = new StringBuilder();
-        while ((current = br.readLine()) != null) {
-            sb.append(current+"\n");
+    public static String getHttpResponse(URL url) {
+        String current;
+        try {
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("X-ListenAPI-Key", Constant.LISTEN_KEY);
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+            StringBuilder sb = new StringBuilder();
+            while ((current = br.readLine()) != null) {
+                sb.append(current+"\n");
+            }
+            br.close();
+            conn.disconnect();
+            return sb.toString();
+        } catch (Exception e) {
+            Log.e(Constant.HTTP_ERROR_TAG, e.getStackTrace().toString());
+            return "";
         }
-        br.close();
-        conn.disconnect();
-        return sb.toString();
+
     }
 
 }
