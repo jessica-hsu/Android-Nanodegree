@@ -86,7 +86,7 @@ public class PodcastDetailFragment extends Fragment {
         widget_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                addToWidget(podcast.getAudioUrl(), v);
+                addToWidget(podcast.getTitle(), podcast.getDescription(), v);
             }
         });
 
@@ -130,24 +130,44 @@ public class PodcastDetailFragment extends Fragment {
         return rootView;
     }
 
-    private void addToWidget(String url, View view) {
-        SharedPreferences pref = getContext().getSharedPreferences(Constant.WIDGET_PREFERENCE, 0);
-        SharedPreferences.Editor editor = pref.edit();
-        if (pref.getString(Constant.WIDGET_LABEL, null) != null) {
-            // remove some old values
-            editor.remove(Constant.WIDGET_LABEL);
+    /**
+     * Add podcast title and description to home screen widget
+     * @param title
+     * @param description
+     * @param view
+     */
+    private void addToWidget(String title, String description, View view) {
+        try {
+            SharedPreferences pref = getContext().getSharedPreferences(Constant.WIDGET_PREFERENCE, 0);
+            SharedPreferences.Editor editor = pref.edit();
+            if (pref.getString(Constant.WIDGET_LABEL, null) != null) {
+                // remove some old values
+                editor.remove(Constant.WIDGET_LABEL);
+                editor.commit();
+            }
+            if (pref.getString(Constant.WIDGET_LABEL_2, null) != null) {
+                // remove some old values
+                editor.remove(Constant.WIDGET_LABEL_2);
+                editor.commit();
+            }
+            editor.putString(Constant.WIDGET_LABEL, title);
             editor.commit();
+            editor.putString(Constant.WIDGET_LABEL_2, description);
+            editor.commit();
+            Snackbar.make(view, Constant.WIDGET_ADDED, Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+            // Put changes on the Widget
+            ComponentName provider = new ComponentName(getContext(), PodcastPlayerWidget.class);
+            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getContext());
+            int[] ids = appWidgetManager.getAppWidgetIds(provider);
+            PodcastPlayerWidget podcastWidgetProvider = new PodcastPlayerWidget();
+            podcastWidgetProvider.onUpdate(getContext(), appWidgetManager, ids);
+        } catch (Exception e) {
+            Log.e(Constant.WIDGET_ERROR_TAG, e.getStackTrace().toString());
+            Snackbar.make(view, Constant.WIDGET_ERROR, Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
         }
-        editor.putString(Constant.WIDGET_LABEL, url);
-        editor.commit();
-        Snackbar.make(view, Constant.WIDGET_ADDED, Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
-        // Put changes on the Widget
-        ComponentName provider = new ComponentName(getContext(), PodcastPlayerWidget.class);
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getContext());
-        int[] ids = appWidgetManager.getAppWidgetIds(provider);
-        PodcastPlayerWidget podcastWidgetProvider = new PodcastPlayerWidget();
-        podcastWidgetProvider.onUpdate(getContext(), appWidgetManager, ids);
+
     }
 
 }

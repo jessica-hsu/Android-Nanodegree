@@ -44,7 +44,8 @@ public class Constant {
 
     // widget
     public static final String WIDGET_PREFERENCE = "podcastWidget";
-    public static final String WIDGET_LABEL = "podcastUrlWidget";
+    public static final String WIDGET_LABEL = "podcastTitleWidget";
+    public static final String WIDGET_LABEL_2 = "podcastDescriptionWidget";
     public static final String WIDGET_ADDED = "Added to Widget";
     public static final String WIDGET_ERROR = "Error with widget";
 
