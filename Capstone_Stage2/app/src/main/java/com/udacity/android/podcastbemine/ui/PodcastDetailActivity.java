@@ -115,7 +115,7 @@ public class PodcastDetailActivity extends AppCompatActivity {
                 } else {    // add
 
                     try {
-                        podcast.setUserId(MainActivity.getUserId());
+                        podcast.setUserId(userId);
                         databaseReference.push().setValue(podcast);
                     } catch (Exception e) {
                         fab_msg = e.getStackTrace().toString();

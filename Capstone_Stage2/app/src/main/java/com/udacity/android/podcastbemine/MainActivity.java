@@ -136,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
             // Signed in successfully, go to main menu page TODO given name returns null
             User user = new User(account.getId(), account.getGivenName());
+            userId = account.getId();
             Intent intent = new Intent(this, MainMenuActivity.class);
             intent.putExtra(Constant.INTENT_LABEL_USER_INFO, user);
             startActivity(intent);
