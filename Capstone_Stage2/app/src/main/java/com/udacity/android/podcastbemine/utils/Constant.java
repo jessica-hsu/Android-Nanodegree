@@ -8,6 +8,7 @@ public class Constant {
     public static final String INTENT_LABEL_PODCAST_LIST = "podcastList";
     public static final String INTENT_KEY_PODCAST = "podcastBundle";
     public static final String INTENT_LABEL_AUDIO_URL = "audioUrl";
+    public static final String INTENT_LABEL_IS_SEARCH = "isSearch";
 
     // API values
     public static final int RC_SIGN_IN = 9001;

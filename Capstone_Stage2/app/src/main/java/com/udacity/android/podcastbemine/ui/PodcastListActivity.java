@@ -36,7 +36,7 @@ public class PodcastListActivity extends AppCompatActivity {
      * device.
      */
     private boolean mTwoPane;
-
+    private static boolean isSearch;
     private TextView error_tv;
     private List<Podcast> ALL_PODCASTS;
 
@@ -56,6 +56,8 @@ public class PodcastListActivity extends AppCompatActivity {
             // activity should be in two-pane mode.
             mTwoPane = true;
         }
+
+        isSearch = getIntent().hasExtra(Constant.INTENT_LABEL_IS_SEARCH);
 
         // check if there are error codes in intent
         boolean errorExists = getIntent().hasExtra(Constant.INTENT_LABEL_ERROR);
@@ -122,6 +124,9 @@ public class PodcastListActivity extends AppCompatActivity {
                     Bundle arguments = new Bundle();
                     arguments.putSerializable(Constant.INTENT_KEY_PODCAST, podcast);
                     arguments.putSerializable(Constant.INTENT_LABEL_PODCAST_LIST, (Serializable) podcasts);
+                    if (isSearch) {
+                        arguments.putSerializable(Constant.INTENT_LABEL_IS_SEARCH, false);
+                    }
                     PodcastDetailFragment fragment = new PodcastDetailFragment();
                     fragment.setArguments(arguments);
                     mParentActivity.getSupportFragmentManager().beginTransaction()
@@ -130,6 +135,9 @@ public class PodcastListActivity extends AppCompatActivity {
                 } else {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, PodcastDetailActivity.class);
+                    if (isSearch) {
+                        intent.putExtra(Constant.INTENT_LABEL_IS_SEARCH, false);
+                    }
                     intent.putExtra(Constant.INTENT_KEY_PODCAST, podcast);
                     intent.putExtra(Constant.INTENT_LABEL_PODCAST_LIST, (Serializable) podcasts);
                     context.startActivity(intent);

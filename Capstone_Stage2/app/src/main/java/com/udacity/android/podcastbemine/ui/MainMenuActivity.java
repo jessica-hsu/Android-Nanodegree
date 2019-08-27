@@ -97,6 +97,7 @@ public class MainMenuActivity extends AppCompatActivity {
                         Podcast p = d.getValue(Podcast.class);
                         favorites.add(p);
                     }
+                    intent.putExtra(Constant.INTENT_LABEL_IS_SEARCH, false);
                     intent.putExtra(Constant.INTENT_LABEL_PODCAST_LIST, (Serializable) favorites);
                 } else {    // nothing in db
                     intent.putExtra(Constant.INTENT_LABEL_ERROR, Constant.NO_RESULTS);
@@ -112,7 +113,7 @@ public class MainMenuActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         };
-        query.addValueEventListener(listener);
+        query.addListenerForSingleValueEvent(listener);
 
     }
 

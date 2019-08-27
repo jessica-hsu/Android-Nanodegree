@@ -24,6 +24,7 @@ import com.udacity.android.podcastbemine.model.Podcast;
 import com.udacity.android.podcastbemine.utils.Constant;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -87,7 +88,7 @@ public class PodcastDetailActivity extends AppCompatActivity {
         // attach read db listener to find item based on combinedId
         databaseReference.orderByChild(Constant.DB_SEARCH_ID)
                 .equalTo(combinedId)
-                .addValueEventListener(listener);
+                .addListenerForSingleValueEvent(listener);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,9 +166,44 @@ public class PodcastDetailActivity extends AppCompatActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            Intent intent = new Intent(this, PodcastListActivity.class);
-            intent.putExtra(Constant.INTENT_LABEL_PODCAST_LIST, (Serializable) podcastList);
-            NavUtils.navigateUpTo(this, intent);
+
+            // run another db call to show updated list
+            if (getIntent().hasExtra(Constant.INTENT_LABEL_IS_SEARCH)) {
+                final List<Podcast> favorites = new ArrayList<>();
+                Query query = databaseReference.orderByChild(Constant.DB_SEARCH_FAVORITES).equalTo(userId);
+                ValueEventListener listener = new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Intent intent = new Intent(getApplicationContext(), PodcastListActivity.class);
+                        long count = dataSnapshot.getChildrenCount();
+                        if (count > 0) {
+                            for (DataSnapshot d : dataSnapshot.getChildren()) {
+                                Podcast p = d.getValue(Podcast.class);
+                                favorites.add(p);
+                            }
+                            intent.putExtra(Constant.INTENT_LABEL_IS_SEARCH, false);
+                            intent.putExtra(Constant.INTENT_LABEL_PODCAST_LIST, (Serializable) favorites);
+                        } else {    // nothing in db
+                            intent.putExtra(Constant.INTENT_LABEL_ERROR, Constant.NO_RESULTS);
+                        }
+
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Intent intent = new Intent(getApplicationContext(), PodcastListActivity.class);
+                        intent.putExtra(Constant.INTENT_LABEL_ERROR, Constant.DATABASE_ERROR);
+                        startActivity(intent);
+                    }
+                };
+                query.addListenerForSingleValueEvent(listener);
+            } else {
+                Intent intent = new Intent(this, PodcastListActivity.class);
+                intent.putExtra(Constant.INTENT_LABEL_PODCAST_LIST, (Serializable) podcastList);
+                NavUtils.navigateUpTo(this, intent);
+            }
+
             return true;
         }
         return super.onOptionsItemSelected(item);
