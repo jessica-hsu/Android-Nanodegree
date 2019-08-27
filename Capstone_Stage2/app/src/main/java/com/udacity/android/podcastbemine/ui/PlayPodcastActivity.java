@@ -31,19 +31,19 @@ import com.udacity.android.podcastbemine.utils.Constant;
 
 public class PlayPodcastActivity extends AppCompatActivity {
 
-    TextView error_tv;
-    String audioUrl;
+    private TextView error_tv;
+    private String audioUrl;
 
-    PlayerView playerView;
-    SimpleExoPlayer player;
-    DefaultBandwidthMeter bandwidthMeter;
-    TrackSelector trackSelector;
-    DataSource.Factory dataSourceFactory;
-    MediaSource videoSource;
-    DefaultHttpDataSourceFactory httpDataSourceFactory;
-    long playerPosition;
-    boolean playerReady;
-    int playerWindow;
+    private PlayerView playerView;
+    private SimpleExoPlayer player;
+    private DefaultBandwidthMeter bandwidthMeter;
+    private TrackSelector trackSelector;
+    private DataSource.Factory dataSourceFactory;
+    private MediaSource videoSource;
+    private DefaultHttpDataSourceFactory httpDataSourceFactory;
+    private long playerPosition;
+    private boolean playerReady;
+    private int playerWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

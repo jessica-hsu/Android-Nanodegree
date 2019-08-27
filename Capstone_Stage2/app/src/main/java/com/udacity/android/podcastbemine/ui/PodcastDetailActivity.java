@@ -11,7 +11,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,15 +34,15 @@ import java.util.List;
  */
 public class PodcastDetailActivity extends AppCompatActivity {
 
-    Podcast podcast;
-    List<Podcast> podcastList;
-    String combinedId;
-    String userId;
-    FloatingActionButton fab;
-    String fab_msg;
-    FirebaseDatabase database;
-    DatabaseReference databaseReference;
-    boolean inDatabase;
+    private Podcast podcast;
+    private List<Podcast> podcastList;
+    private String combinedId;
+    private String userId;
+    private FloatingActionButton fab;
+    private String fab_msg;
+    private FirebaseDatabase database;
+    private DatabaseReference databaseReference;
+    private boolean inDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -31,14 +31,14 @@ import java.util.List;
 
 public class MainMenuActivity extends AppCompatActivity {
 
-    User user;
-    TextView greeting_tv;
-    Button search_btn;
-    Button fav_btn;
-    Button logout_btn;
-    FirebaseDatabase database;
-    DatabaseReference databaseReference;
-    GoogleSignInClient mGoogleSignInClient;
+    private User user;
+    private TextView greeting_tv;
+    private Button search_btn;
+    private Button fav_btn;
+    private Button logout_btn;
+    private FirebaseDatabase database;
+    private DatabaseReference databaseReference;
+    private GoogleSignInClient mGoogleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

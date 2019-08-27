@@ -37,8 +37,8 @@ public class PodcastListActivity extends AppCompatActivity {
      */
     private boolean mTwoPane;
 
-    TextView error_tv;
-    List<Podcast> ALL_PODCASTS;
+    private TextView error_tv;
+    private List<Podcast> ALL_PODCASTS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

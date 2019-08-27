@@ -31,13 +31,13 @@ import com.udacity.android.podcastbemine.utils.Constant;
  */
 public class PodcastDetailFragment extends Fragment {
 
-    Button widget_btn;
-    Button play_btn;
-    Podcast podcast;
-    ImageView thumbnail;
-    TextView author;
-    TextView audio_len;
-    TextView description;
+    private Button widget_btn;
+    private Button play_btn;
+    private Podcast podcast;
+    private ImageView thumbnail;
+    private TextView author;
+    private TextView audio_len;
+    private TextView description;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the

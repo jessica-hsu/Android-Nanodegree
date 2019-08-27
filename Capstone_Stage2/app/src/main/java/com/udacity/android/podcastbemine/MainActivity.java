@@ -24,10 +24,10 @@ import com.udacity.android.podcastbemine.utils.Constant;
 
 public class MainActivity extends AppCompatActivity {
 
-    GoogleSignInOptions gso;
+    private GoogleSignInOptions gso;
     private static GoogleSignInClient mGoogleSignInClient;
     private static String userId;
-    SignInButton googleButton;
+    private SignInButton googleButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
