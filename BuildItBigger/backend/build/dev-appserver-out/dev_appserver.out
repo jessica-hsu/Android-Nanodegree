@@ -1,0 +1,91 @@
+Aug 28, 2019 5:51:49 PM com.google.appengine.tools.development.SystemPropertiesManager setSystemProperties
+INFO: Overwriting system property key 'java.util.logging.config.file', value '/Users/macintosh/google-cloud/google-cloud-sdk/platform/google_appengine/google/appengine/tools/java/config/sdk/logging.properties' with value 'WEB-INF/logging.properties' from '/Users/macintosh/Documents/GitHub/Android-Nanodegree/BuildItBigger/backend/build/exploded-backend/WEB-INF/appengine-web.xml'
+Aug 28, 2019 5:51:49 PM com.google.apphosting.utils.jetty.JettyLogger info
+INFO: Logging to JettyLogger(null) via com.google.apphosting.utils.jetty.JettyLogger
+Aug 28, 2019 10:51:49 PM com.google.appengine.tools.development.IsolatedAppClassLoader checkWorkingDirectory
+WARNING: Your working directory, (/Users/macintosh/Documents/GitHub/Android-Nanodegree/BuildItBigger/backend) is not equal to your 
+web application root (/Users/macintosh/Documents/GitHub/Android-Nanodegree/BuildItBigger/backend/build/exploded-backend)
+You will not be able to access files from your working directory on the production server.
+
+Aug 28, 2019 10:51:49 PM com.google.apphosting.utils.jetty.JettyLogger info
+INFO: jetty-6.1.x
+Aug 28, 2019 10:51:51 PM com.google.apphosting.utils.jetty.JettyLogger info
+INFO: Started SelectChannelConnector@localhost:8080
+Aug 28, 2019 10:51:51 PM com.google.appengine.tools.development.AbstractModule startup
+INFO: Module instance default is running at http://localhost:8080/
+Aug 28, 2019 10:51:51 PM com.google.appengine.tools.development.AbstractModule startup
+INFO: The admin console is running at http://localhost:8080/_ah/admin
+Aug 28, 2019 5:51:51 PM com.google.appengine.tools.development.DevAppServerImpl doStart
+INFO: Dev App Server is now running
+Aug 28, 2019 5:52:51 PM com.google.appengine.repackaged.com.google.protobuf.UnsafeUtil supportsUnsafeByteBufferOperations
+WARNING: platform method missing - proto runtime falling back to safer methods: java.security.AccessControlException: access denied ("java.lang.RuntimePermission" "accessClassInPackage.sun.misc")
+Aug 28, 2019 5:52:51 PM com.google.appengine.repackaged.com.google.protobuf.UnsafeUtil supportsUnsafeArrayOperations
+WARNING: platform method missing - proto runtime falling back to safer methods: java.security.AccessControlException: access denied ("java.lang.RuntimePermission" "accessClassInPackage.sun.misc")
+Aug 28, 2019 5:52:52 PM com.google.appengine.tools.development.ApiProxyLocalImpl log
+SEVERE: javax.servlet.ServletContext log: unavailable
+com.google.appengine.repackaged.com.google.api.client.http.HttpResponseException: 404 OK
+<html><head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<title>404 Not Found</title>
+</head>
+<body text=#000000 bgcolor=#ffffff>
+<h1>Error: Not Found</h1>
+</body></html>
+
+	at com.google.appengine.repackaged.com.google.api.client.http.HttpRequest.execute(HttpRequest.java:1070)
+	at com.google.api.server.spi.tools.devserver.StaticServlet.getStaticContent(StaticServlet.java:58)
+	at com.google.api.server.spi.tools.devserver.StaticServlet.cacheContent(StaticServlet.java:50)
+	at com.google.api.server.spi.tools.devserver.StaticServlet.init(StaticServlet.java:43)
+	at javax.servlet.GenericServlet.init(GenericServlet.java:212)
+	at org.mortbay.jetty.servlet.ServletHolder.initServlet(ServletHolder.java:440)
+	at org.mortbay.jetty.servlet.ServletHolder.getServlet(ServletHolder.java:339)
+	at org.mortbay.jetty.servlet.ServletHolder.handle(ServletHolder.java:487)
+	at org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1166)
+	at com.google.appengine.api.socket.dev.DevSocketFilter.doFilter(DevSocketFilter.java:74)
+	at org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1157)
+	at com.google.appengine.tools.development.ResponseRewriterFilter.doFilter(ResponseRewriterFilter.java:134)
+	at org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1157)
+	at com.google.appengine.tools.development.HeaderVerificationFilter.doFilter(HeaderVerificationFilter.java:34)
+	at org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1157)
+	at com.google.appengine.api.blobstore.dev.ServeBlobFilter.doFilter(ServeBlobFilter.java:63)
+	at org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1157)
+	at com.google.apphosting.utils.servlet.TransactionCleanupFilter.doFilter(TransactionCleanupFilter.java:48)
+	at org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1157)
+	at com.google.appengine.tools.development.StaticFileFilter.doFilter(StaticFileFilter.java:122)
+	at org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1157)
+	at com.google.appengine.tools.development.DevAppServerModulesFilter.doDirectRequest(DevAppServerModulesFilter.java:366)
+	at com.google.appengine.tools.development.DevAppServerModulesFilter.doDirectModuleRequest(DevAppServerModulesFilter.java:349)
+	at com.google.appengine.tools.development.DevAppServerModulesFilter.doFilter(DevAppServerModulesFilter.java:116)
+	at org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1157)
+	at com.google.appengine.tools.development.DevAppServerRequestLogFilter.doFilter(DevAppServerRequestLogFilter.java:44)
+	at org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1157)
+	at org.mortbay.jetty.servlet.ServletHandler.handle(ServletHandler.java:388)
+	at org.mortbay.jetty.security.SecurityHandler.handle(SecurityHandler.java:216)
+	at org.mortbay.jetty.servlet.SessionHandler.handle(SessionHandler.java:182)
+	at org.mortbay.jetty.handler.ContextHandler.handle(ContextHandler.java:765)
+	at org.mortbay.jetty.webapp.WebAppContext.handle(WebAppContext.java:418)
+	at com.google.appengine.tools.development.DevAppEngineWebAppContext.handle(DevAppEngineWebAppContext.java:95)
+	at org.mortbay.jetty.handler.HandlerWrapper.handle(HandlerWrapper.java:152)
+	at com.google.appengine.tools.development.JettyContainerService$ApiProxyHandler.handle(JettyContainerService.java:508)
+	at org.mortbay.jetty.handler.HandlerWrapper.handle(HandlerWrapper.java:152)
+	at org.mortbay.jetty.Server.handle(Server.java:326)
+	at org.mortbay.jetty.HttpConnection.handleRequest(HttpConnection.java:542)
+	at org.mortbay.jetty.HttpConnection$RequestHandler.headerComplete(HttpConnection.java:923)
+	at org.mortbay.jetty.HttpParser.parseNext(HttpParser.java:547)
+	at org.mortbay.jetty.HttpParser.parseAvailable(HttpParser.java:212)
+	at org.mortbay.jetty.HttpConnection.handle(HttpConnection.java:404)
+	at org.mortbay.io.nio.SelectChannelEndPoint.run(SelectChannelEndPoint.java:409)
+	at org.mortbay.thread.QueuedThreadPool$PoolThread.run(QueuedThreadPool.java:582)
+
+Aug 28, 2019 5:52:52 PM com.google.apphosting.utils.jetty.JettyLogger warn
+WARNING: /_ah/api/static/proxy.html: com.google.appengine.repackaged.com.google.api.client.http.HttpResponseException: 404 OK
+<html><head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<title>404 Not Found</title>
+</head>
+<body text=#000000 bgcolor=#ffffff>
+<h1>Error: Not Found</h1>
+</body></html>
+
+Aug 28, 2019 5:52:52 PM com.google.appengine.tools.development.LocalResourceFileServlet doGet
+WARNING: No file found for: /favicon.ico
