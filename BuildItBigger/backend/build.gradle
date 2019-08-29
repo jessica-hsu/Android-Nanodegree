@@ -32,3 +32,10 @@ dependencies {
     implementation 'com.google.http-client:google-http-client-android:1.23.0'
     implementation project(":javaJoker")
 }
+
+appengine {
+    run {
+        host = "192.168.1.103"
+        port = 8080
+    }
+}
