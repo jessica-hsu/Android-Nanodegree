@@ -25,4 +25,6 @@
 
     <!-- my custom colors -->
     <color name="deep_purple">#782fde</color>
+    <color name="light_grey">#757475</color>
+    <color name="dark_grey">#4a494a</color>
 </resources>
