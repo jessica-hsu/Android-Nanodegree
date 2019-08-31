@@ -24,6 +24,10 @@
     <color name="ltgray">#ffe0e0e0</color>
 
     <!-- my custom colors -->
+    <color name="myPrimary">#782fde</color>
+    <color name="myPrimaryDark">#bd99f0</color>
+    <color name="myAccent">#f763df</color>
+
     <color name="deep_purple">#782fde</color>
     <color name="light_grey">#757475</color>
     <color name="dark_grey">#4a494a</color>
